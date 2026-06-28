@@ -5,4 +5,5 @@ export * from "./cung-phi";
 export * from "./daily-fortune";
 export * from "./elements";
 export * from "./five-elements";
+export * from "./good-day";
 export * from "./types";

@@ -13,6 +13,7 @@ const navigationItems = [
   { href: "/love-compatibility", label: "Hợp tuổi" },
   { href: "/five-elements", label: "Ngũ hành" },
   { href: "/numerology", label: "Thần số học" },
+  { href: "/good-day", label: "Ngày đẹp" },
   { href: "/pricing", label: "Pricing" },
 ];
 

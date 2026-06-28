@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight, HeartHandshake, Leaf, Sparkles, Star } from "lucide-react";
+import { ArrowUpRight, CalendarDays, HeartHandshake, Leaf, Star } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { SectionTitle } from "./fate-overview";
 
@@ -7,7 +7,7 @@ const shortcuts = [
   { href: "/love-compatibility", icon: HeartHandshake, label: "Hợp tuổi" },
   { href: "/five-elements", icon: Leaf, label: "Ngũ hành" },
   { href: "/numerology", icon: Star, label: "Thần số học" },
-  { href: "/pricing", icon: Sparkles, label: "Premium" },
+  { href: "/good-day", icon: CalendarDays, label: "Ngày đẹp" },
 ];
 
 export function FeatureShortcuts() {
