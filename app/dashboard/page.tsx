@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { DailyFortuneHero } from "@/components/dashboard/daily-fortune-hero";
@@ -7,8 +8,18 @@ import { FeatureShortcuts } from "@/components/dashboard/feature-shortcuts";
 import { PersonalSuggestions } from "@/components/dashboard/personal-suggestions";
 import { PremiumLockedCards } from "@/components/dashboard/premium-locked-cards";
 import { generateBirthChart, generateDailyFortuneDemo } from "@/lib/astrology";
+import { APP_NAME } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { parseJsonArray } from "@/lib/json";
+
+export const metadata: Metadata = {
+  title: `Dashboard cá nhân | ${APP_NAME}`,
+  description:
+    "Dashboard vận mệnh cá nhân hóa với tổng quan Can Chi, Ngũ Hành, Cung Phi và gợi ý tham khảo hằng ngày.",
+  alternates: {
+    canonical: "/dashboard",
+  },
+};
 
 interface DashboardPageProps {
   searchParams: Promise<{
@@ -139,6 +150,10 @@ function DashboardState({
         </h1>
         <p className="mx-auto mt-4 max-w-xl leading-8 text-muted-foreground">
           {description}
+        </p>
+        <p className="mx-auto mt-5 max-w-xl rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
+          Nội dung chỉ mang tính tham khảo và khám phá bản thân, không thay thế
+          tư vấn chuyên môn.
         </p>
         <Button asChild className="mt-8">
           <Link href={actionHref}>{actionLabel}</Link>

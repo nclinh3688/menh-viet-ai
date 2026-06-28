@@ -1,6 +1,16 @@
+import type { Metadata } from "next";
 import { OnboardingForm } from "@/components/onboarding/onboarding-form";
-import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
+import { APP_NAME, ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import type { ProfileFormValues } from "@/lib/validations/profile";
+
+export const metadata: Metadata = {
+  title: `Tạo hồ sơ vận mệnh | ${APP_NAME}`,
+  description:
+    "Nhập thông tin ngày sinh, giới tính và mối quan tâm để tạo hồ sơ cá nhân hóa trên Mệnh Việt AI.",
+  alternates: {
+    canonical: "/onboarding",
+  },
+};
 
 interface OnboardingPageProps {
   searchParams: Promise<Partial<Record<keyof ProfileFormValues, string>>>;
