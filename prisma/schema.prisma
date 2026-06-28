@@ -14,3 +14,156 @@ model AppConfig {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String         @unique
+  image         String?
+  profiles      Profile[]
+  subscriptions Subscription[]
+  aiReports     AiReport[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Profile {
+  id                 String                @id @default(cuid())
+  userId             String?
+  user               User?                 @relation(fields: [userId], references: [id], onDelete: SetNull)
+  fullName           String
+  birthDate          DateTime
+  birthTime          String?
+  gender             Gender
+  birthPlace         String?
+  calendarType       CalendarType          @default(SOLAR)
+  relationshipStatus String?
+  mainInterest       String?
+  birthChart         BirthChart?
+  dailyFortunes      DailyFortune[]
+  aiReports          AiReport[]
+  maleReports        CompatibilityReport[] @relation("MaleCompatibilityProfile")
+  femaleReports      CompatibilityReport[] @relation("FemaleCompatibilityProfile")
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+
+  @@index([userId])
+  @@index([birthDate])
+}
+
+model BirthChart {
+  id              String   @id @default(cuid())
+  profileId       String   @unique
+  profile         Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  heavenlyStem    String
+  earthlyBranch   String
+  zodiacAnimal    String
+  element         String
+  napAm           String
+  cungPhi         String
+  lifePalace      String?
+  luckyColors     String   @default("[]")
+  unluckyColors   String   @default("[]")
+  luckyNumbers    String   @default("[]")
+  goodDirections  String   @default("[]")
+  badDirections   String   @default("[]")
+  summary         String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model CompatibilityReport {
+  id              String   @id @default(cuid())
+  maleProfileId   String?
+  femaleProfileId String?
+  maleProfile     Profile? @relation("MaleCompatibilityProfile", fields: [maleProfileId], references: [id], onDelete: SetNull)
+  femaleProfile   Profile? @relation("FemaleCompatibilityProfile", fields: [femaleProfileId], references: [id], onDelete: SetNull)
+  maleInfo        String?
+  femaleInfo      String?
+  totalScore      Int
+  cungPhiScore    Int
+  diaChiScore     Int
+  nguHanhScore    Int
+  thienCanScore   Int
+  otherScore      Int
+  summary         String
+  details         String   @default("{}")
+  createdAt       DateTime @default(now())
+
+  @@index([maleProfileId])
+  @@index([femaleProfileId])
+}
+
+model DailyFortune {
+  id            String   @id @default(cuid())
+  profileId     String
+  profile       Profile  @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  date          DateTime
+  totalScore    Int
+  loveScore     Int
+  workScore     Int
+  financeScore  Int
+  mentalScore   Int
+  luckyColor    String
+  luckyNumber   String
+  goodDirection String
+  advice        String
+  createdAt     DateTime @default(now())
+
+  @@unique([profileId, date])
+  @@index([date])
+}
+
+model Subscription {
+  id        String             @id @default(cuid())
+  userId    String
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan      SubscriptionPlan   @default(FREE)
+  status    SubscriptionStatus @default(ACTIVE)
+  startedAt DateTime           @default(now())
+  expiresAt DateTime?
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  @@index([userId])
+  @@index([status])
+}
+
+model AiReport {
+  id        String   @id @default(cuid())
+  userId    String?
+  profileId String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  profile   Profile? @relation(fields: [profileId], references: [id], onDelete: SetNull)
+  type      String
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([profileId])
+  @@index([type])
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum CalendarType {
+  SOLAR
+  LUNAR
+}
+
+enum SubscriptionPlan {
+  FREE
+  PREMIUM
+  PRO
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELED
+}
