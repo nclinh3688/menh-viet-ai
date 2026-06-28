@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Plus, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 
@@ -21,11 +22,15 @@ export function DashboardHeader({ fullName }: DashboardHeaderProps) {
             Đây là hồ sơ vận mệnh cá nhân hóa của bạn.
           </p>
           <p className="mt-4 max-w-xl text-sm leading-6 text-muted-foreground">
+            <ShieldCheck className="mr-2 inline h-4 w-4 text-primary" aria-hidden="true" />
             {ASTROLOGY_DISCLAIMER}
           </p>
         </div>
         <Button asChild variant="secondary">
-          <Link href="/onboarding">Cập nhật hồ sơ</Link>
+          <Link href="/onboarding">
+            <Plus className="h-4 w-4" aria-hidden="true" />
+            Tạo hồ sơ mới
+          </Link>
         </Button>
       </div>
     </section>

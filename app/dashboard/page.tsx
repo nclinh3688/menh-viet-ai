@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { DailyScoreCard } from "@/components/dashboard/daily-score-card";
+import { DailyFortuneHero } from "@/components/dashboard/daily-fortune-hero";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { FateOverview } from "@/components/dashboard/fate-overview";
 import { FeatureShortcuts } from "@/components/dashboard/feature-shortcuts";
 import { PersonalSuggestions } from "@/components/dashboard/personal-suggestions";
+import { PremiumLockedCards } from "@/components/dashboard/premium-locked-cards";
 import { generateBirthChart, generateDailyFortuneDemo } from "@/lib/astrology";
 import { db } from "@/lib/db";
 import { parseJsonArray } from "@/lib/json";
@@ -85,6 +86,7 @@ export default async function DashboardPage({
   return (
     <main className="mx-auto grid w-full max-w-6xl gap-5 px-5 py-8 md:px-8 md:py-10">
       <DashboardHeader fullName={profile.fullName} />
+      <DailyFortuneHero fortune={dailyFortune} />
       <div className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
         <FateOverview
           chart={{
@@ -97,17 +99,19 @@ export default async function DashboardPage({
             cungPhiGroup: generatedChart.cungPhiGroup,
           }}
         />
-        <DailyScoreCard fortune={dailyFortune} />
+        <PersonalSuggestions
+          advice={dailyFortune.advice}
+          badDirections={badDirections}
+          goodDirections={goodDirections}
+          luckyColors={luckyColors}
+          luckyNumbers={luckyNumbers}
+          shouldAvoid={dailyFortune.shouldAvoid}
+          shouldDo={dailyFortune.shouldDo}
+          summary={birthChart.summary}
+          unluckyColors={unluckyColors}
+        />
       </div>
-      <PersonalSuggestions
-        advice={dailyFortune.advice}
-        badDirections={badDirections}
-        goodDirections={goodDirections}
-        luckyColors={luckyColors}
-        luckyNumbers={luckyNumbers}
-        summary={birthChart.summary}
-        unluckyColors={unluckyColors}
-      />
+      <PremiumLockedCards />
       <FeatureShortcuts />
     </main>
   );

@@ -10,7 +10,10 @@ export interface DailyFortuneDemo {
   workScore: number;
   financeScore: number;
   mentalScore: number;
+  luckScore: number;
   advice: string;
+  shouldDo: string[];
+  shouldAvoid: string[];
   scores: DailyFortuneScore[];
 }
 
@@ -24,9 +27,11 @@ export function generateDailyFortuneDemo(
   const workScore = scoreFromSeed(seed, 23);
   const financeScore = scoreFromSeed(seed, 37);
   const mentalScore = scoreFromSeed(seed, 53);
+  const luckScore = scoreFromSeed(seed, 71);
   const totalScore = Math.round(
-    (loveScore + workScore + financeScore + mentalScore) / 4,
+    (loveScore + workScore + financeScore + mentalScore + luckScore) / 5,
   );
+  const guidance = buildGuidance(totalScore);
 
   return {
     dateKey,
@@ -35,13 +40,16 @@ export function generateDailyFortuneDemo(
     workScore,
     financeScore,
     mentalScore,
+    luckScore,
     advice: buildAdvice(totalScore),
+    shouldDo: guidance.shouldDo,
+    shouldAvoid: guidance.shouldAvoid,
     scores: [
-      { label: "Tổng quan", score: totalScore },
       { label: "Tình cảm", score: loveScore },
       { label: "Công việc", score: workScore },
       { label: "Tài chính", score: financeScore },
       { label: "Tinh thần", score: mentalScore },
+      { label: "May mắn", score: luckScore },
     ],
   };
 }
@@ -66,4 +74,25 @@ function buildAdvice(score: number) {
   }
 
   return "Nên dành thêm thời gian quan sát, nghỉ ngơi và chọn các bước nhỏ chắc chắn thay vì ép tiến độ.";
+}
+
+function buildGuidance(score: number) {
+  if (score >= 82) {
+    return {
+      shouldDo: ["Chủ động xử lý việc quan trọng", "Mở lời với người cần kết nối", "Hoàn thiện cam kết còn dang dở"],
+      shouldAvoid: ["Ôm quá nhiều đầu việc", "Quyết định vì hưng phấn nhất thời"],
+    };
+  }
+
+  if (score >= 68) {
+    return {
+      shouldDo: ["Ưu tiên kế hoạch rõ ràng", "Giữ nhịp làm việc đều", "Ghi chú lại tín hiệu quan trọng"],
+      shouldAvoid: ["Tranh luận khi cảm xúc cao", "Đổi hướng quá nhanh"],
+    };
+  }
+
+  return {
+    shouldDo: ["Chọn việc nhỏ nhưng chắc", "Nghỉ ngơi đúng lúc", "Quan sát trước khi phản hồi"],
+    shouldAvoid: ["Ép tiến độ", "Ra quyết định lớn khi thiếu dữ kiện"],
+  };
 }
