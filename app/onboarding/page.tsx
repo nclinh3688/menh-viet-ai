@@ -1,7 +1,22 @@
 import { OnboardingForm } from "@/components/onboarding/onboarding-form";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
+import type { ProfileFormValues } from "@/lib/validations/profile";
 
-export default function OnboardingPage() {
+interface OnboardingPageProps {
+  searchParams: Promise<Partial<Record<keyof ProfileFormValues, string>>>;
+}
+
+export default async function OnboardingPage({
+  searchParams,
+}: OnboardingPageProps) {
+  const params = await searchParams;
+  const initialValues: Partial<ProfileFormValues> = {
+    ...(params.fullName ? { fullName: params.fullName } : {}),
+    ...(params.birthDate ? { birthDate: params.birthDate } : {}),
+    ...(params.birthTime ? { birthTime: params.birthTime } : {}),
+    ...(isGender(params.gender) ? { gender: params.gender } : {}),
+  };
+
   return (
     <section className="mx-auto flex min-h-[calc(100vh-96px)] w-full max-w-5xl items-center px-5 py-10 md:px-8">
       <div className="grid w-full gap-8 lg:grid-cols-[0.86fr_1.14fr] lg:items-center">
@@ -23,8 +38,12 @@ export default function OnboardingPage() {
           </p>
         </div>
 
-        <OnboardingForm />
+        <OnboardingForm initialValues={initialValues} />
       </div>
     </section>
   );
+}
+
+function isGender(value: string | undefined): value is ProfileFormValues["gender"] {
+  return value === "MALE" || value === "FEMALE" || value === "OTHER";
 }

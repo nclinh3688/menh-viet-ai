@@ -31,7 +31,11 @@ const defaultValues: ProfileFormValues = {
   mainInterest: "Khám phá bản thân",
 };
 
-export function OnboardingForm() {
+interface OnboardingFormProps {
+  initialValues?: Partial<ProfileFormValues>;
+}
+
+export function OnboardingForm({ initialValues }: OnboardingFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const {
@@ -41,7 +45,10 @@ export function OnboardingForm() {
     setError,
   } = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
+    defaultValues: {
+      ...defaultValues,
+      ...initialValues,
+    },
   });
 
   function onSubmit(values: ProfileFormValues) {
