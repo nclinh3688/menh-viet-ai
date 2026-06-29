@@ -1,4 +1,11 @@
 import { z } from "zod";
+import {
+  birthDateInputToIsoDate,
+  isValidBirthDate,
+  isValidBirthTime,
+  normalizeBirthDateInput,
+  normalizeBirthTimeInput,
+} from "./date-time";
 
 export const genderOptions = [
   { label: "Nam", value: "MALE" },
@@ -37,15 +44,23 @@ export const profileFormSchema = z.object({
   fullName: z
     .string()
     .trim()
-    .min(2, "Vui lòng nhập họ tên tối thiểu 2 ký tự.")
-    .max(120, "Họ tên không được vượt quá 120 ký tự."),
+    .max(120, "Họ tên không được vượt quá 120 ký tự.")
+    .transform((value) => (value.length > 0 ? value : "Bạn")),
   birthDate: z
     .string()
     .min(1, "Vui lòng chọn ngày sinh.")
-    .refine((value) => !Number.isNaN(Date.parse(value)), {
-      message: "Ngày sinh không hợp lệ.",
+    .transform((value) => normalizeBirthDateInput(value))
+    .refine((value) => isValidBirthDate(value), {
+      message: "Ngày sinh không hợp lệ. Vui lòng nhập dạng ngày/tháng/năm.",
+    })
+    .transform((value) => birthDateInputToIsoDate(value)),
+  birthTime: z
+    .string()
+    .trim()
+    .optional()
+    .refine((value) => isValidBirthTime(normalizeBirthTimeInput(value ?? "")), {
+      message: "Giờ sinh không hợp lệ. Ví dụ: 04:20.",
     }),
-  birthTime: optionalText,
   gender: z.enum(["MALE", "FEMALE", "OTHER"], {
     message: "Vui lòng chọn giới tính.",
   }),

@@ -1,4 +1,5 @@
 import { ASTROLOGY_DISCLAIMER } from "../constants";
+import { birthDateInputToIsoDate } from "../validations/date-time";
 import { NUMEROLOGY_PROFILES } from "./profiles";
 import type {
   NumerologyAnalysis,
@@ -78,7 +79,7 @@ export function analyzeNumerology(input: NumerologyInput): NumerologyAnalysis {
 }
 
 function parseBirthDate(value: string) {
-  const date = new Date(value);
+  const date = new Date(birthDateInputToIsoDate(value));
 
   if (value.trim().length === 0 || Number.isNaN(date.getTime())) {
     throw new Error("Vui lòng nhập ngày sinh hợp lệ.");

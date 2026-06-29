@@ -4,19 +4,18 @@ import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarCheck, Loader2, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { MVButton } from "@/components/form/mv-button";
+import { MVDateInput } from "@/components/form/mv-date-input";
+import { MVFormField } from "@/components/form/mv-form-field";
+import { MVSelect } from "@/components/form/mv-select";
 import { analyzeGoodDay } from "@/lib/astrology/good-day";
 import type { GoodDayAnalysis } from "@/lib/astrology/good-day";
-import { cn } from "@/lib/utils";
 import {
   goodDayFormSchema,
   goodDayPurposeOptions,
   type GoodDayFormValues,
 } from "@/lib/validations/good-day";
 import { GoodDayResult } from "./good-day-result";
-
-const fieldClassName =
-  "h-11 rounded-md border bg-background/68 px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/72 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const defaultValues: GoodDayFormValues = {
   date: "",
@@ -68,24 +67,24 @@ export function GoodDayForm() {
         </p>
 
         <form className="mt-8 space-y-5" onSubmit={handleSubmit(onSubmit)}>
-          <FormField id="date" label="Ngày cần xem" error={errors.date?.message}>
-            <input
-              className={fieldClassName}
+          <MVFormField
+            label="Ngày cần xem"
+            error={errors.date?.message}
+            hint="Nhập dạng ngày/tháng/năm"
+          >
+            <MVDateInput
               id="date"
-              type="date"
               {...register("date")}
             />
-          </FormField>
+          </MVFormField>
 
-          <FormField id="purpose" label="Mục đích" error={errors.purpose?.message}>
-            <select className={fieldClassName} id="purpose" {...register("purpose")}>
-              {goodDayPurposeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </FormField>
+          <MVFormField label="Mục đích" error={errors.purpose?.message}>
+            <MVSelect
+              id="purpose"
+              options={goodDayPurposeOptions}
+              {...register("purpose")}
+            />
+          </MVFormField>
 
           {errors.root?.message ? (
             <p className="rounded-md border border-destructive/40 bg-destructive/10 px-3 py-2 text-sm text-destructive">
@@ -93,7 +92,7 @@ export function GoodDayForm() {
             </p>
           ) : null}
 
-          <Button className="w-full" disabled={isPending} size="lg" type="submit">
+          <MVButton className="w-full" disabled={isPending} size="lg" type="submit">
             {isPending ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
@@ -105,38 +104,11 @@ export function GoodDayForm() {
                 Xem ngày đẹp
               </>
             )}
-          </Button>
+          </MVButton>
         </form>
       </div>
 
       <GoodDayResult result={result} />
     </section>
-  );
-}
-
-function FormField({
-  children,
-  error,
-  id,
-  label,
-}: {
-  children: React.ReactNode;
-  error?: string;
-  id: string;
-  label: string;
-}) {
-  return (
-    <div className="grid gap-2 text-sm font-medium text-foreground">
-      <label htmlFor={id}>{label}</label>
-      {children}
-      <span
-        className={cn(
-          "min-h-5 text-xs leading-5",
-          error ? "text-destructive" : "text-muted-foreground/0",
-        )}
-      >
-        {error ?? "Không có lỗi"}
-      </span>
-    </div>
   );
 }

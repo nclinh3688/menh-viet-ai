@@ -27,6 +27,7 @@
 
 html {
   scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 body {
@@ -40,4 +41,18 @@ body {
 
 ::selection {
   background: hsl(var(--primary) / 0.28);
+}
+
+input,
+select,
+textarea {
+  color-scheme: dark;
+}
+
+input:-webkit-autofill,
+select:-webkit-autofill,
+textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px hsl(var(--card)) inset;
+  -webkit-text-fill-color: hsl(var(--foreground));
+  caret-color: hsl(var(--foreground));
 }

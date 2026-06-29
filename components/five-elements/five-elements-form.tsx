@@ -8,7 +8,10 @@ import {
   Loader2,
   Sparkles,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MVButton } from "@/components/form/mv-button";
+import { MVDateInput } from "@/components/form/mv-date-input";
+import { MVFormField } from "@/components/form/mv-form-field";
+import { MVInput } from "@/components/form/mv-input";
 import { analyzeFiveElements } from "@/lib/astrology/five-elements";
 import type { FiveElementsAnalysis } from "@/lib/astrology/five-elements";
 import { cn } from "@/lib/utils";
@@ -78,29 +81,23 @@ export function FiveElementsForm() {
           </div>
 
           {mode === "year" ? (
-            <label className="block">
-              <span className="text-sm font-medium text-foreground">Năm sinh</span>
-              <input
-                className="mt-2 h-12 w-full rounded-md border border-white/10 bg-background/72 px-4 text-base text-foreground outline-none transition focus:border-primary/70 focus:ring-2 focus:ring-primary/20"
+            <MVFormField label="Năm sinh" hint="Ví dụ: 1995">
+              <MVInput
                 inputMode="numeric"
                 max="2100"
                 min="1900"
                 onChange={(event) => setBirthYear(event.target.value)}
                 placeholder="Ví dụ: 1995"
-                type="number"
                 value={birthYear}
               />
-            </label>
+            </MVFormField>
           ) : (
-            <label className="block">
-              <span className="text-sm font-medium text-foreground">Ngày sinh</span>
-              <input
-                className="mt-2 h-12 w-full rounded-md border border-white/10 bg-background/72 px-4 text-base text-foreground outline-none transition focus:border-primary/70 focus:ring-2 focus:ring-primary/20"
+            <MVFormField label="Ngày sinh" hint="Nhập dạng ngày/tháng/năm">
+              <MVDateInput
                 onChange={(event) => setBirthDate(event.target.value)}
-                type="date"
                 value={birthDate}
               />
-            </label>
+            </MVFormField>
           )}
 
           {error.length > 0 ? (
@@ -109,11 +106,11 @@ export function FiveElementsForm() {
             </p>
           ) : null}
 
-          <Button className="w-full sm:w-auto" disabled={isSubmitting} size="lg">
+          <MVButton className="w-full sm:w-auto" disabled={isSubmitting} size="lg">
             {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : null}
             Phân tích Ngũ Hành
             <ArrowRight className="size-4" />
-          </Button>
+          </MVButton>
         </form>
       </div>
 

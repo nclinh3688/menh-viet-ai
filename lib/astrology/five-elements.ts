@@ -1,4 +1,5 @@
 import { ASTROLOGY_DISCLAIMER } from "../constants";
+import { birthDateInputToIsoDate } from "../validations/date-time";
 import { generateBirthChart } from "./birth-chart";
 import { GENERATING_CYCLE, getElementProfile, CONTROLLING_CYCLE } from "./elements";
 import type { ElementProfile, FiveElement } from "./types";
@@ -53,7 +54,7 @@ export function analyzeFiveElements(
 
 function resolveBirthYear(input: FiveElementsAnalysisInput): number {
   if (input.birthDate != null && input.birthDate.trim().length > 0) {
-    const date = new Date(input.birthDate);
+    const date = new Date(birthDateInputToIsoDate(input.birthDate));
 
     if (Number.isNaN(date.getTime())) {
       throw new Error("Ngày sinh không hợp lệ.");

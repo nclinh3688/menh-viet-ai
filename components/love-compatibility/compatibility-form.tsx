@@ -4,19 +4,19 @@ import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartHandshake, Loader2, Sparkles } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { MVButton } from "@/components/form/mv-button";
+import { MVCalendarTypeToggle } from "@/components/form/mv-calendar-type-toggle";
+import { MVDateInput } from "@/components/form/mv-date-input";
+import { MVFormField } from "@/components/form/mv-form-field";
+import { MVInput } from "@/components/form/mv-input";
+import { MVTimeInput } from "@/components/form/mv-time-input";
 import { analyzeCompatibility } from "@/lib/astrology/compatibility";
 import type { CompatibilityResult } from "@/lib/astrology/compatibility";
-import { cn } from "@/lib/utils";
 import {
-  compatibilityCalendarTypeOptions,
   compatibilityFormSchema,
   type CompatibilityFormValues,
 } from "@/lib/validations/compatibility";
 import { CompatibilityResultCard } from "./compatibility-result-card";
-
-const fieldClassName =
-  "h-11 rounded-md border bg-background/68 px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/72 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const defaultValues: CompatibilityFormValues = {
   female: {
@@ -108,7 +108,7 @@ export function CompatibilityForm() {
             </p>
           ) : null}
 
-          <Button className="w-full" disabled={isPending} size="lg" type="submit">
+          <MVButton className="w-full" disabled={isPending} size="lg" type="submit">
             {isPending ? (
               <>
                 <Loader2 className="size-4 animate-spin" />
@@ -120,7 +120,7 @@ export function CompatibilityForm() {
                 Xem hợp tuổi
               </>
             )}
-          </Button>
+          </MVButton>
         </form>
       </div>
 
@@ -144,92 +144,49 @@ function PersonFields({
     <fieldset className="rounded-md border border-white/10 bg-background/35 p-4">
       <legend className="px-2 text-sm font-semibold text-primary">{title}</legend>
       <div className="mt-3 grid gap-4">
-        <FormField
-          id={`${prefix}.fullName`}
+        <MVFormField
           label="Họ tên optional"
           error={errors.fullName}
+          hint="Không bắt buộc"
         >
-          <input
-            className={fieldClassName}
+          <MVInput
             id={`${prefix}.fullName`}
             placeholder={prefix === "male" ? "Ví dụ: Nguyễn An" : "Ví dụ: Trần Bình"}
             {...register(`${prefix}.fullName`)}
           />
-        </FormField>
+        </MVFormField>
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <FormField
-            id={`${prefix}.birthDate`}
+          <MVFormField
             label="Ngày sinh"
             error={errors.birthDate}
+            hint="Nhập dạng ngày/tháng/năm"
           >
-            <input
-              className={fieldClassName}
+            <MVDateInput
               id={`${prefix}.birthDate`}
-              type="date"
               {...register(`${prefix}.birthDate`)}
             />
-          </FormField>
+          </MVFormField>
 
-          <FormField
-            id={`${prefix}.birthTime`}
-            label="Giờ sinh optional"
+          <MVFormField
+            label="Giờ sinh"
             error={errors.birthTime}
+            hint="Không bắt buộc"
           >
-            <input
-              className={fieldClassName}
+            <MVTimeInput
               id={`${prefix}.birthTime`}
-              type="time"
               {...register(`${prefix}.birthTime`)}
             />
-          </FormField>
+          </MVFormField>
         </div>
 
-        <FormField
-          id={`${prefix}.calendarType`}
-          label="Loại lịch"
-          error={errors.calendarType}
-        >
-          <select
-            className={fieldClassName}
-            id={`${prefix}.calendarType`}
+        <MVFormField label="Loại lịch" error={errors.calendarType}>
+          <MVCalendarTypeToggle
+            value="SOLAR"
             {...register(`${prefix}.calendarType`)}
-          >
-            {compatibilityCalendarTypeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </FormField>
+          />
+        </MVFormField>
       </div>
     </fieldset>
-  );
-}
-
-function FormField({
-  children,
-  error,
-  id,
-  label,
-}: {
-  children: React.ReactNode;
-  error?: string;
-  id: string;
-  label: string;
-}) {
-  return (
-    <div className="grid gap-2 text-sm font-medium text-foreground">
-      <label htmlFor={id}>{label}</label>
-      {children}
-      <span
-        className={cn(
-          "min-h-5 text-xs leading-5",
-          error ? "text-destructive" : "text-muted-foreground/0",
-        )}
-      >
-        {error ?? "Không có lỗi"}
-      </span>
-    </div>
   );
 }

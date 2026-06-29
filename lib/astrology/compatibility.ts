@@ -1,4 +1,5 @@
 import { ASTROLOGY_DISCLAIMER } from "../constants";
+import { normalizeBirthTimeInput } from "../validations/date-time";
 import { getCanChiByYear } from "./can-chi";
 import { CONTROLLING_CYCLE, GENERATING_CYCLE } from "./elements";
 import { generateBirthChart } from "./birth-chart";
@@ -132,7 +133,7 @@ function buildPersonProfile(
   const gender = fallbackName === "Nam" ? "MALE" : "FEMALE";
   const chart = generateBirthChart({
     birthDate: input.birthDate,
-    birthTime: input.birthTime,
+    birthTime: normalizeOptionalTime(input.birthTime),
     fullName: input.fullName?.trim() ?? fallbackName,
     gender,
   });
@@ -254,7 +255,7 @@ function scoreOther(
     score += 1;
   }
 
-  if (input.male.birthTime?.trim() && input.female.birthTime?.trim()) {
+  if (normalizeOptionalTime(input.male.birthTime) && normalizeOptionalTime(input.female.birthTime)) {
     score += 1;
     explanations.push("Cả hai có giờ sinh, thuận lợi cho các phân tích sâu hơn ở sprint sau.");
   }
@@ -264,6 +265,12 @@ function scoreOther(
   }
 
   return buildScore("other", "Khác", 10, Math.min(score, 10), explanations.join(" "));
+}
+
+function normalizeOptionalTime(value: string | undefined) {
+  const normalizedValue = normalizeBirthTimeInput(value ?? "");
+
+  return normalizedValue.length > 0 ? normalizedValue : undefined;
 }
 
 function buildScore(

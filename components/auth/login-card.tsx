@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, Facebook, LockKeyhole, Mail } from "lucide-react";
+import { MVButton } from "@/components/form/mv-button";
 import { Button } from "@/components/ui/button";
 import type { AuthProviderStatus } from "@/lib/auth";
 
@@ -34,7 +35,7 @@ export function LoginCard({ providerStatus }: LoginCardProps) {
 
         <div className="rounded-md border bg-background/52 p-5">
           <div className="grid gap-3">
-            <Button
+            <MVButton
               className="w-full justify-center"
               disabled={!googleReady}
               size="lg"
@@ -43,11 +44,11 @@ export function LoginCard({ providerStatus }: LoginCardProps) {
             >
               <Mail className="size-4" />
               {googleReady ? "Tiếp tục với Google" : "Google cần cấu hình OAuth"}
-            </Button>
-            <Button className="w-full justify-center" disabled size="lg" type="button" variant="secondary">
+            </MVButton>
+            <MVButton className="w-full justify-center" disabled size="lg" type="button" variant="secondary">
               <Facebook className="size-4" />
               Tiếp tục với Facebook - Sắp ra mắt
-            </Button>
+            </MVButton>
           </div>
 
           <div className="mt-5 rounded-md border border-white/10 bg-card/48 p-4">

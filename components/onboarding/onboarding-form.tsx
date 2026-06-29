@@ -6,19 +6,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { createProfileAction } from "@/app/onboarding/actions";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { MVButton } from "@/components/form/mv-button";
+import { MVCalendarTypeToggle } from "@/components/form/mv-calendar-type-toggle";
+import { MVDateInput } from "@/components/form/mv-date-input";
+import { MVFormField } from "@/components/form/mv-form-field";
+import { MVInput } from "@/components/form/mv-input";
+import { MVSelect } from "@/components/form/mv-select";
+import { MVTimeInput } from "@/components/form/mv-time-input";
 import {
-  calendarTypeOptions,
   genderOptions,
   mainInterestOptions,
   profileFormSchema,
   relationshipStatusOptions,
   type ProfileFormValues,
 } from "@/lib/validations/profile";
-
-const fieldClassName =
-  "h-11 rounded-md border bg-background/68 px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/72 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 const defaultValues: ProfileFormValues = {
   fullName: "",
@@ -81,122 +82,94 @@ export function OnboardingForm({ initialValues }: OnboardingFormProps) {
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="grid gap-5">
-        <FormField id="fullName" label="Họ tên" error={errors.fullName?.message}>
-          <input
-            className={fieldClassName}
+        <MVFormField
+          label="Tên của bạn"
+          error={errors.fullName?.message}
+          hint="Không bắt buộc"
+        >
+          <MVInput
             id="fullName"
             placeholder="Ví dụ: Nguyễn An"
             {...register("fullName")}
           />
-        </FormField>
+        </MVFormField>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <FormField
-            id="birthDate"
-            label="Ngày sinh dương lịch"
+          <MVFormField
+            label="Ngày sinh"
             error={errors.birthDate?.message}
+            hint="Nhập dạng ngày/tháng/năm"
           >
-            <input
-              className={fieldClassName}
+            <MVDateInput
               id="birthDate"
-              type="date"
               {...register("birthDate")}
             />
-          </FormField>
+          </MVFormField>
 
-          <FormField
-            id="birthTime"
-            label="Giờ sinh optional"
+          <MVFormField
+            label="Giờ sinh"
             error={errors.birthTime?.message}
+            hint="Không bắt buộc"
           >
-            <input
-              className={fieldClassName}
+            <MVTimeInput
               id="birthTime"
-              type="time"
               {...register("birthTime")}
             />
-          </FormField>
+          </MVFormField>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <FormField id="gender" label="Giới tính" error={errors.gender?.message}>
-            <select className={fieldClassName} id="gender" {...register("gender")}>
-              {genderOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </FormField>
+          <MVFormField label="Giới tính" error={errors.gender?.message}>
+            <MVSelect id="gender" options={genderOptions} {...register("gender")} />
+          </MVFormField>
 
-          <FormField
-            id="calendarType"
-            label="Loại lịch"
-            error={errors.calendarType?.message}
-          >
-            <select
-              className={fieldClassName}
-              id="calendarType"
+          <MVFormField label="Loại lịch" error={errors.calendarType?.message}>
+            <MVCalendarTypeToggle
+              value={initialValues?.calendarType ?? defaultValues.calendarType}
               {...register("calendarType")}
-            >
-              {calendarTypeOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </FormField>
+            />
+          </MVFormField>
         </div>
 
-        <FormField
-          id="birthPlace"
+        <MVFormField
           label="Nơi sinh optional"
           error={errors.birthPlace?.message}
         >
-          <input
-            className={fieldClassName}
+          <MVInput
             id="birthPlace"
             placeholder="Ví dụ: Hà Nội"
             {...register("birthPlace")}
           />
-        </FormField>
+        </MVFormField>
 
         <div className="grid gap-5 sm:grid-cols-2">
-          <FormField
-            id="relationshipStatus"
+          <MVFormField
             label="Tình trạng"
             error={errors.relationshipStatus?.message}
           >
-            <select
-              className={fieldClassName}
+            <MVSelect
               id="relationshipStatus"
+              options={relationshipStatusOptions.map((option) => ({
+                label: option,
+                value: option,
+              }))}
               {...register("relationshipStatus")}
-            >
-              {relationshipStatusOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </FormField>
+            />
+          </MVFormField>
 
-          <FormField
-            id="mainInterest"
+          <MVFormField
             label="Mối quan tâm chính"
             error={errors.mainInterest?.message}
           >
-            <select
-              className={fieldClassName}
+            <MVSelect
               id="mainInterest"
+              options={mainInterestOptions.map((option) => ({
+                label: option,
+                value: option,
+              }))}
               {...register("mainInterest")}
-            >
-              {mainInterestOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
-          </FormField>
+            />
+          </MVFormField>
         </div>
 
         {errors.root?.message ? (
@@ -205,7 +178,7 @@ export function OnboardingForm({ initialValues }: OnboardingFormProps) {
           </p>
         ) : null}
 
-        <Button className="mt-1 w-full" disabled={isPending} size="lg" type="submit">
+        <MVButton className="mt-1 w-full" disabled={isPending} size="lg" type="submit">
           {isPending ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
@@ -214,32 +187,8 @@ export function OnboardingForm({ initialValues }: OnboardingFormProps) {
           ) : (
             "Lưu hồ sơ và tiếp tục"
           )}
-        </Button>
+        </MVButton>
       </div>
     </form>
-  );
-}
-
-interface FormFieldProps {
-  children: React.ReactNode;
-  error?: string;
-  id: string;
-  label: string;
-}
-
-function FormField({ children, error, id, label }: FormFieldProps) {
-  return (
-    <div className="grid gap-2 text-sm font-medium text-foreground">
-      <label htmlFor={id}>{label}</label>
-      {children}
-      <span
-        className={cn(
-          "min-h-5 text-xs leading-5",
-          error ? "text-destructive" : "text-muted-foreground/0",
-        )}
-      >
-        {error ?? "Không có lỗi"}
-      </span>
-    </div>
   );
 }

@@ -1,6 +1,7 @@
 "use server";
 
 import { db } from "@/lib/db";
+import { normalizeBirthTimeInput } from "@/lib/validations/date-time";
 import { profileFormSchema, type ProfileFormValues } from "@/lib/validations/profile";
 
 type CreateProfileResult =
@@ -32,7 +33,7 @@ export async function createProfileAction(
       userId: null,
       fullName: parsed.data.fullName,
       birthDate: new Date(parsed.data.birthDate),
-      birthTime: parsed.data.birthTime,
+      birthTime: normalizeOptionalTime(parsed.data.birthTime),
       gender: parsed.data.gender,
       birthPlace: parsed.data.birthPlace,
       calendarType: parsed.data.calendarType,
@@ -48,4 +49,10 @@ export async function createProfileAction(
     ok: true,
     profileId: profile.id,
   };
+}
+
+function normalizeOptionalTime(value: string | undefined) {
+  const normalizedValue = normalizeBirthTimeInput(value ?? "");
+
+  return normalizedValue.length > 0 ? normalizedValue : undefined;
 }

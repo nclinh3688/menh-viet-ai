@@ -1,4 +1,11 @@
 import { z } from "zod";
+import {
+  birthDateInputToIsoDate,
+  isValidBirthDate,
+  isValidBirthTime,
+  normalizeBirthDateInput,
+  normalizeBirthTimeInput,
+} from "./date-time";
 
 export const compatibilityCalendarTypeOptions = [
   { label: "Dương lịch", value: "SOLAR" },
@@ -15,16 +22,20 @@ const optionalName = z
 const optionalBirthTime = z
   .string()
   .trim()
-  .transform((value) => (value.length > 0 ? value : undefined))
-  .optional();
+  .optional()
+  .refine((value) => isValidBirthTime(normalizeBirthTimeInput(value ?? "")), {
+    message: "Giờ sinh không hợp lệ. Ví dụ: 04:20.",
+  });
 
 const personSchema = z.object({
   birthDate: z
     .string()
     .min(1, "Vui lòng chọn ngày sinh.")
-    .refine((value) => !Number.isNaN(Date.parse(value)), {
-      message: "Ngày sinh không hợp lệ.",
-    }),
+    .transform((value) => normalizeBirthDateInput(value))
+    .refine((value) => isValidBirthDate(value), {
+      message: "Ngày sinh không hợp lệ. Vui lòng nhập dạng ngày/tháng/năm.",
+    })
+    .transform((value) => birthDateInputToIsoDate(value)),
   birthTime: optionalBirthTime,
   calendarType: z.enum(["SOLAR", "LUNAR"], {
     message: "Vui lòng chọn loại lịch.",

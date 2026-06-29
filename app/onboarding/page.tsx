@@ -25,6 +25,7 @@ export default async function OnboardingPage({
     ...(params.birthDate ? { birthDate: params.birthDate } : {}),
     ...(params.birthTime ? { birthTime: params.birthTime } : {}),
     ...(isGender(params.gender) ? { gender: params.gender } : {}),
+    ...(isCalendarType(params.calendarType) ? { calendarType: params.calendarType } : {}),
   };
 
   return (
@@ -56,4 +57,10 @@ export default async function OnboardingPage({
 
 function isGender(value: string | undefined): value is ProfileFormValues["gender"] {
   return value === "MALE" || value === "FEMALE" || value === "OTHER";
+}
+
+function isCalendarType(
+  value: string | undefined,
+): value is ProfileFormValues["calendarType"] {
+  return value === "SOLAR" || value === "LUNAR";
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SaveProfileCta } from "@/components/auth/save-profile-cta";
+import { UsageLimitBanner } from "@/components/subscription/usage-limit-banner";
 import { DailyFortuneHero } from "@/components/dashboard/daily-fortune-hero";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { FateOverview } from "@/components/dashboard/fate-overview";
@@ -98,6 +99,7 @@ export default async function DashboardPage({
   return (
     <main className="mx-auto grid w-full max-w-6xl gap-5 px-5 py-8 md:px-8 md:py-10">
       <DashboardHeader fullName={profile.fullName} />
+      <UsageLimitBanner plan="FREE" usedToday={1} />
       <DailyFortuneHero fortune={dailyFortune} />
       <div className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
         <FateOverview

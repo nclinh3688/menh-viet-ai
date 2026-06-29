@@ -3,17 +3,24 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowRight, ShieldCheck, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { MVButton } from "@/components/form/mv-button";
+import { MVCalendarTypeToggle } from "@/components/form/mv-calendar-type-toggle";
+import { MVDateInput } from "@/components/form/mv-date-input";
+import { MVFormField } from "@/components/form/mv-form-field";
+import { MVInput } from "@/components/form/mv-input";
+import { MVSelect } from "@/components/form/mv-select";
+import { MVTimeInput } from "@/components/form/mv-time-input";
 import { APP_NAME } from "@/lib/constants";
+import {
+  normalizeBirthDateInput,
+  normalizeBirthTimeInput,
+} from "@/lib/validations/date-time";
 
 const genderOptions = [
   { label: "Nam", value: "MALE" },
   { label: "Nữ", value: "FEMALE" },
   { label: "Khác", value: "OTHER" },
 ] as const;
-
-const inputClassName =
-  "h-11 rounded-md border bg-background/72 px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/72 focus:border-primary focus:ring-2 focus:ring-primary/20";
 
 export function HomeHero() {
   const router = useRouter();
@@ -23,14 +30,16 @@ export function HomeHero() {
 
     const formData = new FormData(event.currentTarget);
     const fullName = String(formData.get("fullName") ?? "").trim();
-    const birthDate = String(formData.get("birthDate") ?? "");
-    const birthTime = String(formData.get("birthTime") ?? "");
+    const birthDate = normalizeBirthDateInput(String(formData.get("birthDate") ?? ""));
+    const birthTime = normalizeBirthTimeInput(String(formData.get("birthTime") ?? ""));
     const gender = String(formData.get("gender") ?? "MALE");
+    const calendarType = String(formData.get("calendarType") ?? "SOLAR");
     const params = new URLSearchParams();
     if (fullName) params.set("fullName", fullName);
     if (birthDate) params.set("birthDate", birthDate);
     if (birthTime) params.set("birthTime", birthTime);
     params.set("gender", gender);
+    params.set("calendarType", calendarType);
 
     router.push(`/onboarding?${params.toString()}`);
   }
@@ -92,68 +101,44 @@ export function HomeHero() {
           </div>
 
           <div className="grid gap-4">
-            <label
-              className="grid gap-2 text-sm font-medium text-foreground"
-              htmlFor="hero-fullName"
-            >
-              Họ tên
-              <input
-                className={inputClassName}
+            <MVFormField label="Tên của bạn" hint="Không bắt buộc">
+              <MVInput
                 id="hero-fullName"
                 name="fullName"
                 placeholder="Ví dụ: Nguyễn An"
               />
-            </label>
+            </MVFormField>
+            <MVFormField label="Loại lịch">
+              <MVCalendarTypeToggle name="calendarType" />
+            </MVFormField>
             <div className="grid gap-4 sm:grid-cols-2">
-              <label
-                className="grid gap-2 text-sm font-medium text-foreground"
-                htmlFor="hero-birthDate"
-              >
-                Ngày sinh
-                <input
-                  className={inputClassName}
+              <MVFormField label="Ngày sinh" hint="Nhập dạng ngày/tháng/năm">
+                <MVDateInput
                   id="hero-birthDate"
                   name="birthDate"
                   required
-                  type="date"
                 />
-              </label>
-              <label
-                className="grid gap-2 text-sm font-medium text-foreground"
-                htmlFor="hero-birthTime"
-              >
-                Giờ sinh optional
-                <input
-                  className={inputClassName}
+              </MVFormField>
+              <MVFormField label="Giờ sinh" hint="Không bắt buộc">
+                <MVTimeInput
                   id="hero-birthTime"
                   name="birthTime"
-                  type="time"
                 />
-              </label>
+              </MVFormField>
             </div>
-            <label
-              className="grid gap-2 text-sm font-medium text-foreground"
-              htmlFor="hero-gender"
-            >
-              Giới tính
-              <select
-                className={inputClassName}
+            <MVFormField label="Giới tính">
+              <MVSelect
                 defaultValue="MALE"
                 id="hero-gender"
                 name="gender"
-              >
-                {genderOptions.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                options={genderOptions}
+              />
+            </MVFormField>
 
-            <Button className="mt-2 w-full" size="lg" type="submit">
+            <MVButton className="mt-2 w-full" size="lg" type="submit">
               Xem miễn phí
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            </Button>
+            </MVButton>
           </div>
         </form>
       </div>

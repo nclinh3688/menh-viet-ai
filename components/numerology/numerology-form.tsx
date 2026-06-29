@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, CalendarDays, Loader2, Sparkles, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowRight, Loader2, Sparkles } from "lucide-react";
+import { MVButton } from "@/components/form/mv-button";
+import { MVDateInput } from "@/components/form/mv-date-input";
+import { MVFormField } from "@/components/form/mv-form-field";
+import { MVInput } from "@/components/form/mv-input";
 import { analyzeNumerology } from "@/lib/numerology";
 import type { NumerologyAnalysis } from "@/lib/numerology";
 import { NumerologyResult } from "./numerology-result";
@@ -49,32 +52,20 @@ export function NumerologyForm() {
         </p>
 
         <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
-          <label className="block">
-            <span className="text-sm font-medium text-foreground">Họ tên</span>
-            <span className="mt-2 flex h-12 items-center gap-3 rounded-md border border-white/10 bg-background/72 px-4 focus-within:border-primary/70 focus-within:ring-2 focus-within:ring-primary/20">
-              <User className="size-4 text-muted-foreground" />
-              <input
-                className="h-full min-w-0 flex-1 bg-transparent text-base text-foreground outline-none placeholder:text-muted-foreground"
-                onChange={(event) => setFullName(event.target.value)}
-                placeholder="Ví dụ: Nguyễn An Nhiên"
-                type="text"
-                value={fullName}
-              />
-            </span>
-          </label>
+          <MVFormField label="Họ tên">
+            <MVInput
+              onChange={(event) => setFullName(event.target.value)}
+              placeholder="Ví dụ: Nguyễn An Nhiên"
+              value={fullName}
+            />
+          </MVFormField>
 
-          <label className="block">
-            <span className="text-sm font-medium text-foreground">Ngày sinh</span>
-            <span className="mt-2 flex h-12 items-center gap-3 rounded-md border border-white/10 bg-background/72 px-4 focus-within:border-primary/70 focus-within:ring-2 focus-within:ring-primary/20">
-              <CalendarDays className="size-4 text-muted-foreground" />
-              <input
-                className="h-full min-w-0 flex-1 bg-transparent text-base text-foreground outline-none"
-                onChange={(event) => setBirthDate(event.target.value)}
-                type="date"
-                value={birthDate}
-              />
-            </span>
-          </label>
+          <MVFormField label="Ngày sinh" hint="Nhập dạng ngày/tháng/năm">
+            <MVDateInput
+              onChange={(event) => setBirthDate(event.target.value)}
+              value={birthDate}
+            />
+          </MVFormField>
 
           {error.length > 0 ? (
             <p className="rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
@@ -82,11 +73,11 @@ export function NumerologyForm() {
             </p>
           ) : null}
 
-          <Button className="w-full sm:w-auto" disabled={isSubmitting} size="lg">
+          <MVButton className="w-full sm:w-auto" disabled={isSubmitting} size="lg">
             {isSubmitting ? <Loader2 className="size-4 animate-spin" /> : null}
             Xem phân tích
             <ArrowRight className="size-4" />
-          </Button>
+          </MVButton>
 
           <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
             Số linh hồn và số sứ mệnh đang xử lý tên tiếng Việt ở mức MVP bằng
