@@ -12,6 +12,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "validate:date-time": "node scripts/validate-date-time.mjs",
+    "validate:onboarding-form": "node scripts/validate-onboarding-form.mjs",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
     "prisma:migrate": "prisma migrate dev",

@@ -5,7 +5,7 @@ import { CONTROLLING_CYCLE, GENERATING_CYCLE } from "./elements";
 import { generateBirthChart } from "./birth-chart";
 import type { FiveElement } from "./types";
 
-export type CompatibilityCalendarType = "SOLAR" | "LUNAR";
+export type CompatibilityCalendarType = "lunar" | "solar";
 
 export interface CompatibilityPersonInput {
   birthDate: string;

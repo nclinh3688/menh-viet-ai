@@ -3,12 +3,12 @@ import { cn } from "@/lib/utils";
 
 interface MVCalendarTypeToggleProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "value"> {
-  value?: "SOLAR" | "LUNAR";
+  value?: "lunar" | "solar";
 }
 
 const options = [
-  { icon: "☀", label: "Dương lịch", value: "SOLAR" },
-  { icon: "☾", label: "Âm lịch", value: "LUNAR" },
+  { icon: "☀", label: "Dương lịch", value: "solar" },
+  { icon: "☾", label: "Âm lịch", value: "lunar" },
 ] as const;
 
 export const MVCalendarTypeToggle = React.forwardRef<
@@ -24,7 +24,7 @@ export const MVCalendarTypeToggle = React.forwardRef<
         >
           <input
             className="sr-only"
-            defaultChecked={value == null ? option.value === "SOLAR" : value === option.value}
+            defaultChecked={value == null ? option.value === "solar" : value === option.value}
             name={name}
             ref={index === 0 ? ref : undefined}
             type="radio"

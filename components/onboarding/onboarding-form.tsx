@@ -27,7 +27,7 @@ const defaultValues: ProfileFormValues = {
   birthTime: undefined,
   gender: "MALE",
   birthPlace: undefined,
-  calendarType: "SOLAR",
+  calendarType: "solar",
   relationshipStatus: "Độc thân",
   mainInterest: "Khám phá bản thân",
 };

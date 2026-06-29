@@ -62,5 +62,5 @@ function isGender(value: string | undefined): value is ProfileFormValues["gender
 function isCalendarType(
   value: string | undefined,
 ): value is ProfileFormValues["calendarType"] {
-  return value === "SOLAR" || value === "LUNAR";
+  return value === "solar" || value === "lunar";
 }

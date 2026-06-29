@@ -35,7 +35,7 @@ export function HomeHero() {
     const birthDate = normalizeBirthDateInput(String(formData.get("birthDate") ?? ""));
     const birthTime = normalizeBirthTimeInput(String(formData.get("birthTime") ?? ""));
     const gender = String(formData.get("gender") ?? "MALE");
-    const calendarType = String(formData.get("calendarType") ?? "SOLAR");
+    const calendarType = String(formData.get("calendarType") ?? "solar");
     const params = new URLSearchParams();
     if (fullName) params.set("fullName", fullName);
     if (birthDate) params.set("birthDate", birthDate);

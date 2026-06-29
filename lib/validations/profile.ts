@@ -1,6 +1,5 @@
 import { z } from "zod";
 import {
-  birthDateInputToIsoDate,
   isValidBirthDate,
   isValidBirthTime,
   normalizeBirthDateInput,
@@ -14,8 +13,8 @@ export const genderOptions = [
 ] as const;
 
 export const calendarTypeOptions = [
-  { label: "Dương lịch", value: "SOLAR" },
-  { label: "Âm lịch", value: "LUNAR" },
+  { label: "Dương lịch", value: "solar" },
+  { label: "Âm lịch", value: "lunar" },
 ] as const;
 
 export const relationshipStatusOptions = [
@@ -52,8 +51,7 @@ export const profileFormSchema = z.object({
     .transform((value) => normalizeBirthDateInput(value))
     .refine((value) => isValidBirthDate(value), {
       message: "Ngày sinh không hợp lệ. Vui lòng nhập dạng ngày/tháng/năm.",
-    })
-    .transform((value) => birthDateInputToIsoDate(value)),
+    }),
   birthTime: z
     .string()
     .trim()
@@ -65,7 +63,7 @@ export const profileFormSchema = z.object({
     message: "Vui lòng chọn giới tính.",
   }),
   birthPlace: optionalText,
-  calendarType: z.enum(["SOLAR", "LUNAR"], {
+  calendarType: z.enum(["solar", "lunar"], {
     message: "Vui lòng chọn loại lịch.",
   }),
   relationshipStatus: z.enum(relationshipStatusOptions, {

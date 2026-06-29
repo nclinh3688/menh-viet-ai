@@ -22,13 +22,13 @@ const defaultValues: CompatibilityFormValues = {
   female: {
     birthDate: "",
     birthTime: undefined,
-    calendarType: "SOLAR",
+    calendarType: "solar",
     fullName: undefined,
   },
   male: {
     birthDate: "",
     birthTime: undefined,
-    calendarType: "SOLAR",
+    calendarType: "solar",
     fullName: undefined,
   },
 };
@@ -182,7 +182,7 @@ function PersonFields({
 
         <MVFormField label="Loại lịch" error={errors.calendarType}>
           <MVCalendarTypeToggle
-            value="SOLAR"
+            value="solar"
             {...register(`${prefix}.calendarType`)}
           />
         </MVFormField>

@@ -1,7 +1,10 @@
 "use server";
 
 import { db } from "@/lib/db";
-import { normalizeBirthTimeInput } from "@/lib/validations/date-time";
+import {
+  birthDateInputToIsoDate,
+  normalizeBirthTimeInput,
+} from "@/lib/validations/date-time";
 import { profileFormSchema, type ProfileFormValues } from "@/lib/validations/profile";
 
 type CreateProfileResult =
@@ -32,11 +35,11 @@ export async function createProfileAction(
     data: {
       userId: null,
       fullName: parsed.data.fullName,
-      birthDate: new Date(parsed.data.birthDate),
+      birthDate: new Date(birthDateInputToIsoDate(parsed.data.birthDate)),
       birthTime: normalizeOptionalTime(parsed.data.birthTime),
       gender: parsed.data.gender,
       birthPlace: parsed.data.birthPlace,
-      calendarType: parsed.data.calendarType,
+      calendarType: mapCalendarTypeToPrisma(parsed.data.calendarType),
       relationshipStatus: parsed.data.relationshipStatus,
       mainInterest: parsed.data.mainInterest,
     },
@@ -49,6 +52,10 @@ export async function createProfileAction(
     ok: true,
     profileId: profile.id,
   };
+}
+
+function mapCalendarTypeToPrisma(value: "lunar" | "solar") {
+  return value === "solar" ? "SOLAR" : "LUNAR";
 }
 
 function normalizeOptionalTime(value: string | undefined) {

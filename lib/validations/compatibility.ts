@@ -8,8 +8,8 @@ import {
 } from "./date-time";
 
 export const compatibilityCalendarTypeOptions = [
-  { label: "Dương lịch", value: "SOLAR" },
-  { label: "Âm lịch", value: "LUNAR" },
+  { label: "Dương lịch", value: "solar" },
+  { label: "Âm lịch", value: "lunar" },
 ] as const;
 
 const optionalName = z
@@ -37,7 +37,7 @@ const personSchema = z.object({
     })
     .transform((value) => birthDateInputToIsoDate(value)),
   birthTime: optionalBirthTime,
-  calendarType: z.enum(["SOLAR", "LUNAR"], {
+  calendarType: z.enum(["solar", "lunar"], {
     message: "Vui lòng chọn loại lịch.",
   }),
   fullName: optionalName,
