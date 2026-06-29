@@ -1,4 +1,5 @@
 import type { ReportRenderModel } from "@/lib/report-engine/report-schema";
+import { isKnownSource } from "@/lib/sources/source-resolver";
 
 export interface ReportValidationResult {
   confidenceWarnings: string[];
@@ -59,6 +60,12 @@ export function validateReport(report: ReportRenderModel): ReportValidationResul
       missingSources.push(`${whyItem.factCode}: missing sources`);
     }
 
+    for (const source of whyItem.sources) {
+      if (!isKnownSource(source.primary)) {
+        warnings.push(`${whyItem.factCode}: nguồn chưa xác định (${source.primary})`);
+      }
+    }
+
     if (whyItem.reason.length === 0) {
       missingSources.push(`${whyItem.factCode}: missing reason`);
     }
@@ -77,6 +84,10 @@ export function validateReport(report: ReportRenderModel): ReportValidationResul
   for (const source of report.sources) {
     if (!hasText(source.primary)) {
       missingSources.push(`${source.factCode ?? "unknown"}: missing primary source`);
+    } else if (!isKnownSource(source.primary)) {
+      warnings.push(
+        `${source.factCode ?? "unknown"}: nguồn chưa xác định (${source.primary})`,
+      );
     }
 
     if (!hasText(source.explanation)) {

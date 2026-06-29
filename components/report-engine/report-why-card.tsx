@@ -1,6 +1,7 @@
 import { HelpCircle } from "lucide-react";
 import { ReportSection } from "./report-section";
 import type { ReportRenderModel } from "@/lib/report-engine/report-schema";
+import { formatSourceLabel } from "@/lib/sources/source-resolver";
 
 export function ReportWhyCard({ report }: { report: ReportRenderModel }) {
   return (
@@ -26,7 +27,10 @@ export function ReportWhyCard({ report }: { report: ReportRenderModel }) {
               Rule: {item.rules.join(", ")}
             </p>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Nguồn: {item.sources.map((source) => source.primary).join(", ")}
+              Nguồn:{" "}
+              {item.sources
+                .map((source) => formatSourceLabel(source.primary))
+                .join(", ")}
             </p>
             <ul className="mt-3 grid gap-2">
               {item.reason.map((reason) => (
