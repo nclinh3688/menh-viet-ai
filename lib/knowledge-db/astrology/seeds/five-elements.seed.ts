@@ -7,6 +7,31 @@ interface ElementRelation {
   note: string;
 }
 
+interface FiveElementsOverviewSeed {
+  applications: {
+    astrology: string[];
+    compatibility: string[];
+    fengShui: string[];
+  };
+  category: KnowledgeCategory;
+  confidence: number;
+  controllingCycle: string[];
+  elements: Array<"Kim" | "Mộc" | "Thủy" | "Hỏa" | "Thổ">;
+  generatingCycle: string[];
+  id: string;
+  lastUpdated: string;
+  limitations: string[];
+  name: string;
+  references: KnowledgeReference[];
+  relatedKnowledge: string[];
+  slug: string;
+  sources: SourceId[];
+  summary: string;
+  tags: string[];
+  version: string;
+  whatIsIt: string;
+}
+
 export interface FiveElementSeedItem {
   applications: string[];
   category: KnowledgeCategory;
@@ -17,7 +42,12 @@ export interface FiveElementSeedItem {
   controllingRelation: ElementRelation;
   coreMeaning: string;
   careerTendencies: string[];
+  commonMisunderstandings: string[];
   element: "Kim" | "Mộc" | "Thủy" | "Hỏa" | "Thổ";
+  faq: Array<{
+    answer: string;
+    question: string;
+  }>;
   favorableColors: string[];
   favorableDirections: string[];
   favorableNumbers: string[];
@@ -31,7 +61,10 @@ export interface FiveElementSeedItem {
   name: string;
   references: KnowledgeReference[];
   relatedKnowledge: string[];
+  reportUsage: string[];
   relationshipTendencies: string[];
+  seoKeywords: string[];
+  shareInsightTemplates: string[];
   slug: string;
   sources: SourceId[];
   strengths: string[];
@@ -51,6 +84,43 @@ const sharedReferences: KnowledgeReference[] = [
   },
 ];
 
+export const FIVE_ELEMENTS_OVERVIEW_SEED: FiveElementsOverviewSeed = {
+  applications: {
+    astrology: ["đọc hành bản mệnh", "đối chiếu Can Chi/Nạp âm", "làm lớp nguồn cho Birth Report"],
+    compatibility: ["đối chiếu sinh khắc", "giải thích điểm hợp tuổi ở mức tham khảo"],
+    fengShui: ["gợi ý màu sắc", "gợi ý cách đọc môi trường sống ở mức nền"],
+  },
+  category: "CONCEPT",
+  confidence: 88,
+  controllingCycle: ["Mộc khắc Thổ", "Thổ khắc Thủy", "Thủy khắc Hỏa", "Hỏa khắc Kim", "Kim khắc Mộc"],
+  elements: ["Kim", "Mộc", "Thủy", "Hỏa", "Thổ"],
+  generatingCycle: ["Mộc sinh Hỏa", "Hỏa sinh Thổ", "Thổ sinh Kim", "Kim sinh Thủy", "Thủy sinh Mộc"],
+  id: "five-elements.overview",
+  lastUpdated: "2026-06-29",
+  limitations: [
+    "Chỉ là hệ quy chiếu tham khảo.",
+    "Không thay thế tư vấn y tế, pháp lý, tài chính hoặc quyết định chuyên môn.",
+    "Cần đọc cùng bối cảnh cá nhân và dữ liệu khác.",
+  ],
+  name: "Tổng quan Ngũ Hành",
+  references: sharedReferences,
+  relatedKnowledge: [
+    "five-elements.kim.foundation",
+    "five-elements.moc.foundation",
+    "five-elements.thuy.foundation",
+    "five-elements.hoa.foundation",
+    "five-elements.tho.foundation",
+  ],
+  slug: "tong-quan-ngu-hanh",
+  sources: ["FIVE_ELEMENTS"],
+  summary:
+    "Tổng quan cấu trúc Ngũ Hành, gồm 5 hành, vòng tương sinh, vòng tương khắc và phạm vi ứng dụng tham khảo.",
+  tags: ["ngu-hanh", "tong-quan", "tuong-sinh", "tuong-khac", "phong-thuy", "hop-tuoi"],
+  version: "1.0.0",
+  whatIsIt:
+    "Ngũ Hành là hệ quy chiếu gồm Kim, Mộc, Thủy, Hỏa, Thổ, dùng để mô tả quan hệ sinh khắc và các lớp gợi ý biểu tượng trong văn hóa phương Đông.",
+};
+
 export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
   {
     applications: ["màu sắc tham khảo", "định hướng nghề nghiệp", "tự quan sát phong cách ra quyết định"],
@@ -62,7 +132,12 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     controllingRelation: { element: "Mộc", note: "Kim khắc Mộc trong vòng tương khắc." },
     coreMeaning: "Kim thường gắn với cấu trúc, kỷ luật, chuẩn mực và khả năng tinh chỉnh.",
     careerTendencies: ["quản trị", "tài chính", "kỹ thuật", "pháp lý", "vận hành có quy chuẩn"],
+    commonMisunderstandings: ["Kim không chỉ nói về tiền bạc.", "Màu hợp chỉ là gợi ý biểu tượng."],
     element: "Kim",
+    faq: [
+      { question: "Hành Kim hợp màu gì?", answer: "Các nhóm trắng, xám, ghi và màu thuộc Thổ thường được dùng làm gợi ý tham khảo." },
+      { question: "Kim nên đọc trong report thế nào?", answer: "Ưu tiên đọc như xu hướng cấu trúc, tiêu chuẩn và cách tổ chức." },
+    ],
     favorableColors: ["trắng", "xám", "ghi", "vàng nhạt", "nâu đất"],
     favorableDirections: [],
     favorableNumbers: ["6", "7"],
@@ -75,8 +150,11 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     lastUpdated: "2026-06-29",
     name: "Kim",
     references: sharedReferences,
-    relatedKnowledge: ["concept.five-elements.overview"],
+    relatedKnowledge: ["five-elements.overview", "five-elements.tho.foundation", "five-elements.thuy.foundation", "five-elements.hoa.foundation", "five-elements.moc.foundation"],
+    reportUsage: ["Birth Report dùng Kim để giải thích xu hướng cấu trúc và quản trị.", "Why Card có thể trỏ về nguồn FIVE_ELEMENTS."],
     relationshipTendencies: ["coi trọng ranh giới", "thích cam kết rõ", "nên mềm hóa khi trao đổi"],
+    seoKeywords: ["mệnh Kim", "ngũ hành Kim", "màu hợp mệnh Kim", "số hợp mệnh Kim"],
+    shareInsightTemplates: ["Hành Kim gợi ý xu hướng rõ ràng, kỷ luật và thích cấu trúc."],
     slug: "ngu-hanh-kim",
     sources: ["FIVE_ELEMENTS"],
     strengths: ["tổ chức", "kỷ luật", "tư duy hệ thống"],
@@ -96,7 +174,12 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     controllingRelation: { element: "Thổ", note: "Mộc khắc Thổ trong vòng tương khắc." },
     coreMeaning: "Mộc thường gắn với sinh trưởng, kết nối, linh hoạt và phát triển dài hạn.",
     careerTendencies: ["giáo dục", "sáng tạo", "tư vấn", "phát triển sản phẩm", "xây dựng cộng đồng"],
+    commonMisunderstandings: ["Mộc không chỉ là cây cối theo nghĩa vật lý.", "Tăng trưởng cần đi cùng ranh giới và nhịp ổn định."],
     element: "Mộc",
+    faq: [
+      { question: "Hành Mộc hợp màu gì?", answer: "Xanh lá và nhóm màu thuộc Thủy thường được dùng làm gợi ý tham khảo." },
+      { question: "Mộc dùng trong báo cáo ra sao?", answer: "Mệnh Việt dùng Mộc để đọc xu hướng phát triển, kết nối và học hỏi." },
+    ],
     favorableColors: ["xanh lá", "xanh lục", "xanh dương", "đen"],
     favorableDirections: [],
     favorableNumbers: ["3", "4"],
@@ -109,8 +192,11 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     lastUpdated: "2026-06-29",
     name: "Mộc",
     references: sharedReferences,
-    relatedKnowledge: ["concept.five-elements.overview"],
+    relatedKnowledge: ["five-elements.overview", "five-elements.thuy.foundation", "five-elements.hoa.foundation", "five-elements.kim.foundation", "five-elements.tho.foundation"],
+    reportUsage: ["Birth Report dùng Mộc để giải thích xu hướng tăng trưởng và kết nối.", "Ngũ Hành page dùng Mộc cho màu, số và quan hệ sinh khắc."],
     relationshipTendencies: ["thích nuôi dưỡng", "coi trọng sự phát triển chung", "nên tránh ôm quá nhiều vai trò"],
+    seoKeywords: ["mệnh Mộc", "ngũ hành Mộc", "màu hợp mệnh Mộc", "số hợp mệnh Mộc"],
+    shareInsightTemplates: ["Hành Mộc gợi ý xu hướng phát triển, kết nối và mở rộng từng bước."],
     slug: "ngu-hanh-moc",
     sources: ["FIVE_ELEMENTS"],
     strengths: ["tăng trưởng", "linh hoạt", "kết nối"],
@@ -130,7 +216,12 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     controllingRelation: { element: "Hỏa", note: "Thủy khắc Hỏa trong vòng tương khắc." },
     coreMeaning: "Thủy thường gắn với dòng chảy, giao tiếp, khả năng thích nghi và chiều sâu quan sát.",
     careerTendencies: ["truyền thông", "nghiên cứu", "dịch vụ", "thương mại", "phân tích thông tin"],
+    commonMisunderstandings: ["Thủy không đồng nghĩa với thiếu ổn định.", "Tính thích nghi cần được đọc cùng bối cảnh."],
     element: "Thủy",
+    faq: [
+      { question: "Hành Thủy hợp màu gì?", answer: "Đen, xanh dương và nhóm màu thuộc Kim thường được dùng làm gợi ý tham khảo." },
+      { question: "Thủy thể hiện gì trong report?", answer: "Thủy giúp đọc xu hướng giao tiếp, quan sát và thích nghi." },
+    ],
     favorableColors: ["đen", "xanh dương", "trắng", "xám"],
     favorableDirections: [],
     favorableNumbers: ["1"],
@@ -143,8 +234,11 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     lastUpdated: "2026-06-29",
     name: "Thủy",
     references: sharedReferences,
-    relatedKnowledge: ["concept.five-elements.overview"],
+    relatedKnowledge: ["five-elements.overview", "five-elements.kim.foundation", "five-elements.moc.foundation", "five-elements.tho.foundation", "five-elements.hoa.foundation"],
+    reportUsage: ["Birth Report dùng Thủy để giải thích xu hướng giao tiếp và thích nghi.", "Why Card có thể dùng quan hệ Kim sinh Thủy và Thủy sinh Mộc."],
     relationshipTendencies: ["lắng nghe tốt", "dễ cảm nhận thay đổi", "nên nói rõ nhu cầu thay vì giữ trong lòng"],
+    seoKeywords: ["mệnh Thủy", "ngũ hành Thủy", "màu hợp mệnh Thủy", "số hợp mệnh Thủy"],
+    shareInsightTemplates: ["Hành Thủy gợi ý khả năng quan sát, thích nghi và đọc bối cảnh."],
     slug: "ngu-hanh-thuy",
     sources: ["FIVE_ELEMENTS"],
     strengths: ["thích nghi", "giao tiếp", "quan sát"],
@@ -164,7 +258,12 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     controllingRelation: { element: "Kim", note: "Hỏa khắc Kim trong vòng tương khắc." },
     coreMeaning: "Hỏa thường gắn với nhiệt huyết, hành động, sự lan tỏa và khả năng truyền cảm hứng.",
     careerTendencies: ["kinh doanh", "truyền thông", "dẫn dắt nhóm", "sáng tạo", "tổ chức sự kiện"],
+    commonMisunderstandings: ["Hỏa không chỉ là nóng nảy.", "Năng lượng hành động cần đi cùng nhịp nghỉ và dữ liệu thực tế."],
     element: "Hỏa",
+    faq: [
+      { question: "Hành Hỏa hợp màu gì?", answer: "Đỏ, cam, tím và nhóm xanh lá thường được dùng làm gợi ý tham khảo." },
+      { question: "Hỏa dùng trong Birth Report thế nào?", answer: "Hỏa hỗ trợ đọc xu hướng hành động, lan tỏa và truyền cảm hứng." },
+    ],
     favorableColors: ["đỏ", "cam", "tím", "xanh lá"],
     favorableDirections: [],
     favorableNumbers: ["9"],
@@ -177,8 +276,11 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     lastUpdated: "2026-06-29",
     name: "Hỏa",
     references: sharedReferences,
-    relatedKnowledge: ["concept.five-elements.overview"],
+    relatedKnowledge: ["five-elements.overview", "five-elements.moc.foundation", "five-elements.tho.foundation", "five-elements.thuy.foundation", "five-elements.kim.foundation"],
+    reportUsage: ["Birth Report dùng Hỏa để giải thích xu hướng chủ động và dẫn dắt.", "Share Card có thể dùng Hỏa như insight về năng lượng hành động."],
     relationshipTendencies: ["thể hiện rõ", "dễ tạo cảm hứng", "nên lắng nghe nhịp cảm xúc của người khác"],
+    seoKeywords: ["mệnh Hỏa", "ngũ hành Hỏa", "màu hợp mệnh Hỏa", "số hợp mệnh Hỏa"],
+    shareInsightTemplates: ["Hành Hỏa gợi ý năng lượng chủ động, lan tỏa và truyền cảm hứng."],
     slug: "ngu-hanh-hoa",
     sources: ["FIVE_ELEMENTS"],
     strengths: ["chủ động", "truyền cảm hứng", "quyết đoán có điều kiện"],
@@ -198,7 +300,12 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     controllingRelation: { element: "Thủy", note: "Thổ khắc Thủy trong vòng tương khắc." },
     coreMeaning: "Thổ thường gắn với nền tảng, sự ổn định, khả năng nâng đỡ và tính thực tế.",
     careerTendencies: ["vận hành", "quản lý dự án", "bất động sản", "nhân sự", "xây dựng quy trình"],
+    commonMisunderstandings: ["Thổ không chỉ là chậm hoặc bảo thủ.", "Ổn định cần đi cùng khả năng điều chỉnh."],
     element: "Thổ",
+    faq: [
+      { question: "Hành Thổ hợp màu gì?", answer: "Vàng, nâu đất và nhóm màu thuộc Hỏa thường được dùng làm gợi ý tham khảo." },
+      { question: "Thổ dùng trong report ra sao?", answer: "Thổ giúp đọc xu hướng ổn định, trách nhiệm và xây nền." },
+    ],
     favorableColors: ["vàng", "nâu đất", "đỏ", "cam", "tím"],
     favorableDirections: [],
     favorableNumbers: ["2", "5", "8"],
@@ -211,8 +318,11 @@ export const FIVE_ELEMENTS_KNOWLEDGE_SEED: FiveElementSeedItem[] = [
     lastUpdated: "2026-06-29",
     name: "Thổ",
     references: sharedReferences,
-    relatedKnowledge: ["concept.five-elements.overview"],
+    relatedKnowledge: ["five-elements.overview", "five-elements.hoa.foundation", "five-elements.kim.foundation", "five-elements.moc.foundation", "five-elements.thuy.foundation"],
+    reportUsage: ["Birth Report dùng Thổ để giải thích xu hướng ổn định và vận hành.", "Ngũ Hành page dùng Thổ cho màu, số và quan hệ sinh khắc."],
     relationshipTendencies: ["đề cao trách nhiệm", "ưa sự bền bỉ", "nên linh hoạt khi bối cảnh thay đổi"],
+    seoKeywords: ["mệnh Thổ", "ngũ hành Thổ", "màu hợp mệnh Thổ", "số hợp mệnh Thổ"],
+    shareInsightTemplates: ["Hành Thổ gợi ý xu hướng ổn định, thực tế và nâng đỡ."],
     slug: "ngu-hanh-tho",
     sources: ["FIVE_ELEMENTS"],
     strengths: ["ổn định", "thực tế", "giữ nhịp"],
@@ -234,11 +344,44 @@ function toContent(item: FiveElementSeedItem) {
     `Màu nên tiết chế: ${item.cautiousColors.join(", ")}.`,
     `Quan hệ tương sinh: ${item.generatedBy.element} sinh ${item.element}; ${item.element} sinh ${item.generatingRelation.element}.`,
     `Quan hệ tương khắc: ${item.controlledBy.element} khắc ${item.element}; ${item.element} khắc ${item.controllingRelation.element}.`,
+    `Ứng dụng trong report: ${item.reportUsage.join(", ")}.`,
+    `Hiểu nhầm thường gặp: ${item.commonMisunderstandings.join(", ")}.`,
+    `FAQ: ${item.faq.map((entry) => `${entry.question} ${entry.answer}`).join(" ")}`,
   ].join(" ");
 }
 
-export const FIVE_ELEMENTS_KNOWLEDGE_ITEMS: KnowledgeItem[] =
-  FIVE_ELEMENTS_KNOWLEDGE_SEED.map((item) => ({
+function overviewToContent(item: FiveElementsOverviewSeed) {
+  return [
+    item.whatIsIt,
+    `Năm hành: ${item.elements.join(", ")}.`,
+    `Tương sinh: ${item.generatingCycle.join(", ")}.`,
+    `Tương khắc: ${item.controllingCycle.join(", ")}.`,
+    `Ứng dụng tử vi: ${item.applications.astrology.join(", ")}.`,
+    `Ứng dụng phong thủy: ${item.applications.fengShui.join(", ")}.`,
+    `Ứng dụng hợp tuổi: ${item.applications.compatibility.join(", ")}.`,
+    `Giới hạn: ${item.limitations.join(" ")}`,
+  ].join(" ");
+}
+
+export const FIVE_ELEMENTS_OVERVIEW_KNOWLEDGE_ITEM: KnowledgeItem = {
+  category: FIVE_ELEMENTS_OVERVIEW_SEED.category,
+  confidence: FIVE_ELEMENTS_OVERVIEW_SEED.confidence,
+  content: overviewToContent(FIVE_ELEMENTS_OVERVIEW_SEED),
+  id: FIVE_ELEMENTS_OVERVIEW_SEED.id,
+  lastUpdated: FIVE_ELEMENTS_OVERVIEW_SEED.lastUpdated,
+  references: FIVE_ELEMENTS_OVERVIEW_SEED.references,
+  relatedKnowledge: FIVE_ELEMENTS_OVERVIEW_SEED.relatedKnowledge,
+  slug: FIVE_ELEMENTS_OVERVIEW_SEED.slug,
+  sources: FIVE_ELEMENTS_OVERVIEW_SEED.sources,
+  summary: FIVE_ELEMENTS_OVERVIEW_SEED.summary,
+  tags: FIVE_ELEMENTS_OVERVIEW_SEED.tags,
+  title: FIVE_ELEMENTS_OVERVIEW_SEED.name,
+  version: FIVE_ELEMENTS_OVERVIEW_SEED.version,
+};
+
+export const FIVE_ELEMENTS_KNOWLEDGE_ITEMS: KnowledgeItem[] = [
+  FIVE_ELEMENTS_OVERVIEW_KNOWLEDGE_ITEM,
+  ...FIVE_ELEMENTS_KNOWLEDGE_SEED.map((item) => ({
     category: item.category,
     confidence: item.confidence,
     content: toContent(item),
@@ -249,7 +392,8 @@ export const FIVE_ELEMENTS_KNOWLEDGE_ITEMS: KnowledgeItem[] =
     slug: item.slug,
     sources: item.sources,
     summary: item.summary,
-    tags: item.tags,
+    tags: [...new Set([...item.tags, ...item.seoKeywords])],
     title: `Ngũ Hành ${item.name}`,
     version: item.version,
-  }));
+  })),
+];

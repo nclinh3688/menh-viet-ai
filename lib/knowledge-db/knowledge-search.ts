@@ -1,6 +1,7 @@
 import type { KnowledgeCategory } from "./knowledge-category";
 import { loadKnowledgeItems } from "./knowledge-loader";
 import type { KnowledgeItem } from "./knowledge-item";
+import { getRelatedKnowledgeIds } from "./graph/knowledge-link-resolver";
 
 export interface KnowledgeSearchInput {
   category?: KnowledgeCategory;
@@ -64,4 +65,16 @@ export function getKnowledgeById(id: string) {
 
 export function getKnowledgeBySlug(slug: string) {
   return searchKnowledge({ slug })[0] ?? null;
+}
+
+export function searchKnowledgeWithRelated(input: KnowledgeSearchInput) {
+  const items = searchKnowledge(input);
+  const allItems = loadKnowledgeItems().index.byId;
+
+  return items.map((item) => ({
+    item,
+    relatedKnowledge: getRelatedKnowledgeIds(item.id)
+      .map((knowledgeId) => allItems.get(knowledgeId))
+      .filter((relatedItem) => relatedItem != null),
+  }));
 }

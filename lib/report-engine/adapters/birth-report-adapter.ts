@@ -1,4 +1,5 @@
 import type { BirthChart, Profile } from "@prisma/client";
+import { getFiveElementReportFacts } from "@/lib/knowledge-db/astrology/five-elements-pack";
 import { renderSectionNarrative } from "@/lib/narrative/section-template-registry";
 import { renderReportModel } from "@/lib/report-engine/report-renderer";
 import type { ReportRenderModel, ReportSourceItem } from "@/lib/report-engine/report-schema";
@@ -230,9 +231,15 @@ function buildSourceExplanations(
   report: ReportRenderModel,
   input: BuildBirthReportInput,
 ): ReportSourceItem[] {
+  const fiveElementFacts = getFiveElementReportFacts(input.birthChart.element);
+
   return report.sources.map((source) => ({
     ...source,
-    explanation: `Nguồn ${formatSourceLabel(source.primary)} được dùng để tạo fact ${source.factCode ?? "không xác định"} từ dữ liệu ${input.birthChart.heavenlyStem} ${input.birthChart.earthlyBranch}, hành ${input.birthChart.element}, Nạp âm ${input.birthChart.napAm} và Cung Phi ${input.birthChart.cungPhi}. Lý do: source này có liên hệ trực tiếp với rule đã khớp, confidence ${source.confidence}%.`,
+    explanation: `Nguồn ${formatSourceLabel(source.primary)} được dùng để tạo fact ${source.factCode ?? "không xác định"} từ dữ liệu ${input.birthChart.heavenlyStem} ${input.birthChart.earthlyBranch}, hành ${input.birthChart.element}, Nạp âm ${input.birthChart.napAm} và Cung Phi ${input.birthChart.cungPhi}. ${
+      source.primary === "FIVE_ELEMENTS" && fiveElementFacts != null
+        ? `Knowledge Pack dùng item ${fiveElementFacts.id}: ${fiveElementFacts.coreMeaning}`
+        : "Lý do: source này có liên hệ trực tiếp với rule đã khớp."
+    } Confidence ${source.confidence}%.`,
   }));
 }
 
@@ -245,9 +252,13 @@ function buildDepthSections(
   const luckyNumbers = parseStringList(input.birthChart.luckyNumbers);
   const colorsText = joinReadable(luckyColors, "nhóm màu hợp từ Ngũ Hành");
   const numbersText = joinReadable(luckyNumbers, "nhóm số hợp từ Ngũ Hành");
+  const fiveElementFacts = getFiveElementReportFacts(input.birthChart.element);
   const personality = [
     `Điều Mệnh Việt nhận thấy: ${context.canChiLabel}, hành ${input.birthChart.element} và Nạp âm ${input.birthChart.napAm} tạo lớp dữ liệu chính cho phần con người.`,
     `Vì sao: source ${formatSourceLabel("CAN_CHI")}, ${formatSourceLabel("FIVE_ELEMENTS")} và ${formatSourceLabel("NAP_AM")} đều đến từ BirthChart đã lưu.`,
+    fiveElementFacts == null
+      ? "Knowledge Pack Ngũ Hành chưa có item tương ứng cho hành này."
+      : `Knowledge Pack Ngũ Hành ghi nhận: ${fiveElementFacts.coreMeaning}`,
     `Gợi ý áp dụng: quan sát lúc bạn có nhiều năng lượng nhất trong ngày, rồi đối chiếu với ${context.dailyScoreText}.`,
   ];
 
@@ -279,6 +290,7 @@ function buildDepthSections(
       ...personality,
       `Dùng màu ${colorsText} như một gợi ý thẩm mỹ hoặc nhắc nhớ cá nhân.`,
       `Dùng số ${numbersText} như tín hiệu biểu tượng, không thay thế quyết định thực tế.`,
+      ...(fiveElementFacts?.reportUsage.slice(0, 1) ?? []),
       `Ưu tiên hướng ${context.directionsText} khi bố trí góc làm việc nếu điều kiện không gian phù hợp.`,
     ],
     relationship: [
