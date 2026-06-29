@@ -13,12 +13,12 @@ const lockedFeatures = [
   {
     description: "Tải báo cáo cá nhân hóa để lưu trữ hoặc chia sẻ khi cần.",
     icon: FileText,
-    title: "Báo cáo PDF",
+    title: "Báo cáo PDF cá nhân",
   },
   {
     description: "Đặt câu hỏi theo hồ sơ cá nhân với guardrail an toàn.",
     icon: Bot,
-    title: "AI tư vấn cá nhân",
+    title: "AI tư vấn vận trình",
   },
   {
     description: "Xem các giai đoạn nổi bật trong năm theo hệ quy chiếu tham khảo.",
@@ -35,7 +35,7 @@ export function PremiumLockedCards() {
     >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <SectionTitle title="Mở khóa Premium" />
+          <SectionTitle title="Tính năng nâng cao" />
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
             Các báo cáo nâng cao sẽ được mở khi có gói Premium. Chưa tích hợp thanh toán thật.
           </p>

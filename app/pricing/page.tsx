@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Check, Clock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: `Pricing | ${APP_NAME}`,
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 const plans = [
   {
-    cta: "Dùng miễn phí",
+    cta: "Bắt đầu miễn phí",
     description: "Dành cho người mới muốn thử các phân tích cơ bản.",
     features: [
       "3 lượt phân tích/ngày",
@@ -28,7 +29,7 @@ const plans = [
     price: "0đ",
   },
   {
-    cta: "Đăng nhập miễn phí",
+    cta: "Đăng nhập để lưu",
     description: "Dành cho người muốn lưu hồ sơ và dùng nhiều hơn sau này.",
     features: [
       "10 lượt/ngày",
@@ -41,12 +42,13 @@ const plans = [
     price: "0đ",
   },
   {
-    cta: "Tham gia danh sách chờ",
+    cta: "Sắp ra mắt",
     description: "Dành cho người cần phân tích sâu hơn và lưu lịch sử.",
     features: [
       "Không giới hạn phân tích cơ bản",
       "Luận giải chuyên sâu",
       "Lưu lịch sử",
+      "Vận trình 12 tháng",
       "Báo cáo PDF sau này",
     ],
     href: "/login",
@@ -57,6 +59,7 @@ const plans = [
     cta: "Sắp ra mắt",
     description: "Dành cho người dùng cần AI Coach và báo cáo nâng cao.",
     features: [
+      "Tất cả Premium",
       "AI Coach",
       "PDF nâng cao",
       "Tư vấn cá nhân hóa",
@@ -65,6 +68,24 @@ const plans = [
     href: "/login",
     name: "Pro",
     price: "199.000đ/tháng",
+  },
+];
+
+const faqs = [
+  {
+    answer:
+      "Không. Bạn vẫn có thể dùng các tính năng cơ bản trước, đăng nhập chỉ dùng để lưu hồ sơ và tăng giới hạn sau này.",
+    question: "Tôi có cần đăng nhập để dùng không?",
+  },
+  {
+    answer:
+      "Chưa. Premium và Pro đang ở trạng thái chuẩn bị, chưa có payment thật trong sprint này.",
+    question: "Premium đã thanh toán được chưa?",
+  },
+  {
+    answer:
+      "Free có 3 lượt phân tích/ngày. Registered dự kiến có 10 lượt/ngày. Premium và Pro không giới hạn phân tích cơ bản.",
+    question: "Giới hạn lượt dùng hoạt động thế nào?",
   },
 ];
 
@@ -85,7 +106,11 @@ export default function PricingPage() {
       <section className="mt-8 grid gap-5 lg:grid-cols-4">
         {plans.map((plan) => (
           <article
-            className="flex rounded-md border bg-card/68 p-5 shadow-2xl shadow-primary/8 backdrop-blur-xl"
+            className={cn(
+              "flex rounded-md border bg-card/68 p-5 shadow-2xl shadow-primary/8 backdrop-blur-xl",
+              plan.name === "Premium" &&
+                "border-primary/50 bg-primary/10 shadow-primary/16",
+            )}
             key={plan.name}
           >
             <div className="flex w-full flex-col">
@@ -101,7 +126,7 @@ export default function PricingPage() {
                 {plan.name === "Premium" || plan.name === "Pro" ? (
                   <span className="inline-flex items-center gap-1 rounded-full border border-primary/25 bg-primary/8 px-2 py-1 text-xs font-semibold text-primary">
                     <Sparkles className="size-3" />
-                    Soon
+                    {plan.name === "Premium" ? "Nổi bật" : "Soon"}
                   </span>
                 ) : null}
               </div>
@@ -136,9 +161,24 @@ export default function PricingPage() {
       </section>
 
       <p className="mt-8 rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
-        Chưa tích hợp thanh toán thật. Premium/Pro sẽ được triển khai sau khi có
-        auth, usage tracking và chính sách hoàn tiền rõ ràng.
+        Nội dung chỉ mang tính tham khảo và khám phá bản thân. Chưa tích hợp
+        thanh toán thật. Premium/Pro sẽ được triển khai sau khi có auth, usage
+        tracking và chính sách hoàn tiền rõ ràng.
       </p>
+
+      <section className="mt-10">
+        <h2 className="text-2xl font-semibold text-foreground">FAQ</h2>
+        <div className="mt-5 grid gap-4 md:grid-cols-3">
+          {faqs.map((faq) => (
+            <article className="rounded-md border bg-card/64 p-5 backdrop-blur-xl" key={faq.question}>
+              <h3 className="font-semibold text-foreground">{faq.question}</h3>
+              <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                {faq.answer}
+              </p>
+            </article>
+          ))}
+        </div>
+      </section>
     </main>
   );
 }
