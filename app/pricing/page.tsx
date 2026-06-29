@@ -34,8 +34,8 @@ const plans = [
     features: [
       "10 lượt/ngày",
       "Lưu hồ sơ sau này",
+      "Lưu lịch sử cơ bản sau này",
       "Đồng bộ nhiều thiết bị sau này",
-      "Chuẩn bị lịch sử phân tích",
     ],
     href: "/login",
     name: "Registered",
@@ -47,7 +47,7 @@ const plans = [
     features: [
       "Không giới hạn phân tích cơ bản",
       "Luận giải chuyên sâu",
-      "Lưu lịch sử",
+      "Lưu lịch sử không giới hạn sau này",
       "Vận trình 12 tháng",
       "Báo cáo PDF sau này",
     ],

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SaveProfileCta } from "@/components/auth/save-profile-cta";
 import { UsageLimitBanner } from "@/components/subscription/usage-limit-banner";
 import { DailyFortuneHero } from "@/components/dashboard/daily-fortune-hero";
 import { DashboardEmptyState } from "@/components/dashboard/dashboard-empty-state";
@@ -9,6 +8,7 @@ import { FateOverview } from "@/components/dashboard/fate-overview";
 import { FeatureShortcuts } from "@/components/dashboard/feature-shortcuts";
 import { PersonalSuggestions } from "@/components/dashboard/personal-suggestions";
 import { PremiumLockedCards } from "@/components/dashboard/premium-locked-cards";
+import { SaveAnalysisCta } from "@/components/history/save-analysis-cta";
 import { generateBirthChart, generateDailyFortuneDemo } from "@/lib/astrology";
 import { APP_NAME } from "@/lib/constants";
 import { db } from "@/lib/db";
@@ -111,7 +111,7 @@ export default async function DashboardPage({
           unluckyColors={unluckyColors}
         />
       </div>
-      <SaveProfileCta />
+      <SaveAnalysisCta />
       <PremiumLockedCards />
       <FeatureShortcuts />
     </main>
