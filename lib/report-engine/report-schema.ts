@@ -1,4 +1,5 @@
 import type { Fact, FactCode, Recommendation, RuleSource, Score } from "@/lib/rule-engine/rule-types";
+import type { SourceId } from "@/lib/sources/source-types";
 
 export interface ReportTextBlock {
   body: string;
@@ -15,9 +16,9 @@ export interface ReportSourceItem {
   confidence: number;
   explanation: string;
   factCode?: FactCode;
-  primary: string;
+  primary: SourceId;
   references: string[];
-  secondary: string[];
+  secondary: SourceId[];
 }
 
 export interface ReportWhyItem {

@@ -1,6 +1,7 @@
 import { FileCheck2 } from "lucide-react";
 import { ReportSection } from "./report-section";
 import type { ReportRenderModel } from "@/lib/report-engine/report-schema";
+import { formatSourceLabel } from "@/lib/sources/source-resolver";
 
 export function ReportFooter({ report }: { report: ReportRenderModel }) {
   return (
@@ -17,9 +18,9 @@ export function ReportFooter({ report }: { report: ReportRenderModel }) {
             key={`${source.primary}-${source.factCode ?? index}`}
           >
             <p className="font-semibold text-foreground">
-              {source.primary}
+              {formatSourceLabel(source.primary)}
               {source.secondary.length > 0
-                ? ` · ${source.secondary.join(", ")}`
+                ? ` · ${source.secondary.map((item) => formatSourceLabel(item)).join(", ")}`
                 : ""}
             </p>
             <p className="mt-1 text-sm text-muted-foreground">

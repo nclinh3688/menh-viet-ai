@@ -1,4 +1,5 @@
 import type { FactCode, RuleEngineOutput, RuleSource } from "@/lib/rule-engine/rule-types";
+import { formatSourceLabel } from "@/lib/sources/source-resolver";
 import type {
   ReportDiscoveryItem,
   ReportListSection,
@@ -81,7 +82,7 @@ function buildSources(output: RuleEngineOutput): ReportSourceItem[] {
   return output.facts.flatMap((fact) =>
     fact.source.map((source) => ({
       confidence: fact.confidence,
-      explanation: `Nguồn ${source.primary} tạo fact ${fact.code} thông qua rule ${fact.ruleIds.join(", ")}.`,
+      explanation: `Nguồn ${formatSourceLabel(source.primary)} tạo fact ${fact.code} thông qua rule ${fact.ruleIds.join(", ")}.`,
       factCode: fact.code,
       primary: source.primary,
       references: source.references ?? [],

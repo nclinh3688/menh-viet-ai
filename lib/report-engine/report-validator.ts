@@ -1,5 +1,5 @@
 import type { ReportRenderModel } from "@/lib/report-engine/report-schema";
-import { isKnownSource } from "@/lib/sources/source-resolver";
+import { isKnownSource, isLegacySourceLabel } from "@/lib/sources/source-resolver";
 
 export interface ReportValidationResult {
   confidenceWarnings: string[];
@@ -11,6 +11,23 @@ export interface ReportValidationResult {
 
 function hasText(value: string | undefined) {
   return value != null && value.trim().length > 0;
+}
+
+function validateSourceId(
+  sourceId: string,
+  context: string,
+  warnings: string[],
+) {
+  if (isLegacySourceLabel(sourceId)) {
+    warnings.push(
+      `${context}: nguồn legacy label nên được chuyển sang SourceId (${sourceId})`,
+    );
+    return;
+  }
+
+  if (!isKnownSource(sourceId)) {
+    warnings.push(`${context}: nguồn chưa xác định (${sourceId})`);
+  }
 }
 
 export function validateReport(report: ReportRenderModel): ReportValidationResult {
@@ -61,8 +78,14 @@ export function validateReport(report: ReportRenderModel): ReportValidationResul
     }
 
     for (const source of whyItem.sources) {
-      if (!isKnownSource(source.primary)) {
-        warnings.push(`${whyItem.factCode}: nguồn chưa xác định (${source.primary})`);
+      validateSourceId(source.primary, `${whyItem.factCode}: primary source`, warnings);
+
+      for (const secondarySource of source.secondary ?? []) {
+        validateSourceId(
+          secondarySource,
+          `${whyItem.factCode}: secondary source`,
+          warnings,
+        );
       }
     }
 
@@ -84,9 +107,19 @@ export function validateReport(report: ReportRenderModel): ReportValidationResul
   for (const source of report.sources) {
     if (!hasText(source.primary)) {
       missingSources.push(`${source.factCode ?? "unknown"}: missing primary source`);
-    } else if (!isKnownSource(source.primary)) {
-      warnings.push(
-        `${source.factCode ?? "unknown"}: nguồn chưa xác định (${source.primary})`,
+    } else {
+      validateSourceId(
+        source.primary,
+        `${source.factCode ?? "unknown"}: primary source`,
+        warnings,
+      );
+    }
+
+    for (const secondarySource of source.secondary) {
+      validateSourceId(
+        secondarySource,
+        `${source.factCode ?? "unknown"}: secondary source`,
+        warnings,
       );
     }
 

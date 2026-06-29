@@ -1,3 +1,5 @@
+import type { SourceId } from "@/lib/sources/source-types";
+
 export type RuleDomain =
   | "BIRTH_CHART"
   | "CAREER"
@@ -49,8 +51,8 @@ export interface RuleCondition {
 }
 
 export interface RuleSource {
-  primary: string;
-  secondary?: string[];
+  primary: SourceId;
+  secondary?: SourceId[];
   references?: string[];
 }
 

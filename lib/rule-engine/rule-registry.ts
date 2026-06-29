@@ -21,7 +21,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 80,
     source: {
-      primary: "Ngũ Hành",
+      primary: "FIVE_ELEMENTS",
       references: ["/lib/astrology/elements.ts"],
     },
     weight: 40,
@@ -46,7 +46,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 78,
     source: {
-      primary: "Ngũ Hành",
+      primary: "FIVE_ELEMENTS",
       references: ["/lib/astrology/elements.ts"],
     },
     weight: 40,
@@ -71,7 +71,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 78,
     source: {
-      primary: "Ngũ Hành",
+      primary: "FIVE_ELEMENTS",
       references: ["/lib/astrology/elements.ts"],
     },
     weight: 40,
@@ -94,7 +94,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 60,
     source: {
-      primary: "Can Chi",
+      primary: "CAN_CHI",
       references: ["/lib/astrology/can-chi.ts"],
     },
     weight: 25,
@@ -114,7 +114,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 55,
     source: {
-      primary: "Cung Phi",
+      primary: "CUNG_PHI",
       references: ["/lib/astrology/cung-phi.ts"],
     },
     weight: 20,
@@ -134,7 +134,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 42,
     source: {
-      primary: "Thần số học",
+      primary: "NUMEROLOGY",
       references: ["/lib/numerology/profiles.ts"],
     },
     weight: 15,
@@ -154,7 +154,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 40,
     source: {
-      primary: "Thần số học",
+      primary: "NUMEROLOGY",
       references: ["/lib/numerology/profiles.ts"],
     },
     weight: 15,
@@ -174,7 +174,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 76,
     source: {
-      primary: "Ngũ Hành",
+      primary: "FIVE_ELEMENTS",
       references: ["/lib/astrology/elements.ts"],
     },
     weight: 40,
@@ -194,7 +194,7 @@ export const ruleRegistry: Rule[] = [
     ],
     priority: 76,
     source: {
-      primary: "Ngũ Hành",
+      primary: "FIVE_ELEMENTS",
       references: ["/lib/astrology/elements.ts"],
     },
     weight: 40,

@@ -40,3 +40,7 @@ export function formatSourceLabel(id: string) {
 export function isKnownSource(id: string) {
   return getSourceById(id) != null;
 }
+
+export function isLegacySourceLabel(id: string) {
+  return id in legacySourceAliases;
+}
