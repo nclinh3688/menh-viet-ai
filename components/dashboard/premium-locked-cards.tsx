@@ -28,7 +28,10 @@ const lockedFeatures = [
 
 export function PremiumLockedCards() {
   return (
-    <section className="rounded-lg border bg-card/64 p-5 backdrop-blur-xl md:p-6">
+    <section
+      className="rounded-lg border bg-card/64 p-5 backdrop-blur-xl md:p-6"
+      id="premium-preview"
+    >
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <SectionTitle title="Mở khóa Premium" />

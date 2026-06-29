@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { SaveProfileCta } from "@/components/auth/save-profile-cta";
 import { DailyFortuneHero } from "@/components/dashboard/daily-fortune-hero";
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { FateOverview } from "@/components/dashboard/fate-overview";
@@ -122,6 +123,7 @@ export default async function DashboardPage({
           unluckyColors={unluckyColors}
         />
       </div>
+      <SaveProfileCta />
       <PremiumLockedCards />
       <FeatureShortcuts />
     </main>

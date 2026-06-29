@@ -60,8 +60,8 @@ export function HomeHero() {
             Khám phá vận mệnh của bạn bằng AI
           </h1>
           <p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground md:text-lg">
-            Tạo hồ sơ ngày sinh để xem Can Chi, Ngũ hành, Cung Phi, màu hợp,
-            hướng hợp và dashboard cá nhân hóa theo hệ quy chiếu tham khảo.
+            Nhập ngày sinh để xem Can Chi, Ngũ hành, Cung Phi, màu hợp, hướng
+            hợp và dashboard cá nhân hóa theo hệ quy chiếu tham khảo.
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -87,7 +87,7 @@ export function HomeHero() {
               Nhập thông tin ngày sinh
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Bạn có thể hoàn thiện hồ sơ ở bước tiếp theo.
+              Xem kết quả trước, đăng nhập sau nếu bạn muốn lưu lại.
             </p>
           </div>
 

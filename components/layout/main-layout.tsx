@@ -41,9 +41,12 @@ export function MainLayout({ children }: MainLayoutProps) {
                     {item.label}
                   </Link>
                 ))}
-                <Button asChild className="mt-1 w-full" size="sm">
-                  <Link href="/onboarding">Tạo hồ sơ</Link>
-                </Button>
+                <Link
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  href="/login"
+                >
+                  Đăng nhập
+                </Link>
               </nav>
             </details>
           </div>
@@ -63,9 +66,11 @@ export function MainLayout({ children }: MainLayoutProps) {
             ))}
           </nav>
 
-          <Button asChild className="hidden lg:inline-flex" size="sm">
-            <Link href="/onboarding">Tạo hồ sơ</Link>
-          </Button>
+          <div className="hidden items-center gap-2 lg:flex">
+            <Button asChild size="sm" variant="secondary">
+              <Link href="/login">Đăng nhập</Link>
+            </Button>
+          </div>
         </div>
       </header>
       <div className="flex-1">{children}</div>
