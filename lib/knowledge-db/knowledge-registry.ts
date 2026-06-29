@@ -1,3 +1,4 @@
+import { FIVE_ELEMENTS_KNOWLEDGE_ITEMS } from "./astrology/seeds/five-elements.seed";
 import type { KnowledgeItem } from "./knowledge-item";
 
 const knowledgeItems: KnowledgeItem[] = [
@@ -61,6 +62,7 @@ const knowledgeItems: KnowledgeItem[] = [
     title: "Cung Phi và hướng tham khảo",
     version: "1.0.0",
   },
+  ...FIVE_ELEMENTS_KNOWLEDGE_ITEMS,
 ];
 
 export function getKnowledgeRegistry() {
