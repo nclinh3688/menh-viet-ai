@@ -6,6 +6,7 @@ import { MVButton } from "@/components/form/mv-button";
 import { MVDateInput } from "@/components/form/mv-date-input";
 import { MVFormField } from "@/components/form/mv-form-field";
 import { MVInput } from "@/components/form/mv-input";
+import { Reveal } from "@/components/motion/reveal";
 import { analyzeNumerology } from "@/lib/numerology";
 import type { NumerologyAnalysis } from "@/lib/numerology";
 import { NumerologyResult } from "./numerology-result";
@@ -38,7 +39,7 @@ export function NumerologyForm() {
 
   return (
     <section className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-14">
-      <div className="rounded-md border border-white/10 bg-card/78 p-5 shadow-2xl shadow-primary/10 backdrop-blur sm:p-6">
+      <Reveal className="premium-surface rounded-md border border-white/10 bg-card/78 p-5 shadow-2xl shadow-primary/10 backdrop-blur sm:p-6">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
           <Sparkles className="size-4" />
           Thần số học cá nhân
@@ -84,7 +85,7 @@ export function NumerologyForm() {
             cách bỏ dấu và quy đổi chữ cái Latin.
           </p>
         </form>
-      </div>
+      </Reveal>
 
       <NumerologyResult analysis={analysis} />
     </section>

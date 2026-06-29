@@ -6,6 +6,7 @@ import {
   Sparkles,
   TrendingUp,
 } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import type { NumerologyAnalysis, NumerologyProfile } from "@/lib/numerology";
 
@@ -16,7 +17,7 @@ export function NumerologyResult({
 }) {
   if (analysis == null) {
     return (
-      <div className="flex min-h-[520px] items-center rounded-md border border-white/10 bg-card/52 p-6 shadow-2xl shadow-primary/8 backdrop-blur">
+      <Reveal className="flex min-h-[520px] items-center rounded-md border border-white/10 bg-card/52 p-6 shadow-2xl shadow-primary/8 backdrop-blur">
         <div>
           <div className="mb-5 flex size-12 items-center justify-center rounded-md bg-primary/12 text-primary">
             <Sparkles className="size-6" />
@@ -32,13 +33,13 @@ export function NumerologyResult({
             {ASTROLOGY_DISCLAIMER}
           </p>
         </div>
-      </div>
+      </Reveal>
     );
   }
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
+      <Reveal className="premium-surface rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
         <p className="text-sm font-medium text-primary">Kết quả cho {analysis.fullName}</p>
         <h2 className="mt-2 text-4xl font-semibold text-foreground">
           Số chủ đạo {analysis.lifePathNumber}
@@ -49,7 +50,7 @@ export function NumerologyResult({
         <p className="mt-4 text-sm leading-6 text-muted-foreground">
           {analysis.summary}
         </p>
-      </div>
+      </Reveal>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <NumberTile label="Số chủ đạo" value={analysis.lifePathNumber} />
@@ -66,7 +67,7 @@ export function NumerologyResult({
 
       <ProfileSection profile={analysis.lifePathProfile} />
 
-      <div className="rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
+      <div className="premium-surface rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
         <h3 className="text-lg font-semibold text-foreground">
           Góc nhìn từ họ tên
         </h3>
@@ -98,7 +99,7 @@ function NumberTile({
   value: number | string;
 }) {
   return (
-    <div className="rounded-md border border-white/10 bg-card/64 p-4 backdrop-blur">
+    <div className="premium-surface rounded-md border border-white/10 bg-card/64 p-4 backdrop-blur">
       <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
         {label}
       </p>
@@ -109,7 +110,7 @@ function NumberTile({
 
 function ProfileSection({ profile }: { profile: NumerologyProfile }) {
   return (
-    <div className="rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
+    <div className="premium-surface rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
       <h3 className="text-lg font-semibold text-foreground">
         Diễn giải số chủ đạo {profile.number}
       </h3>

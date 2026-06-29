@@ -12,6 +12,7 @@ import { MVButton } from "@/components/form/mv-button";
 import { MVDateInput } from "@/components/form/mv-date-input";
 import { MVFormField } from "@/components/form/mv-form-field";
 import { MVInput } from "@/components/form/mv-input";
+import { Reveal } from "@/components/motion/reveal";
 import { analyzeFiveElements } from "@/lib/astrology/five-elements";
 import type { FiveElementsAnalysis } from "@/lib/astrology/five-elements";
 import { cn } from "@/lib/utils";
@@ -51,7 +52,7 @@ export function FiveElementsForm() {
 
   return (
     <section className="mx-auto grid max-w-6xl gap-6 px-4 py-10 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:px-8 lg:py-14">
-      <div className="rounded-md border border-white/10 bg-card/78 p-5 shadow-2xl shadow-primary/10 backdrop-blur sm:p-6">
+      <Reveal className="premium-surface rounded-md border border-white/10 bg-card/78 p-5 shadow-2xl shadow-primary/10 backdrop-blur sm:p-6">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
           <Sparkles className="size-4" />
           Phân tích Ngũ Hành cá nhân
@@ -112,7 +113,7 @@ export function FiveElementsForm() {
             <ArrowRight className="size-4" />
           </MVButton>
         </form>
-      </div>
+      </Reveal>
 
       <FiveElementsResult analysis={analysis} />
     </section>

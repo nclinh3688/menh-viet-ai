@@ -1,13 +1,14 @@
 import Link from "next/link";
-import { Plus, ShieldCheck } from "lucide-react";
+import { FileText, Plus, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 
 interface DashboardHeaderProps {
   fullName: string;
+  profileId?: string;
 }
 
-export function DashboardHeader({ fullName }: DashboardHeaderProps) {
+export function DashboardHeader({ fullName, profileId }: DashboardHeaderProps) {
   return (
     <section className="rounded-lg border bg-card/70 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-7">
       <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
@@ -26,12 +27,22 @@ export function DashboardHeader({ fullName }: DashboardHeaderProps) {
             {ASTROLOGY_DISCLAIMER}
           </p>
         </div>
-        <Button asChild variant="secondary">
-          <Link href="/onboarding">
-            <Plus className="h-4 w-4" aria-hidden="true" />
-            Tạo hồ sơ mới
-          </Link>
-        </Button>
+        <div className="flex flex-col gap-2 sm:flex-row md:flex-col lg:flex-row">
+          {profileId == null ? null : (
+            <Button asChild>
+              <Link href={`/birth-report?profileId=${profileId}`}>
+                <FileText className="h-4 w-4" aria-hidden="true" />
+                Xem báo cáo đầy đủ
+              </Link>
+            </Button>
+          )}
+          <Button asChild variant="secondary">
+            <Link href="/onboarding">
+              <Plus className="h-4 w-4" aria-hidden="true" />
+              Tạo hồ sơ mới
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );

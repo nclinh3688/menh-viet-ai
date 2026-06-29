@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Check, Clock, Sparkles } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
@@ -92,7 +93,7 @@ const faqs = [
 export default function PricingPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-16">
-      <section className="max-w-3xl">
+      <Reveal as="section" className="max-w-3xl">
         <p className="text-sm font-semibold text-primary">Pricing</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-normal text-foreground md:text-5xl">
           Dùng miễn phí trước, nâng cấp khi cần phân tích sâu hơn
@@ -101,16 +102,18 @@ export default function PricingPage() {
           Mệnh Việt AI đang chuẩn bị nền tảng Premium/Pro. Trang này chỉ giới
           thiệu gói, chưa tích hợp thanh toán thật.
         </p>
-      </section>
+      </Reveal>
 
       <section className="mt-8 grid gap-5 lg:grid-cols-4">
-        {plans.map((plan) => (
-          <article
+        {plans.map((plan, index) => (
+          <Reveal
+            as="article"
             className={cn(
-              "flex rounded-md border bg-card/68 p-5 shadow-2xl shadow-primary/8 backdrop-blur-xl",
+              "premium-surface flex rounded-md border bg-card/68 p-5 shadow-2xl shadow-primary/8 backdrop-blur-xl",
               plan.name === "Premium" &&
                 "border-primary/50 bg-primary/10 shadow-primary/16",
             )}
+            delay={index * 70}
             key={plan.name}
           >
             <div className="flex w-full flex-col">
@@ -156,7 +159,7 @@ export default function PricingPage() {
                 </Link>
               </Button>
             </div>
-          </article>
+          </Reveal>
         ))}
       </section>
 
@@ -170,7 +173,7 @@ export default function PricingPage() {
         <h2 className="text-2xl font-semibold text-foreground">FAQ</h2>
         <div className="mt-5 grid gap-4 md:grid-cols-3">
           {faqs.map((faq) => (
-            <article className="rounded-md border bg-card/64 p-5 backdrop-blur-xl" key={faq.question}>
+            <article className="premium-surface rounded-md border bg-card/64 p-5 backdrop-blur-xl" key={faq.question}>
               <h3 className="font-semibold text-foreground">{faq.question}</h3>
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {faq.answer}

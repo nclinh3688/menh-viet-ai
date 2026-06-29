@@ -1,3 +1,6 @@
+import { AnimatedProgress } from "@/components/motion/animated-progress";
+import { Reveal } from "@/components/motion/reveal";
+
 const scores = [
   ["Tổng quan", 84],
   ["Tình cảm", 78],
@@ -9,7 +12,7 @@ export function DashboardPreview() {
   return (
     <section className="mx-auto w-full max-w-6xl px-5 py-16 md:px-8">
       <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-        <div>
+        <Reveal>
           <p className="text-sm font-semibold text-primary">Demo dashboard</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground md:text-4xl">
             Hồ sơ vận mệnh được trình bày rõ ràng, dễ quay lại mỗi ngày
@@ -19,9 +22,12 @@ export function DashboardPreview() {
             gợi ý cá nhân vào một nơi để người dùng không phải đọc các đoạn luận
             giải dài, khó theo dõi.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="rounded-lg border bg-card/70 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
+        <Reveal
+          className="premium-surface rounded-lg border bg-card/70 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6"
+          delay={120}
+        >
           <div className="flex flex-col gap-4 border-b pb-5 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-semibold text-primary">Xin chào, Nguyễn An</p>
@@ -50,12 +56,12 @@ export function DashboardPreview() {
                   <span className="font-semibold text-primary">{score}/100</span>
                 </div>
                 <div className="h-2 overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-primary" style={{ width: `${score}%` }} />
+                  <AnimatedProgress value={score} />
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

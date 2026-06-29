@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { ArrowRight, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -44,12 +43,13 @@ export function HistoryCard({
       <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">
         {summary}
       </p>
-      <Button asChild className="mt-5" size="sm" variant="secondary">
-        <Link href={`/history/${id}`}>
-          Xem lại
-          <ArrowRight className="size-4" />
-        </Link>
+      <Button className="mt-5" disabled size="sm" variant="secondary">
+        Xem lại
+        <ArrowRight className="size-4" />
       </Button>
+      <p className="mt-2 text-xs text-muted-foreground">
+        Chi tiết lịch sử sẽ được mở ở sprint sau. ID: {id}
+      </p>
     </article>
   );
 }

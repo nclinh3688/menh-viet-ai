@@ -81,10 +81,44 @@ export default async function DashboardPage({
   const goodDirections = parseJsonArray<string>(birthChart.goodDirections);
   const badDirections = parseJsonArray<string>(birthChart.badDirections);
   const dailyFortune = generateDailyFortuneDemo(profile.id);
+  const saveAnalysisInput = {
+    payload: {
+      birthChart: {
+        badDirections,
+        cungPhi: birthChart.cungPhi,
+        earthlyBranch: birthChart.earthlyBranch,
+        element: birthChart.element,
+        goodDirections,
+        heavenlyStem: birthChart.heavenlyStem,
+        luckyColors,
+        luckyNumbers,
+        napAm: birthChart.napAm,
+        summary: birthChart.summary,
+        unluckyColors,
+        zodiacAnimal: birthChart.zodiacAnimal,
+      },
+      dailyFortune,
+      profile: {
+        birthDate: profile.birthDate.toISOString(),
+        birthPlace: profile.birthPlace,
+        birthTime: profile.birthTime,
+        calendarType: profile.calendarType,
+        fullName: profile.fullName,
+        gender: profile.gender,
+        id: profile.id,
+        mainInterest: profile.mainInterest,
+        relationshipStatus: profile.relationshipStatus,
+      },
+    },
+    profileId: profile.id,
+    summary: `${profile.fullName} có Can Chi ${birthChart.heavenlyStem} ${birthChart.earthlyBranch}, con giáp ${birthChart.zodiacAnimal}, ngũ hành ${birthChart.element}, Cung Phi ${birthChart.cungPhi}. Nội dung chỉ mang tính tham khảo và khám phá bản thân.`,
+    title: "Hồ sơ vận mệnh cá nhân",
+    type: "BIRTH_CHART" as const,
+  };
 
   return (
     <main className="mx-auto grid w-full max-w-6xl gap-5 px-5 py-8 md:px-8 md:py-10">
-      <DashboardHeader fullName={profile.fullName} />
+      <DashboardHeader fullName={profile.fullName} profileId={profile.id} />
       <UsageLimitBanner plan="FREE" usedToday={0} />
       <DailyFortuneHero fortune={dailyFortune} />
       <div className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
@@ -111,7 +145,7 @@ export default async function DashboardPage({
           unluckyColors={unluckyColors}
         />
       </div>
-      <SaveAnalysisCta />
+      <SaveAnalysisCta analysis={saveAnalysisInput} />
       <PremiumLockedCards />
       <FeatureShortcuts />
     </main>

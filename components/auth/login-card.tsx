@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Facebook, LockKeyhole } from "lucide-react";
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { MVButton } from "@/components/form/mv-button";
+import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import type { AuthProviderStatus, CurrentUser } from "@/lib/auth";
 
@@ -15,7 +16,7 @@ export function LoginCard({ currentUser = null, providerStatus }: LoginCardProps
 
   return (
     <section className="mx-auto flex min-h-[calc(100vh-160px)] w-full max-w-5xl items-center px-5 py-12 md:px-8">
-      <div className="grid w-full gap-6 rounded-md border bg-card/72 p-5 shadow-2xl shadow-primary/10 backdrop-blur-xl md:grid-cols-[0.95fr_1.05fr] md:p-8">
+      <Reveal className="premium-surface grid w-full gap-6 rounded-md border bg-card/72 p-5 shadow-2xl shadow-primary/10 backdrop-blur-xl md:grid-cols-[0.95fr_1.05fr] md:p-8">
         <div className="space-y-5">
           <div className="flex size-12 items-center justify-center rounded-md bg-primary/12 text-primary">
             <LockKeyhole className="size-6" />
@@ -107,7 +108,7 @@ export function LoginCard({ currentUser = null, providerStatus }: LoginCardProps
             </Button>
           )}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

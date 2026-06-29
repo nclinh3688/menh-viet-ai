@@ -10,6 +10,8 @@ import { MVFormField } from "@/components/form/mv-form-field";
 import { MVInput } from "@/components/form/mv-input";
 import { MVSelect } from "@/components/form/mv-select";
 import { MVTimeInput } from "@/components/form/mv-time-input";
+import { Reveal } from "@/components/motion/reveal";
+import { FateOrb } from "@/components/visual/fate-orb";
 import { APP_NAME } from "@/lib/constants";
 import {
   normalizeBirthDateInput,
@@ -60,7 +62,10 @@ export function HomeHero() {
       </div>
 
       <div className="mx-auto grid min-h-[calc(100vh-96px)] w-full max-w-6xl gap-8 px-5 py-12 md:px-8 lg:grid-cols-[1fr_0.84fr] lg:items-center lg:py-18">
-        <div>
+        <Reveal className="relative">
+          <div className="pointer-events-none absolute -right-8 top-2 hidden lg:block">
+            <FateOrb />
+          </div>
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
             <Sparkles className="h-4 w-4" aria-hidden="true" />
             {APP_NAME}
@@ -84,12 +89,13 @@ export function HomeHero() {
             Nội dung chỉ mang tính tham khảo và khám phá bản thân, không thay
             thế tư vấn chuyên môn.
           </p>
-        </div>
+        </Reveal>
 
-        <form
-          className="rounded-lg border bg-card/72 p-5 shadow-2xl shadow-black/35 backdrop-blur-xl md:p-6"
-          onSubmit={handleSubmit}
-        >
+        <Reveal delay={120}>
+          <form
+            className="premium-surface rounded-lg border bg-card/72 p-5 shadow-2xl shadow-black/35 backdrop-blur-xl md:p-6"
+            onSubmit={handleSubmit}
+          >
           <div className="mb-5">
             <p className="text-sm font-semibold text-primary">Xem miễn phí</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-normal text-foreground">
@@ -140,7 +146,8 @@ export function HomeHero() {
               <ArrowRight className="h-4 w-4" aria-hidden="true" />
             </MVButton>
           </div>
-        </form>
+          </form>
+        </Reveal>
       </div>
     </section>
   );
@@ -148,7 +155,7 @@ export function HomeHero() {
 
 function ProofMetric({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border bg-card/54 p-4 backdrop-blur">
+    <div className="premium-surface rounded-lg border bg-card/54 p-4 backdrop-blur">
       <p className="text-2xl font-semibold text-foreground">{value}</p>
       <p className="mt-1 text-sm text-muted-foreground">{label}</p>
     </div>

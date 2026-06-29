@@ -6,12 +6,15 @@ import {
   Lightbulb,
   ShieldAlert,
 } from "lucide-react";
+import { AnimatedNumber } from "@/components/motion/animated-number";
+import { AnimatedProgress } from "@/components/motion/animated-progress";
+import { Reveal } from "@/components/motion/reveal";
 import type { GoodDayAnalysis } from "@/lib/astrology/good-day";
 
 export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
   if (result == null) {
     return (
-      <div className="flex min-h-[520px] items-center rounded-md border bg-card/52 p-6 shadow-2xl shadow-primary/8 backdrop-blur-xl">
+      <Reveal className="flex min-h-[520px] items-center rounded-md border bg-card/52 p-6 shadow-2xl shadow-primary/8 backdrop-blur-xl">
         <div>
           <div className="mb-5 flex size-12 items-center justify-center rounded-md bg-primary/12 text-primary">
             <CalendarCheck className="size-6" />
@@ -27,18 +30,21 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
             Nội dung chỉ mang tính tham khảo và khám phá bản thân.
           </p>
         </div>
-      </div>
+      </Reveal>
     );
   }
 
   return (
     <div className="space-y-4">
-      <section className="rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
+      <Reveal
+        as="section"
+        className="premium-surface rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10"
+      >
         <p className="text-sm font-medium text-primary">Điểm ngày cho {result.purpose}</p>
         <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="text-5xl font-semibold text-foreground">
-              {result.score}
+              <AnimatedNumber value={result.score} />
               <span className="text-2xl text-muted-foreground">/100</span>
             </h2>
             <p className="mt-2 text-lg font-semibold text-primary">{result.rating}</p>
@@ -51,7 +57,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
         <p className="mt-4 text-sm leading-6 text-muted-foreground">
           {result.advice}
         </p>
-      </section>
+      </Reveal>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ListCard
@@ -93,10 +99,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
 function ProgressBar({ value }: { value: number }) {
   return (
     <div className="mt-3 h-2 overflow-hidden rounded-full bg-background/70">
-      <div
-        className="h-full rounded-full bg-primary transition-all"
-        style={{ width: `${value}%` }}
-      />
+      <AnimatedProgress value={value} />
     </div>
   );
 }
@@ -111,7 +114,7 @@ function ListCard({
   title: string;
 }) {
   return (
-    <article className="rounded-md border bg-card/64 p-5 backdrop-blur-xl">
+    <article className="premium-surface rounded-md border bg-card/64 p-5 backdrop-blur-xl">
       <div className="mb-4 flex items-center gap-2">
         <Icon className="size-5 text-primary" />
         <h3 className="font-semibold text-foreground">{title}</h3>

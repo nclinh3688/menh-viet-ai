@@ -6,6 +6,7 @@ import {
   ShieldAlert,
   Sparkles,
 } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import type { FiveElementsAnalysis } from "@/lib/astrology/five-elements";
 
@@ -16,7 +17,7 @@ export function FiveElementsResult({
 }) {
   if (analysis == null) {
     return (
-      <div className="flex min-h-[480px] items-center rounded-md border border-white/10 bg-card/52 p-6 shadow-2xl shadow-primary/8 backdrop-blur">
+      <Reveal className="flex min-h-[480px] items-center rounded-md border border-white/10 bg-card/52 p-6 shadow-2xl shadow-primary/8 backdrop-blur">
         <div>
           <div className="mb-5 flex size-12 items-center justify-center rounded-md bg-primary/12 text-primary">
             <Sparkles className="size-6" />
@@ -32,13 +33,13 @@ export function FiveElementsResult({
             {ASTROLOGY_DISCLAIMER}
           </p>
         </div>
-      </div>
+      </Reveal>
     );
   }
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
+      <Reveal className="premium-surface rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
         <p className="text-sm font-medium text-primary">Kết quả năm {analysis.year}</p>
         <h2 className="mt-2 text-4xl font-semibold text-foreground">
           Mệnh {analysis.element}
@@ -49,7 +50,7 @@ export function FiveElementsResult({
         <p className="mt-4 text-sm leading-6 text-muted-foreground">
           {analysis.summary}
         </p>
-      </div>
+      </Reveal>
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard
@@ -74,7 +75,7 @@ export function FiveElementsResult({
         />
       </div>
 
-      <div className="rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
+      <div className="premium-surface rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-md bg-primary/10 text-primary">
             <Repeat2 className="size-5" />
@@ -102,7 +103,7 @@ export function FiveElementsResult({
         </div>
       </div>
 
-      <div className="rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
+      <div className="premium-surface rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
         <h3 className="font-semibold text-foreground">Tính cách tham khảo</h3>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
           {analysis.profile.personalitySummary}
@@ -122,7 +123,7 @@ function ResultCard({
   title: string;
 }) {
   return (
-    <div className="rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
+    <div className="premium-surface rounded-md border border-white/10 bg-card/64 p-5 backdrop-blur">
       <div className="mb-4 flex items-center gap-3">
         <div className="flex size-10 items-center justify-center rounded-md bg-primary/10 text-primary">
           <Icon className="size-5" />

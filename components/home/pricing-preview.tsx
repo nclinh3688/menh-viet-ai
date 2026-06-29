@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 
 const plans = [
@@ -24,16 +25,21 @@ const plans = [
 export function PricingPreview() {
   return (
     <section className="mx-auto w-full max-w-6xl px-5 py-16 md:px-8">
-      <div className="max-w-2xl">
+      <Reveal className="max-w-2xl">
         <p className="text-sm font-semibold text-primary">Free vs Premium</p>
         <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground md:text-4xl">
           Bắt đầu miễn phí, nâng cấp khi cần phân tích sâu hơn
         </h2>
-      </div>
+      </Reveal>
 
       <div className="mt-8 grid gap-5 md:grid-cols-2">
-        {plans.map((plan) => (
-          <article className="rounded-lg border bg-card/64 p-5 backdrop-blur-xl md:p-6" key={plan.name}>
+        {plans.map((plan, index) => (
+          <Reveal
+            as="article"
+            className="premium-surface rounded-lg border bg-card/64 p-5 backdrop-blur-xl md:p-6"
+            delay={index * 80}
+            key={plan.name}
+          >
             <div className="flex items-start justify-between gap-4">
               <div>
                 <h3 className="text-2xl font-semibold text-foreground">{plan.name}</h3>
@@ -52,7 +58,7 @@ export function PricingPreview() {
             <Button asChild className="mt-6 w-full" variant={plan.name === "Free" ? "default" : "secondary"}>
               <Link href={plan.href}>{plan.cta}</Link>
             </Button>
-          </article>
+          </Reveal>
         ))}
       </div>
     </section>

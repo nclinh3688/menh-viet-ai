@@ -1,4 +1,5 @@
 import { CalendarDays, HeartHandshake, LayoutDashboard, Sparkles, Star, Workflow } from "lucide-react";
+import { Reveal } from "@/components/motion/reveal";
 
 const features = [
   {
@@ -31,20 +32,22 @@ const features = [
 export function FeatureGrid() {
   return (
     <section className="mx-auto w-full max-w-6xl px-5 py-16 md:px-8">
-      <div className="max-w-2xl">
+      <Reveal className="max-w-2xl">
         <p className="text-sm font-semibold text-primary">Bạn có thể xem gì?</p>
         <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground md:text-4xl">
           Một hồ sơ, nhiều góc nhìn để khám phá bản thân
         </h2>
-      </div>
+      </Reveal>
 
       <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-        {features.map((feature) => {
+        {features.map((feature, index) => {
           const Icon = feature.icon;
 
           return (
-            <article
-              className="rounded-lg border bg-card/62 p-5 backdrop-blur-xl"
+            <Reveal
+              as="article"
+              className="premium-surface rounded-lg border bg-card/62 p-5 backdrop-blur-xl"
+              delay={index * 60}
               key={feature.title}
             >
               <div className="flex h-10 w-10 items-center justify-center rounded-md bg-accent text-accent-foreground">
@@ -56,7 +59,7 @@ export function FeatureGrid() {
               <p className="mt-3 text-sm leading-6 text-muted-foreground">
                 {feature.description}
               </p>
-            </article>
+            </Reveal>
           );
         })}
       </div>

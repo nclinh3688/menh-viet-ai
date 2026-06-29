@@ -1,4 +1,7 @@
 import { Heart, Sparkles, Wallet, Brain, BriefcaseBusiness } from "lucide-react";
+import { AnimatedNumber } from "@/components/motion/animated-number";
+import { AnimatedProgress } from "@/components/motion/animated-progress";
+import { Reveal } from "@/components/motion/reveal";
 import type { DailyFortuneDemo } from "@/lib/astrology";
 
 const scoreIcons = {
@@ -15,23 +18,23 @@ interface DailyFortuneHeroProps {
 
 export function DailyFortuneHero({ fortune }: DailyFortuneHeroProps) {
   return (
-    <section className="rounded-lg border bg-card/70 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6">
+    <Reveal
+      as="section"
+      className="premium-surface rounded-lg border bg-card/70 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl md:p-6"
+    >
       <div className="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
         <div className="rounded-lg border bg-background/58 p-5">
           <p className="text-sm font-semibold text-primary">Hôm nay</p>
           <div className="mt-4 flex items-end gap-2">
             <span className="text-6xl font-semibold leading-none text-foreground">
-              {fortune.totalScore}
+              <AnimatedNumber value={fortune.totalScore} />
             </span>
             <span className="pb-2 text-lg font-semibold text-muted-foreground">
               /100
             </span>
           </div>
           <div className="mt-5 h-3 overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary"
-              style={{ width: `${fortune.totalScore}%` }}
-            />
+            <AnimatedProgress value={fortune.totalScore} />
           </div>
           <p className="mt-4 text-sm leading-6 text-muted-foreground">
             {fortune.advice}
@@ -64,13 +67,12 @@ export function DailyFortuneHero({ fortune }: DailyFortuneHeroProps) {
                       <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
                       <span className="text-sm font-medium text-foreground">{item.label}</span>
                     </div>
-                    <span className="text-sm font-semibold text-primary">{item.score}</span>
+                    <span className="text-sm font-semibold text-primary">
+                      <AnimatedNumber duration={520} value={item.score} />
+                    </span>
                   </div>
                   <div className="h-2 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-primary"
-                      style={{ width: `${item.score}%` }}
-                    />
+                    <AnimatedProgress value={item.score} />
                   </div>
                 </article>
               );
@@ -78,6 +80,6 @@ export function DailyFortuneHero({ fortune }: DailyFortuneHeroProps) {
           </div>
         </div>
       </div>
-    </section>
+    </Reveal>
   );
 }
