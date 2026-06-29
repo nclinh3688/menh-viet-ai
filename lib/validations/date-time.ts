@@ -6,29 +6,32 @@ export function normalizeBirthDateInput(value: string): string {
 
   if (rawValue.length === 0) return "";
 
-  const parts = rawValue.includes("/") || rawValue.includes("-") || rawValue.includes(".")
-    ? rawValue.split(/[./-]/).filter(Boolean)
-    : splitCompactDate(rawValue);
+  const parts = parseBirthDateParts(rawValue);
 
-  if (parts.length !== 3) return rawValue;
+  if (parts == null) return rawValue;
 
-  const [day, month, year] = parts;
+  const { dayText, monthText, yearText } = parts;
 
-  return `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}`;
+  return `${dayText.padStart(2, "0")}/${monthText.padStart(2, "0")}/${yearText}`;
 }
 
 export function isValidBirthDate(value: string): boolean {
-  const normalizedValue = normalizeBirthDateInput(value);
-  const parts = normalizedValue.split("/");
+  const parts = parseBirthDateParts(normalizeBirthDateInput(value));
 
-  if (parts.length !== 3) return false;
+  if (parts == null) return false;
 
-  const [dayText, monthText, yearText] = parts;
-  const day = Number(dayText);
-  const month = Number(monthText);
-  const year = Number(yearText);
+  const day = Number(parts.dayText);
+  const month = Number(parts.monthText);
+  const year = Number(parts.yearText);
 
-  if (!Number.isInteger(day) || !Number.isInteger(month) || !Number.isInteger(year)) {
+  if (
+    !/^\d{1,2}$/.test(parts.dayText) ||
+    !/^\d{1,2}$/.test(parts.monthText) ||
+    !/^\d{4}$/.test(parts.yearText) ||
+    !Number.isInteger(day) ||
+    !Number.isInteger(month) ||
+    !Number.isInteger(year)
+  ) {
     return false;
   }
 
@@ -36,7 +39,7 @@ export function isValidBirthDate(value: string): boolean {
     return false;
   }
 
-  const maxDay = new Date(year, month, 0).getDate();
+  const maxDay = getDaysInMonth(month, year);
 
   return day <= maxDay;
 }
@@ -113,4 +116,50 @@ function splitCompactDate(value: string): string[] {
   if (digits.length !== 8) return [value];
 
   return [digits.slice(0, 2), digits.slice(2, 4), digits.slice(4)];
+}
+
+function parseBirthDateParts(value: string):
+  | {
+      dayText: string;
+      monthText: string;
+      yearText: string;
+    }
+  | null {
+  const rawValue = value.trim();
+
+  if (rawValue.length === 0) {
+    return null;
+  }
+
+  const parts = /[./-]/.test(rawValue)
+    ? rawValue.split(/[./-]/).filter(Boolean)
+    : splitCompactDate(rawValue);
+
+  if (parts.length !== 3) {
+    return null;
+  }
+
+  const [dayText, monthText, yearText] = parts.map((part) => part.trim());
+
+  return {
+    dayText,
+    monthText,
+    yearText,
+  };
+}
+
+function getDaysInMonth(month: number, year: number) {
+  if (month === 2) {
+    return isLeapYear(year) ? 29 : 28;
+  }
+
+  if ([4, 6, 9, 11].includes(month)) {
+    return 30;
+  }
+
+  return 31;
+}
+
+function isLeapYear(year: number) {
+  return year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0);
 }

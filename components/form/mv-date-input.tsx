@@ -7,9 +7,10 @@ import { normalizeBirthDateInput } from "@/lib/validations/date-time";
 export const MVDateInput = React.forwardRef<HTMLInputElement, MVInputProps>(
   ({ onBlur, onChange, placeholder = "18/07/1995", ...props }, ref) => {
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-      const digits = event.currentTarget.value.replace(/\D/g, "");
+      const currentValue = event.currentTarget.value;
+      const digits = currentValue.replace(/\D/g, "");
 
-      if (digits.length > 0 && digits.length <= 8) {
+      if (/^\d+$/.test(currentValue) && digits.length > 0 && digits.length <= 8) {
         event.currentTarget.value = formatPartialDate(digits);
       }
 
