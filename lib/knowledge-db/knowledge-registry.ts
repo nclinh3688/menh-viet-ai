@@ -26,7 +26,7 @@ const knowledgeItems: KnowledgeItem[] = [
     category: "ASTROLOGY",
     confidence: 82,
     content:
-      "Can Chi là hệ thống kết hợp Thiên Can và Địa Chi để mô tả năm sinh trong lịch truyền thống. Mệnh Việt dùng Can Chi năm sinh như dữ liệu nền cho BirthChart MVP.",
+      "Can Chi là hệ thống kết hợp Thiên Can và Địa Chi để mô tả năm sinh trong lịch truyền thống. Mệnh Việt dùng Can Chi năm sinh như dữ liệu nền cho BirthChart.",
     id: "astrology.can-chi.year-cycle",
     lastUpdated: "2026-06-29",
     references: [
@@ -37,7 +37,7 @@ const knowledgeItems: KnowledgeItem[] = [
     slug: "can-chi-nam-sinh",
     sources: ["CAN_CHI", "THIEN_CAN", "DIA_CHI"],
     summary:
-      "Can Chi năm sinh là dữ liệu nền gồm Thiên Can và Địa Chi trong BirthChart MVP.",
+      "Can Chi năm sinh là dữ liệu nền gồm Thiên Can và Địa Chi trong BirthChart.",
     tags: ["can-chi", "thien-can", "dia-chi", "nam-sinh", "birth-chart"],
     title: "Can Chi năm sinh",
     version: "1.0.0",
@@ -46,7 +46,7 @@ const knowledgeItems: KnowledgeItem[] = [
     category: "FENG_SHUI",
     confidence: 78,
     content:
-      "Cung Phi là lớp dữ liệu phong thủy dùng để tham khảo nhóm Đông/Tây tứ mệnh và hướng. Trong MVP, Cung Phi không thay thế khảo sát không gian sống thực tế.",
+      "Cung Phi là lớp dữ liệu phong thủy dùng để tham khảo nhóm Đông/Tây tứ mệnh và hướng. Cung Phi không thay thế khảo sát không gian sống thực tế.",
     id: "feng-shui.cung-phi.direction-group",
     lastUpdated: "2026-06-29",
     references: [

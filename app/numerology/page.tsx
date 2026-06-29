@@ -5,7 +5,7 @@ import { APP_NAME, ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 export const metadata: Metadata = {
   title: `Thần số học theo tên và ngày sinh | ${APP_NAME}`,
   description:
-    "Tính số chủ đạo, số thái độ, số linh hồn và số sứ mệnh MVP theo họ tên và ngày sinh, kèm gợi ý điểm mạnh, điểm yếu, tình yêu và công việc.",
+    "Tính số chủ đạo, số thái độ, số linh hồn và số sứ mệnh theo họ tên và ngày sinh, kèm gợi ý điểm mạnh, điểm yếu, tình yêu và công việc.",
   alternates: {
     canonical: "/numerology",
   },
@@ -25,7 +25,7 @@ export default function NumerologyPage() {
         <div className="rounded-md border border-primary/20 bg-primary/8 p-5">
           <p className="text-sm leading-6 text-muted-foreground">
             {ASTROLOGY_DISCLAIMER} Thần số học trong phiên bản này là mô hình
-            MVP để khám phá bản thân, không thay thế tư vấn chuyên môn hoặc
+            tham khảo để khám phá bản thân, không thay thế tư vấn chuyên môn hoặc
             quyết định quan trọng về tài chính, sức khỏe, pháp lý và quan hệ.
           </p>
         </div>

@@ -45,7 +45,7 @@ export function analyzeFiveElements(
     controls: CONTROLLING_CYCLE[chart.element],
     controlledBy: findCycleSource(CONTROLLING_CYCLE, chart.element),
     summary: [
-      `Theo năm sinh ${year}, hệ quy chiếu MVP đang xác định nạp âm là ${chart.napAm}, quy về hành ${chart.element}.`,
+      `Theo năm sinh ${year}, hệ quy chiếu hiện tại xác định nạp âm là ${chart.napAm}, quy về hành ${chart.element}.`,
       `Các gợi ý màu sắc, số và nghề nghiệp dưới đây dùng để tham khảo khuynh hướng cá nhân, không phải kết luận cố định.`,
       ASTROLOGY_DISCLAIMER,
     ].join(" "),

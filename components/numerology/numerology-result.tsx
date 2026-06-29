@@ -57,11 +57,11 @@ export function NumerologyResult({
         <NumberTile label="Số thái độ" value={analysis.attitudeNumber} />
         <NumberTile
           label="Số linh hồn"
-          value={analysis.soulUrgeNumber ?? "MVP"}
+          value={analysis.soulUrgeNumber ?? "Đang cập nhật"}
         />
         <NumberTile
           label="Số sứ mệnh"
-          value={analysis.destinyNumber ?? "MVP"}
+          value={analysis.destinyNumber ?? "Đang cập nhật"}
         />
       </div>
 
@@ -72,7 +72,7 @@ export function NumerologyResult({
           Góc nhìn từ họ tên
         </h3>
         <p className="mt-2 text-sm leading-6 text-muted-foreground">
-          Tên sau chuẩn hóa MVP:{" "}
+          Tên sau chuẩn hóa:{" "}
           <span className="text-foreground">{analysis.nameBreakdown.normalizedName}</span>
         </p>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">

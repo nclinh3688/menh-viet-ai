@@ -3,7 +3,7 @@ export interface DailyFortuneScore {
   score: number;
 }
 
-export interface DailyFortuneDemo {
+export interface DailyFortuneSnapshot {
   dateKey: string;
   totalScore: number;
   loveScore: number;
@@ -17,10 +17,10 @@ export interface DailyFortuneDemo {
   scores: DailyFortuneScore[];
 }
 
-export function generateDailyFortuneDemo(
+export function generateDailyFortuneSnapshot(
   profileId: string,
   date = new Date(),
-): DailyFortuneDemo {
+): DailyFortuneSnapshot {
   const dateKey = date.toISOString().slice(0, 10);
   const seed = hashString(`${profileId}:${dateKey}`);
   const loveScore = scoreFromSeed(seed, 11);

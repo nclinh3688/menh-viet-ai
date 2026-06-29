@@ -31,7 +31,7 @@ export function getCungPhi(year: number, gender: AstrologyGender): CungPhiProfil
     };
   }
 
-  // MVP dùng cách quy đổi tổng chữ số năm sinh về modulo 9, đủ cho giai đoạn tra cứu cơ bản 1900-2100.
+  // Quy đổi tổng chữ số năm sinh về modulo 9, đủ cho giai đoạn tra cứu cơ bản 1900-2100.
   const digitSum = String(year)
     .split("")
     .reduce((sum, digit) => sum + Number(digit), 0);

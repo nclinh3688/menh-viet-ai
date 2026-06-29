@@ -2,10 +2,10 @@ export type SourceId =
   | "BAT_TRACH"
   | "CAN_CHI"
   | "CUNG_PHI"
-  | "DAILY_FORTUNE_DETERMINISTIC"
+  | "DAILY_FORTUNE_RULE_BASED"
   | "DIA_CHI"
   | "FIVE_ELEMENTS"
-  | "GOOD_DAY_MVP"
+  | "GOOD_DAY_RULE_BASED"
   | "NAP_AM"
   | "NUMEROLOGY"
   | "THIEN_CAN";
@@ -13,7 +13,7 @@ export type SourceId =
 export type SourceCategory =
   | "astrology"
   | "compatibility"
-  | "deterministic-demo"
+  | "rule-based"
   | "feng-shui"
   | "numerology";
 

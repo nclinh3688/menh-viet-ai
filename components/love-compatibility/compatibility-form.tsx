@@ -67,7 +67,7 @@ export function CompatibilityForm() {
       <div className="rounded-md border bg-card/72 p-5 shadow-2xl shadow-primary/10 backdrop-blur-xl md:p-6">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
           <HeartHandshake className="size-4" />
-          Hợp tuổi hôn nhân MVP
+          Hợp tuổi hôn nhân
         </div>
         <h1 className="text-3xl font-semibold tracking-normal text-foreground sm:text-4xl">
           Xem mức độ hòa hợp của hai người

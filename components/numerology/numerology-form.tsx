@@ -49,7 +49,7 @@ export function NumerologyForm() {
         </h1>
         <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
           Nhập họ tên và ngày sinh để xem số chủ đạo, số thái độ, số linh hồn
-          và số sứ mệnh theo bản phân tích MVP.
+          và số sứ mệnh theo bản phân tích tham khảo.
         </p>
 
         <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
@@ -81,7 +81,7 @@ export function NumerologyForm() {
           </MVButton>
 
           <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
-            Số linh hồn và số sứ mệnh đang xử lý tên tiếng Việt ở mức MVP bằng
+            Số linh hồn và số sứ mệnh đang xử lý tên tiếng Việt bằng
             cách bỏ dấu và quy đổi chữ cái Latin.
           </p>
         </form>

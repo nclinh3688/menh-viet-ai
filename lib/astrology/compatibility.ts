@@ -234,7 +234,7 @@ function scoreThienCan(
     return buildScore("thienCan", "Thiên Can", 10, 4, "Thiên Can có yếu tố tiết chế, nên trao đổi rõ kỳ vọng trước các quyết định lớn.");
   }
 
-  return buildScore("thienCan", "Thiên Can", 10, 6, "Thiên Can ở mức cân bằng, không tạo lợi thế hay thách thức quá nổi bật trong MVP.");
+  return buildScore("thienCan", "Thiên Can", 10, 6, "Thiên Can ở mức cân bằng, không tạo lợi thế hay thách thức quá nổi bật trong hệ quy chiếu hiện tại.");
 }
 
 function scoreOther(
@@ -316,7 +316,7 @@ function buildSummary(
   female: CompatibilityPersonProfile,
 ) {
   return [
-    `${male.fullName} và ${female.fullName} đạt ${totalScore}/100, xếp loại ${rating} theo mô hình hợp tuổi MVP.`,
+    `${male.fullName} và ${female.fullName} đạt ${totalScore}/100, xếp loại ${rating} theo mô hình hợp tuổi tham khảo.`,
     `Kết quả đang dựa trên Cung Phi, Địa Chi, Ngũ Hành, Thiên Can và một nhóm yếu tố bổ sung.`,
     "Nên xem đây là gợi ý để hiểu nhau và cải thiện giao tiếp, không phải kết luận bắt buộc về hôn nhân.",
     ASTROLOGY_DISCLAIMER,
@@ -352,7 +352,7 @@ function buildFrictionPoints(
 
   if (frictionPoints.length === 0) {
     frictionPoints.push(
-      `${male.fullName} và ${female.fullName} không có điểm va chạm nổi bật trong mô hình MVP; vẫn nên quan sát cách xử lý áp lực hằng ngày.`,
+      `${male.fullName} và ${female.fullName} không có điểm va chạm nổi bật trong mô hình hiện tại; vẫn nên quan sát cách xử lý áp lực hằng ngày.`,
     );
   }
 

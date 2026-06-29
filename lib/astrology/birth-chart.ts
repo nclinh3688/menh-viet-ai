@@ -147,7 +147,7 @@ function buildSummary({
 
   return [
     `${namePrefix} năm sinh ${canChiKey}, thuộc hệ con giáp tương ứng theo Can Chi năm.`,
-    `Ngũ hành MVP đang tham chiếu nạp âm ${napAm}, quy về hành ${element}.`,
+    `Ngũ hành đang tham chiếu nạp âm ${napAm}, quy về hành ${element}.`,
     `Cung Phi được xác định là ${cungPhi}, dùng để gợi ý nhóm hướng trong phong thủy ứng dụng.`,
     `Màu gợi ý gồm ${luckyColors.slice(0, 3).join(", ")}; hướng nên ưu tiên gồm ${goodDirections.slice(0, 3).join(", ")}.`,
     ASTROLOGY_DISCLAIMER,

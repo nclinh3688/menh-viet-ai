@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Check, Clock, Sparkles } from "lucide-react";
+import { Check, Sparkles } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
 import { Button } from "@/components/ui/button";
 import { APP_NAME } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: `Pricing | ${APP_NAME}`,
+  title: `Bảng giá | ${APP_NAME}`,
   description:
-    "So sánh gói Free, Registered, Premium và Pro của Mệnh Việt AI. Trang hiện tại chưa tích hợp thanh toán thật.",
+    "So sánh gói Free, Registered, Premium và Pro của Mệnh Việt AI. Các gói nâng cao đang trong giai đoạn đăng ký quan tâm.",
   alternates: {
     canonical: "/pricing",
   },
@@ -43,21 +43,21 @@ const plans = [
     price: "0đ",
   },
   {
-    cta: "Sắp ra mắt",
+    cta: "Đăng ký quan tâm",
     description: "Dành cho người cần phân tích sâu hơn và lưu lịch sử.",
     features: [
       "Không giới hạn phân tích cơ bản",
       "Luận giải chuyên sâu",
-      "Lưu lịch sử không giới hạn sau này",
+      "Lưu lịch sử không giới hạn",
       "Vận trình 12 tháng",
-      "Báo cáo PDF sau này",
+      "Báo cáo PDF",
     ],
     href: "/login",
     name: "Premium",
     price: "99.000đ/tháng",
   },
   {
-    cta: "Sắp ra mắt",
+    cta: "Đăng ký quan tâm",
     description: "Dành cho người dùng cần AI Coach và báo cáo nâng cao.",
     features: [
       "Tất cả Premium",
@@ -80,7 +80,7 @@ const faqs = [
   },
   {
     answer:
-      "Chưa. Premium và Pro đang ở trạng thái chuẩn bị, chưa có payment thật trong sprint này.",
+      "Chưa. Premium và Pro đang ở trạng thái đăng ký quan tâm, chưa thu phí trực tiếp trên website.",
     question: "Premium đã thanh toán được chưa?",
   },
   {
@@ -94,13 +94,13 @@ export default function PricingPage() {
   return (
     <main className="mx-auto w-full max-w-6xl px-5 py-12 md:px-8 md:py-16">
       <Reveal as="section" className="max-w-3xl">
-        <p className="text-sm font-semibold text-primary">Pricing</p>
+        <p className="text-sm font-semibold text-primary">Bảng giá</p>
         <h1 className="mt-3 text-3xl font-semibold tracking-normal text-foreground md:text-5xl">
           Dùng miễn phí trước, nâng cấp khi cần phân tích sâu hơn
         </h1>
         <p className="mt-4 text-base leading-8 text-muted-foreground">
-          Mệnh Việt AI đang chuẩn bị nền tảng Premium/Pro. Trang này chỉ giới
-          thiệu gói, chưa tích hợp thanh toán thật.
+          Mệnh Việt AI đang mở đăng ký quan tâm cho Premium/Pro. Các gói nâng cao
+          được giới thiệu minh bạch trước khi kích hoạt thanh toán trực tiếp.
         </p>
       </Reveal>
 
@@ -129,7 +129,7 @@ export default function PricingPage() {
                 {plan.name === "Premium" || plan.name === "Pro" ? (
                   <span className="inline-flex items-center gap-1 rounded-full border border-primary/25 bg-primary/8 px-2 py-1 text-xs font-semibold text-primary">
                     <Sparkles className="size-3" />
-                    {plan.name === "Premium" ? "Nổi bật" : "Soon"}
+                    {plan.name === "Premium" ? "Nổi bật" : "Quan tâm"}
                   </span>
                 ) : null}
               </div>
@@ -154,7 +154,6 @@ export default function PricingPage() {
                 variant={plan.name === "Premium" ? "default" : "secondary"}
               >
                 <Link href={plan.href}>
-                  {plan.name === "Pro" ? <Clock className="size-4" /> : null}
                   {plan.cta}
                 </Link>
               </Button>
@@ -165,7 +164,7 @@ export default function PricingPage() {
 
       <p className="mt-8 rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
         Nội dung chỉ mang tính tham khảo và khám phá bản thân. Chưa tích hợp
-        thanh toán thật. Premium/Pro sẽ được triển khai sau khi có auth, usage
+        thanh toán trực tiếp. Premium/Pro được triển khai sau khi có auth, usage
         tracking và chính sách hoàn tiền rõ ràng.
       </p>
 

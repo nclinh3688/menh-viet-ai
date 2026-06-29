@@ -13,7 +13,7 @@ export function DashboardPreview() {
     <section className="mx-auto w-full max-w-6xl px-5 py-16 md:px-8">
       <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
         <Reveal>
-          <p className="text-sm font-semibold text-primary">Demo dashboard</p>
+          <p className="text-sm font-semibold text-primary">Dashboard cá nhân</p>
           <h2 className="mt-3 text-3xl font-semibold tracking-normal text-foreground md:text-4xl">
             Hồ sơ vận mệnh được trình bày rõ ràng, dễ quay lại mỗi ngày
           </h2>

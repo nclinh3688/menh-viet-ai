@@ -41,7 +41,7 @@ export function FateOverview({ chart }: FateOverviewProps) {
       </div>
       <p className="mt-5 flex items-start gap-2 text-sm leading-6 text-muted-foreground">
         <Compass className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-        Đây là bản tóm tắt theo Astrology Engine MVP, dùng để định hướng dashboard
+        Đây là bản tóm tắt theo hệ quy chiếu Mệnh Việt, dùng để định hướng dashboard
         cá nhân và các phân tích sâu hơn ở giai đoạn sau.
       </p>
     </section>

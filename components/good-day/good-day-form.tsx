@@ -56,13 +56,13 @@ export function GoodDayForm() {
       <div className="rounded-md border bg-card/72 p-5 shadow-2xl shadow-primary/10 backdrop-blur-xl md:p-6">
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
           <CalendarCheck className="size-4" />
-          Xem ngày đẹp MVP
+          Xem ngày đẹp
         </div>
         <h1 className="text-3xl font-semibold tracking-normal text-foreground sm:text-4xl">
           Chọn ngày và mục đích cần xem
         </h1>
         <p className="mt-4 text-base leading-7 text-muted-foreground">
-          Mệnh Việt AI sẽ chấm điểm ngày theo mô hình deterministic MVP, kèm giờ
+          Mệnh Việt AI chấm điểm ngày theo mô hình quy tắc tham khảo, kèm giờ
           tốt, hướng tốt và lời khuyên thực tế để bạn tham khảo trước khi lên kế hoạch.
         </p>
 

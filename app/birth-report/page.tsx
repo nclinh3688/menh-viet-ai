@@ -27,7 +27,7 @@ import { SignatureInsight } from "@/components/report/signature-insight";
 import { ShareCard } from "@/components/share/share-card";
 import { PremiumLock } from "@/components/subscription/premium-lock";
 import { Button } from "@/components/ui/button";
-import { generateBirthChart, generateDailyFortuneDemo } from "@/lib/astrology";
+import { generateBirthChart, generateDailyFortuneSnapshot } from "@/lib/astrology";
 import { APP_NAME, ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { parseJsonArray } from "@/lib/json";
@@ -96,7 +96,7 @@ export default async function BirthReportPage({
       },
     }));
 
-  const dailyScore = generateDailyFortuneDemo(profile.id);
+  const dailyScore = generateDailyFortuneSnapshot(profile.id);
   const report = buildBirthReport({
     birthChart,
     dailyScore,

@@ -74,7 +74,7 @@ export function analyzeNumerology(input: NumerologyInput): NumerologyAnalysis {
     nameBreakdown,
     summary: buildSummary(fullName, lifePathNumber, attitudeNumber),
     mvpNote:
-      "Phần số linh hồn và số sứ mệnh đang dùng quy đổi chữ cái Latin sau khi bỏ dấu tiếng Việt, nên chỉ là bản tham khảo MVP.",
+      "Phần số linh hồn và số sứ mệnh đang dùng quy đổi chữ cái Latin sau khi bỏ dấu tiếng Việt, nên chỉ là bản tham khảo.",
   };
 }
 
@@ -149,7 +149,7 @@ function buildSummary(
   attitudeNumber: NumerologyCoreNumber,
 ) {
   return [
-    `${fullName} có số chủ đạo ${lifePathNumber} và số thái độ ${attitudeNumber} theo cách tính thần số học MVP.`,
+    `${fullName} có số chủ đạo ${lifePathNumber} và số thái độ ${attitudeNumber} theo cách tính thần số học tham khảo.`,
     "Kết quả nên được dùng như gợi ý phản tư về điểm mạnh, điểm cần rèn và hướng phát triển cá nhân.",
     ASTROLOGY_DISCLAIMER,
   ].join(" ");

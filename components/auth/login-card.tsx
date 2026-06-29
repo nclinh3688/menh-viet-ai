@@ -65,7 +65,7 @@ export function LoginCard({ currentUser = null, providerStatus }: LoginCardProps
                 variant="secondary"
               >
                 <Facebook className="size-4" />
-                Tiếp tục với Facebook - Sắp ra mắt
+                Tiếp tục với Facebook - Đang chuẩn bị
               </MVButton>
             </div>
           )}
@@ -87,7 +87,7 @@ export function LoginCard({ currentUser = null, providerStatus }: LoginCardProps
                   <li>Không bắt buộc đăng nhập để xem kết quả cơ bản.</li>
                   <li>Đăng nhập chỉ dùng để lưu hồ sơ và lịch sử sau này.</li>
                   <li>
-                    Premium/Pro sẽ được mở ở sprint riêng, chưa có thanh toán thật.
+                    Premium/Pro được mở sau khi chính sách thanh toán hoàn tất.
                   </li>
                 </ul>
               </div>

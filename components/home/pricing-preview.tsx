@@ -6,11 +6,11 @@ import { Button } from "@/components/ui/button";
 const plans = [
   {
     cta: "Bắt đầu miễn phí",
-    description: "Tạo hồ sơ, xem lá số cơ bản và dashboard demo.",
+    description: "Tạo hồ sơ, xem lá số cơ bản và dashboard cá nhân.",
     href: "/onboarding",
     name: "Free",
     price: "0đ",
-    features: ["1 hồ sơ cơ bản", "Can Chi, Ngũ hành, Cung Phi", "Chỉ số hôm nay demo"],
+    features: ["1 hồ sơ cơ bản", "Can Chi, Ngũ hành, Cung Phi", "Chỉ số hôm nay"],
   },
   {
     cta: "Xem Premium",

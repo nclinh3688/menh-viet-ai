@@ -24,7 +24,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
           </h2>
           <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
             Chọn ngày và mục đích để xem điểm ngày, giờ tốt, hướng tốt và các
-            gợi ý thực tế theo bản MVP tham khảo.
+            gợi ý thực tế theo hệ quy chiếu tham khảo.
           </p>
           <p className="mt-5 rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
             Nội dung chỉ mang tính tham khảo và khám phá bản thân.
@@ -50,7 +50,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
             <p className="mt-2 text-lg font-semibold text-primary">{result.rating}</p>
           </div>
           <p className="rounded-md border border-white/10 bg-background/52 px-4 py-3 text-sm text-muted-foreground">
-            MVP deterministic, không dùng random
+            Điểm ổn định theo ngày và mục đích
           </p>
         </div>
         <ProgressBar value={result.score} />

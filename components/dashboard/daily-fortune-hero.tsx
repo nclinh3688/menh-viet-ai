@@ -2,7 +2,7 @@ import { Heart, Sparkles, Wallet, Brain, BriefcaseBusiness } from "lucide-react"
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { AnimatedProgress } from "@/components/motion/animated-progress";
 import { Reveal } from "@/components/motion/reveal";
-import type { DailyFortuneDemo } from "@/lib/astrology";
+import type { DailyFortuneSnapshot } from "@/lib/astrology";
 
 const scoreIcons = {
   "Tình cảm": Heart,
@@ -13,7 +13,7 @@ const scoreIcons = {
 } as const;
 
 interface DailyFortuneHeroProps {
-  fortune: DailyFortuneDemo;
+  fortune: DailyFortuneSnapshot;
 }
 
 export function DailyFortuneHero({ fortune }: DailyFortuneHeroProps) {

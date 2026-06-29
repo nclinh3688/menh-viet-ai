@@ -21,7 +21,7 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     id: "CAN_CHI",
     name: "Can Chi",
     notes:
-      "MVP đang dùng công thức theo năm dương lịch, chưa xử lý giao tiết khí chi tiết.",
+      "Đang dùng công thức theo năm dương lịch, chưa xử lý giao tiết khí chi tiết.",
     references: [{ label: "Can Chi engine", path: "/lib/astrology/can-chi.ts" }],
     relatedDomains: ["birth-chart", "personality", "report"],
   },
@@ -33,20 +33,20 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     id: "CUNG_PHI",
     name: "Cung Phi",
     notes:
-      "MVP dùng bảng/logic theo năm sinh và giới tính; gender OTHER trả hướng trung lập.",
+      "Dùng bảng/logic theo năm sinh và giới tính; gender OTHER trả hướng trung lập.",
     references: [{ label: "Cung Phi engine", path: "/lib/astrology/cung-phi.ts" }],
     relatedDomains: ["directions", "finance", "feng-shui"],
   },
-  DAILY_FORTUNE_DETERMINISTIC: {
-    category: "deterministic-demo",
+  DAILY_FORTUNE_RULE_BASED: {
+    category: "rule-based",
     confidence: 55,
     description:
-      "Điểm ngày demo được tạo deterministic từ ngày hiện tại và profile id.",
-    id: "DAILY_FORTUNE_DETERMINISTIC",
-    name: "Daily Fortune deterministic MVP",
+      "Điểm ngày được tạo ổn định từ ngày hiện tại và profile id.",
+    id: "DAILY_FORTUNE_RULE_BASED",
+    name: "Daily Fortune rule-based",
     notes:
       "Chỉ dùng để minh họa trải nghiệm hằng ngày, chưa phải thuật toán ngày tốt đầy đủ.",
-    references: [{ label: "Daily fortune demo", path: "/lib/astrology/daily-fortune.ts" }],
+    references: [{ label: "Daily fortune engine", path: "/lib/astrology/daily-fortune.ts" }],
     relatedDomains: ["daily", "dashboard", "birth-report"],
   },
   DIA_CHI: {
@@ -57,7 +57,7 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     id: "DIA_CHI",
     name: "Địa Chi",
     notes:
-      "Dùng như lớp dữ liệu nền cho năm sinh và hợp tuổi MVP.",
+      "Dùng như lớp dữ liệu nền cho năm sinh và hợp tuổi.",
     references: [{ label: "Can Chi engine", path: "/lib/astrology/can-chi.ts" }],
     relatedDomains: ["zodiac", "compatibility", "birth-chart"],
   },
@@ -69,20 +69,20 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     id: "FIVE_ELEMENTS",
     name: "Ngũ Hành",
     notes:
-      "Nguồn chính cho các gợi ý màu, số, nghề ở mức MVP; cần source registry sâu hơn ở các sprint sau.",
+      "Nguồn chính cho các gợi ý màu, số, nghề ở mức hiện tại; cần source registry sâu hơn ở các giai đoạn sau.",
     references: [{ label: "Five elements engine", path: "/lib/astrology/elements.ts" }],
     relatedDomains: ["colors", "career", "personality", "birth-report"],
   },
-  GOOD_DAY_MVP: {
-    category: "deterministic-demo",
+  GOOD_DAY_RULE_BASED: {
+    category: "rule-based",
     confidence: 58,
     description:
-      "Xem ngày đẹp MVP dùng điểm deterministic theo ngày và mục đích.",
-    id: "GOOD_DAY_MVP",
-    name: "Xem ngày đẹp MVP",
+      "Xem ngày đẹp dùng điểm ổn định theo ngày và mục đích.",
+    id: "GOOD_DAY_RULE_BASED",
+    name: "Xem ngày đẹp rule-based",
     notes:
       "Không xử lý âm lịch đầy đủ, thần sát hoặc lịch tiết khí; chỉ dùng trải nghiệm tham khảo.",
-    references: [{ label: "Good day MVP", path: "/lib/astrology/good-day.ts" }],
+    references: [{ label: "Good day engine", path: "/lib/astrology/good-day.ts" }],
     relatedDomains: ["good-day", "planning"],
   },
   NAP_AM: {
@@ -93,7 +93,7 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     id: "NAP_AM",
     name: "Nạp âm",
     notes:
-      "MVP dùng bảng nạp âm giới hạn và fallback; chưa phải bộ tra cứu đầy đủ mọi trường phái.",
+      "Dùng bảng nạp âm giới hạn và fallback; chưa phải bộ tra cứu đầy đủ mọi trường phái.",
     references: [{ label: "Birth chart engine", path: "/lib/astrology/birth-chart.ts" }],
     relatedDomains: ["birth-chart", "personality"],
   },
@@ -101,11 +101,11 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     category: "numerology",
     confidence: 68,
     description:
-      "Thần số học MVP quy đổi ngày sinh và họ tên để tạo các con số tham khảo.",
+      "Thần số học quy đổi ngày sinh và họ tên để tạo các con số tham khảo.",
     id: "NUMEROLOGY",
     name: "Thần số học",
     notes:
-      "Tên tiếng Việt đang xử lý ở mức MVP bằng chuẩn hóa chữ Latin, cần kiểm chứng thêm.",
+      "Tên tiếng Việt đang xử lý bằng chuẩn hóa chữ Latin, cần kiểm chứng thêm.",
     references: [{ label: "Numerology engine", path: "/lib/numerology" }],
     relatedDomains: ["numerology", "career", "relationship"],
   },
@@ -117,7 +117,7 @@ export const sourceRegistry: Record<SourceId, SourceItem> = {
     id: "THIEN_CAN",
     name: "Thiên Can",
     notes:
-      "MVP dùng công thức theo năm dương lịch, chưa xử lý giao tiết khí chi tiết.",
+      "Dùng công thức theo năm dương lịch, chưa xử lý giao tiết khí chi tiết.",
     references: [{ label: "Can Chi engine", path: "/lib/astrology/can-chi.ts" }],
     relatedDomains: ["birth-chart", "compatibility"],
   },
@@ -127,11 +127,11 @@ export const legacySourceAliases: Record<string, SourceId> = {
   "Bát Trạch": "BAT_TRACH",
   "Can Chi": "CAN_CHI",
   "Cung Phi": "CUNG_PHI",
-  "Daily Fortune deterministic MVP": "DAILY_FORTUNE_DETERMINISTIC",
+  "Daily Fortune rule-based": "DAILY_FORTUNE_RULE_BASED",
   "Địa Chi": "DIA_CHI",
   "Ngũ Hành": "FIVE_ELEMENTS",
   "Nạp âm": "NAP_AM",
   "Thần số học": "NUMEROLOGY",
   "Thiên Can": "THIEN_CAN",
-  "Xem ngày đẹp MVP": "GOOD_DAY_MVP",
+  "Xem ngày đẹp rule-based": "GOOD_DAY_RULE_BASED",
 };

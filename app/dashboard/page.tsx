@@ -9,7 +9,7 @@ import { FeatureShortcuts } from "@/components/dashboard/feature-shortcuts";
 import { PersonalSuggestions } from "@/components/dashboard/personal-suggestions";
 import { PremiumLockedCards } from "@/components/dashboard/premium-locked-cards";
 import { SaveAnalysisCta } from "@/components/history/save-analysis-cta";
-import { generateBirthChart, generateDailyFortuneDemo } from "@/lib/astrology";
+import { generateBirthChart, generateDailyFortuneSnapshot } from "@/lib/astrology";
 import { APP_NAME } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { parseJsonArray } from "@/lib/json";
@@ -80,7 +80,7 @@ export default async function DashboardPage({
   const luckyNumbers = parseJsonArray<number>(birthChart.luckyNumbers);
   const goodDirections = parseJsonArray<string>(birthChart.goodDirections);
   const badDirections = parseJsonArray<string>(birthChart.badDirections);
-  const dailyFortune = generateDailyFortuneDemo(profile.id);
+  const dailyFortune = generateDailyFortuneSnapshot(profile.id);
   const saveAnalysisInput = {
     payload: {
       birthChart: {
