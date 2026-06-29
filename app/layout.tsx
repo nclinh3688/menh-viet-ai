@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { AuthSessionProvider } from "@/components/auth/auth-session-provider";
 import { MainLayout } from "@/components/layout/main-layout";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo/metadata";
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="vi" className="dark">
       <body>
-        <MainLayout>{children}</MainLayout>
+        <AuthSessionProvider>
+          <MainLayout>{children}</MainLayout>
+        </AuthSessionProvider>
       </body>
     </html>
   );

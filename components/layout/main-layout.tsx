@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { HeaderAuthActions } from "@/components/auth/header-auth-actions";
 import { APP_DESCRIPTION, APP_NAME } from "@/lib/constants";
 
 interface MainLayoutProps {
@@ -42,12 +42,9 @@ export function MainLayout({ children }: MainLayoutProps) {
                     {item.label}
                   </Link>
                 ))}
-                <Link
-                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-                  href="/login"
-                >
-                  Đăng nhập
-                </Link>
+                <div className="px-3 py-2">
+                  <HeaderAuthActions mobile />
+                </div>
               </nav>
             </details>
           </div>
@@ -68,9 +65,7 @@ export function MainLayout({ children }: MainLayoutProps) {
           </nav>
 
           <div className="hidden items-center gap-2 lg:flex">
-            <Button asChild size="sm" variant="secondary">
-              <Link href="/login">Đăng nhập</Link>
-            </Button>
+            <HeaderAuthActions />
           </div>
         </div>
       </header>

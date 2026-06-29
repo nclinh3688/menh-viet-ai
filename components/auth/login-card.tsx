@@ -1,14 +1,16 @@
 import Link from "next/link";
-import { ArrowLeft, Facebook, LockKeyhole, Mail } from "lucide-react";
+import { ArrowLeft, CheckCircle2, Facebook, LockKeyhole } from "lucide-react";
+import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { MVButton } from "@/components/form/mv-button";
 import { Button } from "@/components/ui/button";
-import type { AuthProviderStatus } from "@/lib/auth";
+import type { AuthProviderStatus, CurrentUser } from "@/lib/auth";
 
 interface LoginCardProps {
+  currentUser?: CurrentUser | null;
   providerStatus: AuthProviderStatus;
 }
 
-export function LoginCard({ providerStatus }: LoginCardProps) {
+export function LoginCard({ currentUser = null, providerStatus }: LoginCardProps) {
   const googleReady = providerStatus.googleConfigured && providerStatus.hasAuthSecret;
 
   return (
@@ -34,40 +36,76 @@ export function LoginCard({ providerStatus }: LoginCardProps) {
         </div>
 
         <div className="rounded-md border bg-background/52 p-5">
-          <div className="grid gap-3">
-            <MVButton
-              className="w-full justify-center"
-              disabled={!googleReady}
-              size="lg"
-              type="button"
-              variant={googleReady ? "default" : "secondary"}
-            >
-              <Mail className="size-4" />
-              {googleReady ? "Tiếp tục với Google" : "Google cần cấu hình OAuth"}
-            </MVButton>
-            <MVButton className="w-full justify-center" disabled size="lg" type="button" variant="secondary">
-              <Facebook className="size-4" />
-              Tiếp tục với Facebook - Sắp ra mắt
-            </MVButton>
-          </div>
+          {currentUser != null ? (
+            <div className="rounded-md border border-primary/25 bg-primary/10 p-4">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 className="size-5 text-primary" />
+                <div>
+                  <h2 className="font-semibold text-foreground">
+                    Bạn đã đăng nhập
+                  </h2>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {currentUser.name ?? currentUser.email ?? "Tài khoản của bạn"}
+                  </p>
+                </div>
+              </div>
+              <Button asChild className="mt-4 w-full" variant="secondary">
+                <Link href="/history">Xem lịch sử phân tích</Link>
+              </Button>
+            </div>
+          ) : (
+            <div className="grid gap-3">
+              <GoogleSignInButton disabled={!googleReady} />
+              <MVButton
+                className="w-full justify-center"
+                disabled
+                size="lg"
+                type="button"
+                variant="secondary"
+              >
+                <Facebook className="size-4" />
+                Tiếp tục với Facebook - Sắp ra mắt
+              </MVButton>
+            </div>
+          )}
 
-          <div className="mt-5 rounded-md border border-white/10 bg-card/48 p-4">
-            <h2 className="text-base font-semibold text-foreground">
-              Bạn vẫn có thể dùng miễn phí
-            </h2>
-            <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground">
-              <li>Không bắt buộc đăng nhập để xem kết quả cơ bản.</li>
-              <li>Đăng nhập chỉ dùng để lưu hồ sơ và lịch sử sau này.</li>
-              <li>Premium/Pro sẽ được mở ở sprint riêng, chưa có thanh toán thật.</li>
-            </ul>
-          </div>
+          {currentUser == null ? null : (
+            <p className="mt-4 rounded-md border border-white/10 bg-card/48 px-4 py-3 text-sm leading-6 text-muted-foreground">
+              Bạn có thể quay lại dashboard hoặc lịch sử. Các trang public vẫn
+              dùng được bình thường.
+            </p>
+          )}
 
-          <Button asChild className="mt-5" variant="ghost">
-            <Link href="/">
-              <ArrowLeft className="size-4" />
-              Tiếp tục xem không cần đăng nhập
-            </Link>
-          </Button>
+          {currentUser == null ? (
+            <>
+              <div className="mt-5 rounded-md border border-white/10 bg-card/48 p-4">
+                <h2 className="text-base font-semibold text-foreground">
+                  Bạn vẫn có thể dùng miễn phí
+                </h2>
+                <ul className="mt-3 grid gap-2 text-sm leading-6 text-muted-foreground">
+                  <li>Không bắt buộc đăng nhập để xem kết quả cơ bản.</li>
+                  <li>Đăng nhập chỉ dùng để lưu hồ sơ và lịch sử sau này.</li>
+                  <li>
+                    Premium/Pro sẽ được mở ở sprint riêng, chưa có thanh toán thật.
+                  </li>
+                </ul>
+              </div>
+
+              <Button asChild className="mt-5" variant="ghost">
+                <Link href="/">
+                  <ArrowLeft className="size-4" />
+                  Tiếp tục xem không cần đăng nhập
+                </Link>
+              </Button>
+            </>
+          ) : (
+            <Button asChild className="mt-5" variant="ghost">
+              <Link href="/">
+                <ArrowLeft className="size-4" />
+                Về trang chủ
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </section>
