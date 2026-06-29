@@ -8,6 +8,7 @@ interface ShareCardProps {
   insight: string;
   luckyColors?: string[];
   name: string;
+  siteUrl?: string;
   todayScore?: number;
 }
 
@@ -16,6 +17,7 @@ export function ShareCard({
   insight,
   luckyColors = [],
   name,
+  siteUrl = "menhviet.ai",
   todayScore,
 }: ShareCardProps) {
   return (
@@ -25,6 +27,7 @@ export function ShareCard({
         className,
       )}
     >
+      <div className="rounded-lg border border-primary/20 bg-[radial-gradient(circle_at_top_left,rgba(215,181,109,0.20),transparent_34%),rgba(255,255,255,0.04)] p-4">
       <div className="flex items-start justify-between gap-4">
         <div>
           <p className="text-sm font-semibold text-primary">{APP_NAME}</p>
@@ -57,6 +60,31 @@ export function ShareCard({
           </div>
         </div>
       )}
+
+      <div className="mt-5 flex items-center justify-between gap-4 rounded-md border border-white/10 bg-background/48 p-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+            QR website
+          </p>
+          <p className="mt-1 text-sm font-semibold text-foreground">{siteUrl}</p>
+        </div>
+        <div
+          aria-label="QR website placeholder"
+          className="grid size-16 grid-cols-4 gap-1 rounded-md border border-primary/25 bg-primary/10 p-2 text-primary"
+        >
+          {Array.from({ length: 16 }).map((_, index) => (
+            <span
+              className={
+                [0, 1, 4, 5, 10, 11, 14].includes(index)
+                  ? "rounded-[2px] bg-primary"
+                  : "rounded-[2px] bg-primary/20"
+              }
+              key={index}
+            />
+          ))}
+        </div>
+      </div>
+      </div>
 
       <Button className="mt-6 w-full" type="button">
         <Share2 className="size-4" />

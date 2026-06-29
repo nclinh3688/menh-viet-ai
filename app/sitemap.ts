@@ -12,7 +12,10 @@ const publicRoutes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://menhviet.ai";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_APP_URL ??
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    "https://menhviet.ai";
   const now = new Date();
 
   return publicRoutes.map((route) => ({

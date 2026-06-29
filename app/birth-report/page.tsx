@@ -21,6 +21,8 @@ import {
   ReportStrengths,
   ReportWhyCard,
 } from "@/components/report-engine";
+import { KnowledgeDiscovery } from "@/components/report/knowledge-discovery";
+import { OneThingToRemember } from "@/components/report/one-thing-to-remember";
 import { NextDiscovery } from "@/components/report/next-discovery";
 import { PracticalAdvice } from "@/components/report/practical-advice";
 import { SignatureInsight } from "@/components/report/signature-insight";
@@ -31,6 +33,7 @@ import { generateBirthChart, generateDailyFortuneSnapshot } from "@/lib/astrolog
 import { APP_NAME, ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import { db } from "@/lib/db";
 import { parseJsonArray } from "@/lib/json";
+import { getFiveElementReportFacts } from "@/lib/knowledge-db/astrology/five-elements-pack";
 import { checkReportContentQuality } from "@/lib/quality/content-quality-checker";
 import { buildBirthReport } from "@/lib/report-engine/adapters/birth-report-adapter";
 import { validateReport } from "@/lib/report-engine/report-validator";
@@ -105,16 +108,29 @@ export default async function BirthReportPage({
   const luckyColors = parseJsonArray<string>(birthChart.luckyColors);
   const contentQuality = checkReportContentQuality(report);
   const reportValidation = validateReport(report);
-  const journeyPercent = Math.min(
-    100,
-    Math.max(25, Math.round((report.overview.facts.length / 6) * 100)),
-  );
+  const completedSteps = [
+    report.overview.facts.length > 0,
+    report.strengths.items.length > 0,
+    report.career.items.length > 0,
+    report.relationship.items.length > 0,
+    report.finance.items.length > 0,
+    report.recommendations.items.length > 0,
+  ].filter(Boolean).length;
+  const totalDiscoveryTopics =
+    report.anchors.length +
+    report.nextDiscovery.length +
+    report.sources.length +
+    report.rawData.facts.length;
+  const signatureFactors = buildSignatureFactors(report);
+  const knowledgeDiscovery = buildKnowledgeDiscovery(birthChart.element);
+  const oneThingToRemember = buildOneThingToRemember(report.keyInsight.body);
 
   return (
     <main className="mx-auto grid w-full max-w-6xl gap-5 px-5 py-8 md:px-8 md:py-10">
       <ReportHeader report={report} title={`Báo cáo vận mệnh của ${profile.fullName}`} />
       <JourneyProgress
-        percent={journeyPercent}
+        discoveredCount={completedSteps}
+        percent={0}
         steps={[
           { isCompleted: true, label: "Tổng quan" },
           { isCompleted: true, label: "Con người" },
@@ -123,8 +139,15 @@ export default async function BirthReportPage({
           { isCompleted: report.finance.items.length > 0, label: "Tài chính" },
           { isCompleted: true, label: "Lời khuyên" },
         ]}
+        totalCount={totalDiscoveryTopics}
+      />
+      <SignatureInsight
+        confidence={report.overview.confidence}
+        factors={signatureFactors}
+        insight={report.keyInsight.body}
       />
       <ReportOverview report={report} />
+      <KnowledgeDiscovery items={knowledgeDiscovery} />
       <BirthRawDataCard
         birthChart={{
           cungPhi: birthChart.cungPhi,
@@ -144,27 +167,46 @@ export default async function BirthReportPage({
         }}
       />
       <ReportRawData report={report} />
-      <SignatureInsight insight={report.keyInsight.body} title={report.keyInsight.title} />
       <ReportKeyInsight report={report} />
+      <KnowledgeDiscovery items={knowledgeDiscovery} />
       <ReportInterpretation report={report} />
       <ReportStrengths report={report} />
+      <KnowledgeDiscovery items={knowledgeDiscovery} />
       <ReportCautions report={report} />
       <div className="grid gap-5 lg:grid-cols-2">
-        <ReportCareer report={report} />
-        <ReportFinance report={report} />
-        <ReportRelationship report={report} />
-        <ReportHealth report={report} />
+        <div>
+          <ReportCareer report={report} />
+          <KnowledgeDiscovery items={knowledgeDiscovery} />
+        </div>
+        <div>
+          <ReportFinance report={report} />
+          <KnowledgeDiscovery items={knowledgeDiscovery} />
+        </div>
+        <div>
+          <ReportRelationship report={report} />
+          <KnowledgeDiscovery items={knowledgeDiscovery} />
+        </div>
+        <div>
+          <ReportHealth report={report} />
+          <KnowledgeDiscovery items={knowledgeDiscovery} />
+        </div>
       </div>
       <ReportRecommendations report={report} />
       <PracticalAdvice items={report.recommendations.items} />
       <ReportWhyCard report={report} />
       <NextDiscovery items={report.nextDiscovery} />
       <ReportNextDiscovery report={report} />
+      <OneThingToRemember insight={oneThingToRemember} />
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <ShareCard
           insight={report.keyInsight.body}
           luckyColors={luckyColors}
           name={profile.fullName}
+          siteUrl={
+            process.env.NEXT_PUBLIC_APP_URL ??
+            process.env.NEXT_PUBLIC_SITE_URL ??
+            "menhviet.ai"
+          }
           todayScore={dailyScore.totalScore}
         />
         <div className="grid gap-4 sm:grid-cols-2">
@@ -189,6 +231,32 @@ export default async function BirthReportPage({
       ) : null}
     </main>
   );
+}
+
+function buildSignatureFactors(report: ReturnType<typeof buildBirthReport>) {
+  return report.rawData.facts
+    .slice(0, 3)
+    .map((fact) => `${fact.code} · confidence ${fact.confidence}%`);
+}
+
+function buildKnowledgeDiscovery(element: string) {
+  const fiveElementFacts = getFiveElementReportFacts(element);
+
+  if (fiveElementFacts == null) {
+    return [];
+  }
+
+  return fiveElementFacts.relatedKnowledge.slice(0, 3).map((item) => ({
+    href: "/five-elements",
+    label: item.title,
+    summary: item.summary,
+  }));
+}
+
+function buildOneThingToRemember(signatureInsight: string) {
+  const [firstSentence] = signatureInsight.split(".");
+
+  return `${firstSentence.trim()}.`;
 }
 
 function BirthReportEmptyState() {

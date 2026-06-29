@@ -8,9 +8,11 @@ export interface JourneyStep {
 
 interface JourneyProgressProps {
   className?: string;
+  discoveredCount?: number;
   percent: number;
   steps?: JourneyStep[];
   title?: string;
+  totalCount?: number;
 }
 
 const defaultSteps: JourneyStep[] = [
@@ -24,11 +26,19 @@ const defaultSteps: JourneyStep[] = [
 
 export function JourneyProgress({
   className,
+  discoveredCount,
   percent,
   steps = defaultSteps,
   title = "Hành trình khám phá",
+  totalCount,
 }: JourneyProgressProps) {
-  const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+  const hasTopicCount = discoveredCount != null && totalCount != null && totalCount > 0;
+  const safeDiscovered = hasTopicCount
+    ? Math.max(0, Math.min(discoveredCount, totalCount))
+    : 0;
+  const safePercent = hasTopicCount
+    ? Math.round((safeDiscovered / totalCount) * 100)
+    : Math.max(0, Math.min(100, Math.round(percent)));
 
   return (
     <section
@@ -41,11 +51,13 @@ export function JourneyProgress({
         <div>
           <p className="text-sm font-semibold text-primary">{title}</p>
           <p className="mt-1 text-sm text-muted-foreground">
-            Người dùng luôn biết mình còn gì để khám phá.
+            {hasTopicCount
+              ? `Đã khám phá: ${safeDiscovered} / ${totalCount} chủ đề`
+              : "Theo dõi các phần bạn đã đọc trong báo cáo này."}
           </p>
         </div>
         <span className="text-2xl font-semibold text-foreground">
-          {safePercent}%
+          {hasTopicCount ? `${safeDiscovered}/${totalCount}` : `${safePercent}%`}
         </span>
       </div>
 

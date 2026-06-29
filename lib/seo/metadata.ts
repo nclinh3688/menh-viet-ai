@@ -11,7 +11,11 @@ export function buildMetadata({
   description,
   path = "/",
 }: BuildMetadataInput): Metadata {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://menhviet.ai";
+  const siteUrl =
+    process.env.NEXT_PUBLIC_APP_URL ??
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    "https://menhviet.ai";
+  const siteName = process.env.NEXT_PUBLIC_SITE_NAME ?? "Mệnh Việt AI";
 
   return {
     metadataBase: new URL(siteUrl),
@@ -29,14 +33,14 @@ export function buildMetadata({
       description,
       type: "website",
       locale: "vi_VN",
-      siteName: "Mệnh Việt AI",
+      siteName,
       url: path,
       images: [
         {
           url: "/images/menh-viet-hero.png",
           width: 1200,
           height: 630,
-          alt: "Mệnh Việt AI",
+          alt: siteName,
         },
       ],
     },

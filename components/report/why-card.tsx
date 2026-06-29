@@ -38,8 +38,10 @@ export function WhyCard({
       <div className="grid gap-3">
         {steps.map((step, index) => (
           <div key={step.label}>
-            <div className="rounded-md border border-white/10 bg-background/48 p-4">
-              <p className="font-semibold text-foreground">{step.label}</p>
+            <div className="rounded-md border border-white/10 bg-background/48 p-4 transition-colors duration-200 hover:border-primary/25">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                {step.label}
+              </p>
               <p className="mt-2 text-sm leading-6 text-muted-foreground">
                 {step.description}
               </p>
