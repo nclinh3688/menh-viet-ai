@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { createProfileAction } from "@/app/onboarding/actions";
 import { MVButton } from "@/components/form/mv-button";
 import { MVCalendarTypeToggle } from "@/components/form/mv-calendar-type-toggle";
@@ -40,6 +40,7 @@ export function OnboardingForm({ initialValues }: OnboardingFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const {
+    control,
     formState: { errors },
     handleSubmit,
     register,
@@ -124,9 +125,16 @@ export function OnboardingForm({ initialValues }: OnboardingFormProps) {
           </MVFormField>
 
           <MVFormField label="Loại lịch" error={errors.calendarType?.message}>
-            <MVCalendarTypeToggle
-              value={initialValues?.calendarType ?? defaultValues.calendarType}
-              {...register("calendarType")}
+            <Controller
+              control={control}
+              name="calendarType"
+              render={({ field }) => (
+                <MVCalendarTypeToggle
+                  onBlur={field.onBlur}
+                  onChange={field.onChange}
+                  value={field.value}
+                />
+              )}
             />
           </MVFormField>
         </div>

@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { HeartHandshake, Loader2, Sparkles } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { MVButton } from "@/components/form/mv-button";
 import { MVCalendarTypeToggle } from "@/components/form/mv-calendar-type-toggle";
 import { MVDateInput } from "@/components/form/mv-date-input";
@@ -37,6 +37,7 @@ export function CompatibilityForm() {
   const [result, setResult] = useState<CompatibilityResult | null>(null);
   const [isPending, startTransition] = useTransition();
   const {
+    control,
     formState: { errors },
     handleSubmit,
     register,
@@ -86,6 +87,7 @@ export function CompatibilityForm() {
               fullName: errors.male?.fullName?.message,
             }}
             prefix="male"
+            control={control}
             register={register}
             title="Thông tin nam"
           />
@@ -98,6 +100,7 @@ export function CompatibilityForm() {
               fullName: errors.female?.fullName?.message,
             }}
             prefix="female"
+            control={control}
             register={register}
             title="Thông tin nữ"
           />
@@ -130,11 +133,13 @@ export function CompatibilityForm() {
 }
 
 function PersonFields({
+  control,
   errors,
   prefix,
   register,
   title,
 }: {
+  control: ReturnType<typeof useForm<CompatibilityFormValues>>["control"];
   errors: Partial<Record<"birthDate" | "birthTime" | "calendarType" | "fullName", string>>;
   prefix: "female" | "male";
   register: ReturnType<typeof useForm<CompatibilityFormValues>>["register"];
@@ -181,9 +186,16 @@ function PersonFields({
         </div>
 
         <MVFormField label="Loại lịch" error={errors.calendarType}>
-          <MVCalendarTypeToggle
-            value="solar"
-            {...register(`${prefix}.calendarType`)}
+          <Controller
+            control={control}
+            name={`${prefix}.calendarType`}
+            render={({ field }) => (
+              <MVCalendarTypeToggle
+                onBlur={field.onBlur}
+                onChange={field.onChange}
+                value={field.value}
+              />
+            )}
           />
         </MVFormField>
       </div>

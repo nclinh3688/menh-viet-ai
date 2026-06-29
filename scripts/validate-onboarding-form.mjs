@@ -64,7 +64,7 @@ const passCases = [
   buildValidPayload({ birthDate: "18/07/1995", calendarType: "solar" }),
   buildValidPayload({ birthDate: "18/07/1995", calendarType: "lunar" }),
   buildValidPayload({ birthDate: "18/7/1995", calendarType: "solar" }),
-  buildValidPayload({ birthDate: "18071995", calendarType: "solar" }),
+  buildValidPayload({ birthDate: "18071995", calendarType: "lunar" }),
 ];
 
 for (const payload of passCases) {
@@ -78,6 +78,7 @@ for (const payload of passCases) {
 const failCases = [
   buildValidPayload({ calendarType: undefined }),
   buildValidPayload({ calendarType: "" }),
+  buildValidPayload({ calendarType: "am_lich" }),
   buildValidPayload({ birthDate: "31/02/1995" }),
 ];
 

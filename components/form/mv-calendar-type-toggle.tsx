@@ -1,9 +1,17 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-interface MVCalendarTypeToggleProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "type" | "value"> {
-  value?: "lunar" | "solar";
+export type MVCalendarTypeValue = "lunar" | "solar";
+
+interface MVCalendarTypeToggleProps {
+  className?: string;
+  disabled?: boolean;
+  name?: string;
+  onBlur?: () => void;
+  onChange?: (value: MVCalendarTypeValue) => void;
+  value?: MVCalendarTypeValue;
 }
 
 const options = [
@@ -11,32 +19,58 @@ const options = [
   { icon: "☾", label: "Âm lịch", value: "lunar" },
 ] as const;
 
-export const MVCalendarTypeToggle = React.forwardRef<
-  HTMLInputElement,
-  MVCalendarTypeToggleProps
->(({ className, name, value, ...props }, ref) => {
+export function MVCalendarTypeToggle({
+  className,
+  disabled = false,
+  name,
+  onBlur,
+  onChange,
+  value,
+}: MVCalendarTypeToggleProps) {
+  const [internalValue, setInternalValue] =
+    React.useState<MVCalendarTypeValue>("solar");
+  const selectedValue = value ?? internalValue;
+
+  function handleSelect(nextValue: MVCalendarTypeValue) {
+    if (disabled) {
+      return;
+    }
+
+    if (value == null) {
+      setInternalValue(nextValue);
+    }
+
+    onChange?.(nextValue);
+  }
+
   return (
-    <div className={cn("grid grid-cols-2 gap-1 rounded-xl border border-white/[0.12] bg-white/[0.06] p-1", className)}>
-      {options.map((option, index) => (
-        <label
-          className="relative flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg text-sm font-semibold text-muted-foreground transition-colors has-[:checked]:bg-primary has-[:checked]:text-primary-foreground"
+    <div
+      aria-label="Loại lịch"
+      className={cn(
+        "grid grid-cols-2 gap-1 rounded-xl border border-white/[0.12] bg-white/[0.06] p-1",
+        className,
+      )}
+      role="radiogroup"
+    >
+      {name == null ? null : <input name={name} type="hidden" value={selectedValue} />}
+      {options.map((option) => (
+        <button
+          aria-checked={selectedValue === option.value}
+          className={cn(
+            "relative flex h-10 cursor-pointer items-center justify-center gap-2 rounded-lg text-sm font-semibold text-muted-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-60",
+            selectedValue === option.value && "bg-primary text-primary-foreground",
+          )}
+          disabled={disabled}
           key={option.value}
+          onBlur={onBlur}
+          onClick={() => handleSelect(option.value)}
+          role="radio"
+          type="button"
         >
-          <input
-            className="sr-only"
-            defaultChecked={value == null ? option.value === "solar" : value === option.value}
-            name={name}
-            ref={index === 0 ? ref : undefined}
-            type="radio"
-            value={option.value}
-            {...props}
-          />
           <span>{option.icon}</span>
           {option.label}
-        </label>
+        </button>
       ))}
     </div>
   );
-});
-
-MVCalendarTypeToggle.displayName = "MVCalendarTypeToggle";
+}

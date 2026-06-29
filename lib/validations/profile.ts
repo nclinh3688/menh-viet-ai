@@ -6,6 +6,8 @@ import {
   normalizeBirthTimeInput,
 } from "./date-time";
 
+const CALENDAR_TYPE_ERROR = "Vui lòng chọn loại lịch.";
+
 export const genderOptions = [
   { label: "Nam", value: "MALE" },
   { label: "Nữ", value: "FEMALE" },
@@ -64,7 +66,7 @@ export const profileFormSchema = z.object({
   }),
   birthPlace: optionalText,
   calendarType: z.enum(["solar", "lunar"], {
-    message: "Vui lòng chọn loại lịch.",
+    message: CALENDAR_TYPE_ERROR,
   }),
   relationshipStatus: z.enum(relationshipStatusOptions, {
     message: "Vui lòng chọn tình trạng.",
