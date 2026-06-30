@@ -8,7 +8,14 @@ import {
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { AnimatedProgress } from "@/components/motion/animated-progress";
 import { Reveal } from "@/components/motion/reveal";
+import { ResultAdviceCard } from "@/components/result/result-advice-card";
+import { ResultInsightCard } from "@/components/result/result-insight-card";
+import { ResultNextDiscovery } from "@/components/result/result-next-discovery";
+import { ResultShareCta } from "@/components/result/result-share-cta";
+import { ResultSourceList } from "@/components/result/result-source-list";
+import { ResultWhyCard } from "@/components/result/result-why-card";
 import type { CompatibilityResult } from "@/lib/astrology/compatibility";
+import { buildCompatibilityResultModel } from "@/lib/result/result-builder";
 
 export function CompatibilityResultCard({
   result,
@@ -23,10 +30,10 @@ export function CompatibilityResultCard({
             <HeartHandshake className="size-6" />
           </div>
           <h2 className="text-2xl font-semibold text-foreground">
-            Kết quả hợp tuổi sẽ xuất hiện tại đây
+            Kết quả hợp tuổi xuất hiện tại đây
           </h2>
           <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
-            Sau khi nhập ngày sinh của hai người, hệ thống sẽ tính điểm theo Cung
+            Sau khi nhập ngày sinh của hai người, hệ thống tính điểm theo Cung
             Phi, Địa Chi, Ngũ Hành, Thiên Can và yếu tố bổ sung.
           </p>
           <p className="mt-5 rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
@@ -36,6 +43,8 @@ export function CompatibilityResultCard({
       </Reveal>
     );
   }
+
+  const resultModel = buildCompatibilityResultModel(result);
 
   return (
     <div className="space-y-4">
@@ -61,6 +70,8 @@ export function CompatibilityResultCard({
           {result.summary}
         </p>
       </Reveal>
+
+      <ResultInsightCard result={resultModel} />
 
       <section className="grid gap-3 sm:grid-cols-2">
         <PersonSummary title="Nam" profile={result.male} />
@@ -102,6 +113,11 @@ export function CompatibilityResultCard({
         items={result.practicalSuggestions}
         title="Gợi ý hóa giải thực tế"
       />
+      <ResultAdviceCard result={resultModel} />
+      <ResultWhyCard result={resultModel} />
+      <ResultSourceList result={resultModel} />
+      <ResultNextDiscovery result={resultModel} />
+      <ResultShareCta result={resultModel} />
 
       <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
         {result.disclaimer}

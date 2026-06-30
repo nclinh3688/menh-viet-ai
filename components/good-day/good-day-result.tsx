@@ -9,7 +9,14 @@ import {
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { AnimatedProgress } from "@/components/motion/animated-progress";
 import { Reveal } from "@/components/motion/reveal";
+import { ResultAdviceCard } from "@/components/result/result-advice-card";
+import { ResultInsightCard } from "@/components/result/result-insight-card";
+import { ResultNextDiscovery } from "@/components/result/result-next-discovery";
+import { ResultShareCta } from "@/components/result/result-share-cta";
+import { ResultSourceList } from "@/components/result/result-source-list";
+import { ResultWhyCard } from "@/components/result/result-why-card";
 import type { GoodDayAnalysis } from "@/lib/astrology/good-day";
+import { buildGoodDayResultModel } from "@/lib/result/result-builder";
 
 export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
   if (result == null) {
@@ -20,7 +27,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
             <CalendarCheck className="size-6" />
           </div>
           <h2 className="text-2xl font-semibold text-foreground">
-            Kết quả xem ngày sẽ xuất hiện tại đây
+            Kết quả xem ngày xuất hiện tại đây
           </h2>
           <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
             Chọn ngày và mục đích để xem điểm ngày, giờ tốt, hướng tốt và các
@@ -33,6 +40,8 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
       </Reveal>
     );
   }
+
+  const resultModel = buildGoodDayResultModel(result);
 
   return (
     <div className="space-y-4">
@@ -58,6 +67,8 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
           {result.advice}
         </p>
       </Reveal>
+
+      <ResultInsightCard result={resultModel} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ListCard
@@ -88,6 +99,12 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
           giấy tờ, người chịu trách nhiệm và phương án dự phòng trước khi thực hiện.
         </p>
       </section>
+
+      <ResultAdviceCard result={resultModel} />
+      <ResultWhyCard result={resultModel} />
+      <ResultSourceList result={resultModel} />
+      <ResultNextDiscovery result={resultModel} />
+      <ResultShareCta result={resultModel} />
 
       <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
         {result.disclaimer}

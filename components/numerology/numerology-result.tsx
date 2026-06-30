@@ -7,8 +7,17 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { ResultAdviceCard } from "@/components/result/result-advice-card";
+import { ResultInsightCard } from "@/components/result/result-insight-card";
+import { ResultNextDiscovery } from "@/components/result/result-next-discovery";
+import { ResultShareCta } from "@/components/result/result-share-cta";
+import { ResultShell } from "@/components/result/result-shell";
+import { ResultSourceList } from "@/components/result/result-source-list";
+import { ResultSummaryCard } from "@/components/result/result-summary-card";
+import { ResultWhyCard } from "@/components/result/result-why-card";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import type { NumerologyAnalysis, NumerologyProfile } from "@/lib/numerology";
+import { buildNumerologyResultModel } from "@/lib/result/result-builder";
 
 export function NumerologyResult({
   analysis,
@@ -23,10 +32,10 @@ export function NumerologyResult({
             <Sparkles className="size-6" />
           </div>
           <h2 className="text-2xl font-semibold text-foreground">
-            Kết quả thần số học sẽ xuất hiện tại đây
+            Kết quả thần số học xuất hiện tại đây
           </h2>
           <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
-            Mệnh Việt AI sẽ phân tích các con số nền tảng từ ngày sinh và họ tên,
+            Mệnh Việt phân tích các con số nền tảng từ ngày sinh và họ tên,
             sau đó gợi ý cách đọc theo hướng khám phá bản thân.
           </p>
           <p className="mt-5 rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
@@ -37,20 +46,12 @@ export function NumerologyResult({
     );
   }
 
+  const resultModel = buildNumerologyResultModel(analysis);
+
   return (
-    <div className="space-y-4">
-      <Reveal className="premium-surface rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
-        <p className="text-sm font-medium text-primary">Kết quả cho {analysis.fullName}</p>
-        <h2 className="mt-2 text-4xl font-semibold text-foreground">
-          Số chủ đạo {analysis.lifePathNumber}
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          {analysis.lifePathProfile.title}
-        </p>
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">
-          {analysis.summary}
-        </p>
-      </Reveal>
+    <ResultShell>
+      <ResultSummaryCard result={resultModel} />
+      <ResultInsightCard result={resultModel} />
 
       <div className="grid gap-3 sm:grid-cols-2">
         <NumberTile label="Số chủ đạo" value={analysis.lifePathNumber} />
@@ -76,7 +77,9 @@ export function NumerologyResult({
           <span className="text-foreground">{analysis.nameBreakdown.normalizedName}</span>
         </p>
         <p className="mt-3 text-sm leading-6 text-muted-foreground">
-          {analysis.mvpNote}
+          Tên tiếng Việt được chuẩn hóa sang chữ Latin để tính phần họ tên ở
+          mức tham khảo công khai; nên dùng kết quả như gợi ý phản tư, không
+          xem là kết luận cố định về bản thân.
         </p>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {analysis.soulUrgeProfile != null ? (
@@ -87,7 +90,15 @@ export function NumerologyResult({
           ) : null}
         </div>
       </div>
-    </div>
+      <ResultAdviceCard result={resultModel} />
+      <ResultWhyCard result={resultModel} />
+      <ResultSourceList result={resultModel} />
+      <ResultNextDiscovery result={resultModel} />
+      <ResultShareCta result={resultModel} />
+      <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
+        {ASTROLOGY_DISCLAIMER}
+      </p>
+    </ResultShell>
   );
 }
 

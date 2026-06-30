@@ -18,7 +18,7 @@ const EDUCATION_ITEMS = [
     icon: Scale,
     title: "Tương khắc là gì?",
     content:
-      "Tương khắc mô tả mối quan hệ kiểm soát hoặc tiết chế. Trong ứng dụng hiện đại, nên hiểu như một gợi ý cân bằng, không phải phán quyết tốt xấu tuyệt đối.",
+      "Tương khắc mô tả mối quan hệ kiểm soát hoặc tiết chế. Trong ứng dụng hiện đại, nên hiểu như một gợi ý cân bằng, không phải phán quyết tốt xấu cố định.",
   },
 ];
 

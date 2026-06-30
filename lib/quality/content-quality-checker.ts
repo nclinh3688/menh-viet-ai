@@ -1,4 +1,5 @@
 import type { ReportRenderModel } from "@/lib/report-engine/report-schema";
+import type { ResultModel } from "@/lib/result/result-types";
 
 export const FORBIDDEN_REPORT_TERMS = [
   "chắc chắn",
@@ -23,6 +24,15 @@ export interface ForbiddenTermMatch {
 export interface ContentQualityResult {
   forbiddenWordsFound: ForbiddenTermMatch[];
   isPass: boolean;
+}
+
+export interface ResultQualityIssue {
+  field: string;
+  message: string;
+}
+
+export interface ResultQualityResult extends ContentQualityResult {
+  issues: ResultQualityIssue[];
 }
 
 function normalizeText(value: string) {
@@ -116,5 +126,57 @@ export function checkReportContentQuality(
   return {
     forbiddenWordsFound,
     isPass: forbiddenWordsFound.length === 0,
+  };
+}
+
+function collectResultText(result: ResultModel) {
+  return [
+    ["title", result.title],
+    ["summary", result.summary],
+    ["keyInsight", result.keyInsight],
+    ["shareText", result.shareText],
+    ...result.strengths.map((item, index) => [`strengths.${index}`, item]),
+    ...result.cautions.map((item, index) => [`cautions.${index}`, item]),
+    ...result.advice.map((item, index) => [`advice.${index}`, item]),
+    ...result.why.flatMap((item, index) => [
+      [`why.${index}.knowledge`, item.knowledge],
+      [`why.${index}.rule`, item.rule],
+      [`why.${index}.reason`, item.reason],
+      [`why.${index}.conclusion`, item.conclusion],
+    ]),
+    ...result.sources.map((item, index) => [
+      `sources.${index}`,
+      `${item.label} ${item.description}`,
+    ]),
+  ] as Array<[string, string]>;
+}
+
+export function checkResultQuality(result: ResultModel): ResultQualityResult {
+  const issues: ResultQualityIssue[] = [];
+
+  if (result.summary.length < 80) {
+    issues.push({ field: "summary", message: "Summary quá ngắn." });
+  }
+
+  if (result.why.length === 0) {
+    issues.push({ field: "why", message: "Thiếu phần vì sao." });
+  }
+
+  if (result.sources.length === 0) {
+    issues.push({ field: "sources", message: "Thiếu nguồn phân tích." });
+  }
+
+  if (result.advice.length === 0) {
+    issues.push({ field: "advice", message: "Thiếu gợi ý áp dụng." });
+  }
+
+  const forbiddenWordsFound = collectResultText(result).flatMap(([field, value]) =>
+    checkTextQuality(value, field).forbiddenWordsFound,
+  );
+
+  return {
+    forbiddenWordsFound,
+    isPass: issues.length === 0 && forbiddenWordsFound.length === 0,
+    issues,
   };
 }

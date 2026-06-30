@@ -14,6 +14,7 @@ const navigationItems = [
   { href: "/five-elements", label: "Ngũ hành" },
   { href: "/numerology", label: "Thần số học" },
   { href: "/good-day", label: "Ngày đẹp" },
+  { href: "/knowledge", label: "Tri thức" },
   { href: "/history", label: "Lịch sử" },
   { href: "/pricing", label: "Pricing" },
 ];

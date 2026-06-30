@@ -7,8 +7,17 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
+import { ResultAdviceCard } from "@/components/result/result-advice-card";
+import { ResultInsightCard } from "@/components/result/result-insight-card";
+import { ResultNextDiscovery } from "@/components/result/result-next-discovery";
+import { ResultShareCta } from "@/components/result/result-share-cta";
+import { ResultShell } from "@/components/result/result-shell";
+import { ResultSourceList } from "@/components/result/result-source-list";
+import { ResultSummaryCard } from "@/components/result/result-summary-card";
+import { ResultWhyCard } from "@/components/result/result-why-card";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import type { FiveElementsAnalysis } from "@/lib/astrology/five-elements";
+import { buildFiveElementsResultModel } from "@/lib/result/result-builder";
 
 export function FiveElementsResult({
   analysis,
@@ -23,10 +32,10 @@ export function FiveElementsResult({
             <Sparkles className="size-6" />
           </div>
           <h2 className="text-2xl font-semibold text-foreground">
-            Kết quả sẽ xuất hiện tại đây
+            Kết quả xuất hiện tại đây
           </h2>
           <p className="mt-3 max-w-lg text-sm leading-6 text-muted-foreground">
-            Sau khi nhập dữ liệu, Mệnh Việt AI sẽ trả về hành bản mệnh, màu sắc,
+            Sau khi nhập dữ liệu, Mệnh Việt trả về hành bản mệnh, màu sắc,
             số hợp và quan hệ tương sinh tương khắc theo hệ quy chiếu tham khảo.
           </p>
           <p className="mt-5 rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
@@ -37,20 +46,12 @@ export function FiveElementsResult({
     );
   }
 
+  const resultModel = buildFiveElementsResultModel(analysis);
+
   return (
-    <div className="space-y-4">
-      <Reveal className="premium-surface rounded-md border border-primary/25 bg-primary/10 p-5 shadow-2xl shadow-primary/10">
-        <p className="text-sm font-medium text-primary">Kết quả năm {analysis.year}</p>
-        <h2 className="mt-2 text-4xl font-semibold text-foreground">
-          Mệnh {analysis.element}
-        </h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Nạp âm tham khảo: <span className="text-foreground">{analysis.napAm}</span>
-        </p>
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">
-          {analysis.summary}
-        </p>
-      </Reveal>
+    <ResultShell>
+      <ResultSummaryCard result={resultModel} />
+      <ResultInsightCard result={resultModel} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard
@@ -109,7 +110,15 @@ export function FiveElementsResult({
           {analysis.profile.personalitySummary}
         </p>
       </div>
-    </div>
+      <ResultAdviceCard result={resultModel} />
+      <ResultWhyCard result={resultModel} />
+      <ResultSourceList result={resultModel} />
+      <ResultNextDiscovery result={resultModel} />
+      <ResultShareCta result={resultModel} />
+      <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
+        {ASTROLOGY_DISCLAIMER}
+      </p>
+    </ResultShell>
   );
 }
 
