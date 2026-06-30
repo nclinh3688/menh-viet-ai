@@ -9,12 +9,9 @@ import {
 import { AnimatedNumber } from "@/components/motion/animated-number";
 import { AnimatedProgress } from "@/components/motion/animated-progress";
 import { Reveal } from "@/components/motion/reveal";
-import { ResultAdviceCard } from "@/components/result/result-advice-card";
-import { ResultInsightCard } from "@/components/result/result-insight-card";
-import { ResultNextDiscovery } from "@/components/result/result-next-discovery";
+import { PremiumResultExperience } from "@/components/result/premium-result-experience";
 import { ResultShareCta } from "@/components/result/result-share-cta";
 import { ResultSourceList } from "@/components/result/result-source-list";
-import { ResultWhyCard } from "@/components/result/result-why-card";
 import type { GoodDayAnalysis } from "@/lib/astrology/good-day";
 import { buildGoodDayResultModel } from "@/lib/result/result-builder";
 
@@ -68,7 +65,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
         </p>
       </Reveal>
 
-      <ResultInsightCard result={resultModel} />
+      <PremiumResultExperience result={resultModel} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ListCard
@@ -100,10 +97,7 @@ export function GoodDayResult({ result }: { result: GoodDayAnalysis | null }) {
         </p>
       </section>
 
-      <ResultAdviceCard result={resultModel} />
-      <ResultWhyCard result={resultModel} />
       <ResultSourceList result={resultModel} />
-      <ResultNextDiscovery result={resultModel} />
       <ResultShareCta result={resultModel} />
 
       <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">

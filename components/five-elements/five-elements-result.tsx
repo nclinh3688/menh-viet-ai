@@ -7,14 +7,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import { Reveal } from "@/components/motion/reveal";
-import { ResultAdviceCard } from "@/components/result/result-advice-card";
-import { ResultInsightCard } from "@/components/result/result-insight-card";
-import { ResultNextDiscovery } from "@/components/result/result-next-discovery";
+import { PremiumResultExperience } from "@/components/result/premium-result-experience";
 import { ResultShareCta } from "@/components/result/result-share-cta";
 import { ResultShell } from "@/components/result/result-shell";
 import { ResultSourceList } from "@/components/result/result-source-list";
 import { ResultSummaryCard } from "@/components/result/result-summary-card";
-import { ResultWhyCard } from "@/components/result/result-why-card";
 import { ASTROLOGY_DISCLAIMER } from "@/lib/constants";
 import type { FiveElementsAnalysis } from "@/lib/astrology/five-elements";
 import { buildFiveElementsResultModel } from "@/lib/result/result-builder";
@@ -51,7 +48,7 @@ export function FiveElementsResult({
   return (
     <ResultShell>
       <ResultSummaryCard result={resultModel} />
-      <ResultInsightCard result={resultModel} />
+      <PremiumResultExperience result={resultModel} />
 
       <div className="grid gap-4 sm:grid-cols-2">
         <ResultCard
@@ -110,10 +107,7 @@ export function FiveElementsResult({
           {analysis.profile.personalitySummary}
         </p>
       </div>
-      <ResultAdviceCard result={resultModel} />
-      <ResultWhyCard result={resultModel} />
       <ResultSourceList result={resultModel} />
-      <ResultNextDiscovery result={resultModel} />
       <ResultShareCta result={resultModel} />
       <p className="rounded-md border border-primary/20 bg-primary/8 px-4 py-3 text-sm leading-6 text-muted-foreground">
         {ASTROLOGY_DISCLAIMER}

@@ -22,6 +22,7 @@ export interface ResultModel {
   cautions: string[];
   confidence: number;
   keyInsight: string;
+  knowledgeInsight?: string;
   nextDiscovery: ResultDiscoveryItem[];
   shareText: string;
   sources: ResultSourceItem[];

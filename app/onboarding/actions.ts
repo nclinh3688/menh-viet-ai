@@ -31,27 +31,35 @@ export async function createProfileAction(
     };
   }
 
-  const profile = await db.profile.create({
-    data: {
-      userId: null,
-      fullName: parsed.data.fullName,
-      birthDate: new Date(birthDateInputToIsoDate(parsed.data.birthDate)),
-      birthTime: normalizeOptionalTime(parsed.data.birthTime),
-      gender: parsed.data.gender,
-      birthPlace: parsed.data.birthPlace,
-      calendarType: mapCalendarTypeToPrisma(parsed.data.calendarType),
-      relationshipStatus: parsed.data.relationshipStatus,
-      mainInterest: parsed.data.mainInterest,
-    },
-    select: {
-      id: true,
-    },
-  });
+  try {
+    const profile = await db.profile.create({
+      data: {
+        userId: null,
+        fullName: parsed.data.fullName,
+        birthDate: new Date(birthDateInputToIsoDate(parsed.data.birthDate)),
+        birthTime: normalizeOptionalTime(parsed.data.birthTime),
+        gender: parsed.data.gender,
+        birthPlace: parsed.data.birthPlace,
+        calendarType: mapCalendarTypeToPrisma(parsed.data.calendarType),
+        relationshipStatus: parsed.data.relationshipStatus,
+        mainInterest: parsed.data.mainInterest,
+      },
+      select: {
+        id: true,
+      },
+    });
 
-  return {
-    ok: true,
-    profileId: profile.id,
-  };
+    return {
+      ok: true,
+      profileId: profile.id,
+    };
+  } catch {
+    return {
+      ok: false,
+      message:
+        "Chưa thể lưu hồ sơ lúc này. Vui lòng kiểm tra cấu hình database hoặc thử lại sau.",
+    };
+  }
 }
 
 function mapCalendarTypeToPrisma(value: "lunar" | "solar") {

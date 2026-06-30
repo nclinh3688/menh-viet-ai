@@ -26,6 +26,7 @@ import { OneThingToRemember } from "@/components/report/one-thing-to-remember";
 import { NextDiscovery } from "@/components/report/next-discovery";
 import { PracticalAdvice } from "@/components/report/practical-advice";
 import { SignatureInsight } from "@/components/report/signature-insight";
+import { PremiumResultExperience } from "@/components/result/premium-result-experience";
 import { ShareCard } from "@/components/share/share-card";
 import { PremiumLock } from "@/components/subscription/premium-lock";
 import { Button } from "@/components/ui/button";
@@ -37,6 +38,7 @@ import { getFiveElementReportFacts } from "@/lib/knowledge-db/astrology/five-ele
 import { checkReportContentQuality } from "@/lib/quality/content-quality-checker";
 import { buildBirthReport } from "@/lib/report-engine/adapters/birth-report-adapter";
 import { validateReport } from "@/lib/report-engine/report-validator";
+import { formatSourceLabel } from "@/lib/sources/source-resolver";
 
 export const metadata: Metadata = {
   title: `Báo cáo vận mệnh cá nhân | ${APP_NAME}`,
@@ -62,10 +64,16 @@ export default async function BirthReportPage({
     return <BirthReportEmptyState />;
   }
 
-  const profile = await db.profile.findUnique({
-    include: { birthChart: true },
-    where: { id: profileId },
-  });
+  let profile;
+
+  try {
+    profile = await db.profile.findUnique({
+      include: { birthChart: true },
+      where: { id: profileId },
+    });
+  } catch {
+    return <DashboardNotFoundState />;
+  }
 
   if (profile == null) {
     return <DashboardNotFoundState />;
@@ -78,26 +86,32 @@ export default async function BirthReportPage({
     gender: profile.gender,
   });
 
-  const birthChart =
-    profile.birthChart ??
-    (await db.birthChart.create({
-      data: {
-        badDirections: JSON.stringify(generatedChart.badDirections),
-        cungPhi: generatedChart.cungPhi,
-        earthlyBranch: generatedChart.earthlyBranch,
-        element: generatedChart.element,
-        goodDirections: JSON.stringify(generatedChart.goodDirections),
-        heavenlyStem: generatedChart.heavenlyStem,
-        lifePalace: generatedChart.lifePalace,
-        luckyColors: JSON.stringify(generatedChart.luckyColors),
-        luckyNumbers: JSON.stringify(generatedChart.luckyNumbers),
-        napAm: generatedChart.napAm,
-        profileId: profile.id,
-        summary: generatedChart.summary,
-        unluckyColors: JSON.stringify(generatedChart.unluckyColors),
-        zodiacAnimal: generatedChart.zodiacAnimal,
-      },
-    }));
+  let birthChart;
+
+  try {
+    birthChart =
+      profile.birthChart ??
+      (await db.birthChart.create({
+        data: {
+          badDirections: JSON.stringify(generatedChart.badDirections),
+          cungPhi: generatedChart.cungPhi,
+          earthlyBranch: generatedChart.earthlyBranch,
+          element: generatedChart.element,
+          goodDirections: JSON.stringify(generatedChart.goodDirections),
+          heavenlyStem: generatedChart.heavenlyStem,
+          lifePalace: generatedChart.lifePalace,
+          luckyColors: JSON.stringify(generatedChart.luckyColors),
+          luckyNumbers: JSON.stringify(generatedChart.luckyNumbers),
+          napAm: generatedChart.napAm,
+          profileId: profile.id,
+          summary: generatedChart.summary,
+          unluckyColors: JSON.stringify(generatedChart.unluckyColors),
+          zodiacAnimal: generatedChart.zodiacAnimal,
+        },
+      }));
+  } catch {
+    return <DashboardNotFoundState />;
+  }
 
   const dailyScore = generateDailyFortuneSnapshot(profile.id);
   const report = buildBirthReport({
@@ -145,6 +159,14 @@ export default async function BirthReportPage({
         confidence={report.overview.confidence}
         factors={signatureFactors}
         insight={report.keyInsight.body}
+      />
+      <PremiumResultExperience
+        basedOn={report.sources.map((source) => formatSourceLabel(source.primary))}
+        confidence={report.overview.confidence}
+        insight={report.keyInsight.body}
+        knowledgeInsight={knowledgeDiscovery[0]?.summary}
+        nextDiscovery={knowledgeDiscovery.slice(0, 3)}
+        practicalValues={report.recommendations.items.slice(0, 4)}
       />
       <ReportOverview report={report} />
       <KnowledgeDiscovery items={knowledgeDiscovery} />
@@ -236,7 +258,15 @@ export default async function BirthReportPage({
 function buildSignatureFactors(report: ReturnType<typeof buildBirthReport>) {
   return report.rawData.facts
     .slice(0, 3)
-    .map((fact) => `${fact.code} · confidence ${fact.confidence}%`);
+    .map((fact) => `${formatFactCodeLabel(fact.code)} · confidence ${fact.confidence}%`);
+}
+
+function formatFactCodeLabel(code: string) {
+  return code
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
 }
 
 function buildKnowledgeDiscovery(element: string) {

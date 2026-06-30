@@ -2,19 +2,44 @@ import type { CompatibilityResult } from "@/lib/astrology/compatibility";
 import type { FiveElementsAnalysis } from "@/lib/astrology/five-elements";
 import type { GoodDayAnalysis } from "@/lib/astrology/good-day";
 import { getFiveElementReportFacts } from "@/lib/knowledge-db/astrology/five-elements-pack";
+import { searchKnowledgeWithRelated } from "@/lib/knowledge-db/knowledge-search";
 import type { NumerologyAnalysis } from "@/lib/numerology";
-import type { ResultModel } from "./result-types";
+import type { ResultDiscoveryItem, ResultModel } from "./result-types";
+
+function buildKnowledgeDiscovery(keyword: string): ResultDiscoveryItem[] {
+  const candidates = searchKnowledgeWithRelated({ keyword }).flatMap((result) => [
+    result.item,
+    ...result.relatedKnowledge,
+  ]);
+  const uniqueCandidates = [
+    ...new Map(candidates.map((item) => [item.id, item])).values(),
+  ];
+
+  return uniqueCandidates
+    .slice(0, 3)
+    .map((item) => ({
+      href: `/knowledge/${item.slug}`,
+      label: item.title,
+      summary: item.summary,
+    }));
+}
+
+function buildRelatedDiscovery(
+  items: Array<{ slug: string; summary: string; title: string }>,
+): ResultDiscoveryItem[] {
+  return items.slice(0, 3).map((item) => ({
+    href: `/knowledge/${item.slug}`,
+    label: item.title,
+    summary: item.summary,
+  }));
+}
 
 export function buildFiveElementsResultModel(
   analysis: FiveElementsAnalysis,
 ): ResultModel {
   const knowledge = getFiveElementReportFacts(analysis.element);
   const relatedKnowledge =
-    knowledge?.relatedKnowledge.slice(0, 3).map((item) => ({
-      href: "/five-elements",
-      label: item.title,
-      summary: item.summary,
-    })) ?? [];
+    knowledge == null ? [] : buildRelatedDiscovery(knowledge.relatedKnowledge);
   const coreMeaning =
     knowledge?.coreMeaning ??
     `Hành ${analysis.element} được đọc như một lớp tham khảo về khí chất và cách cân bằng môi trường.`;
@@ -31,6 +56,9 @@ export function buildFiveElementsResultModel(
     ],
     confidence: knowledge == null ? 72 : 88,
     keyInsight: `Điều Mệnh Việt nhận thấy: hành ${analysis.element} của năm ${analysis.year} nổi bật ở ${coreMeaning}`,
+    knowledgeInsight:
+      knowledge?.commonMisunderstandings[0] ??
+      `Hành ${analysis.element} nên được đọc cùng Nạp Âm, Can Chi và bối cảnh cá nhân để tránh kết luận một chiều.`,
     nextDiscovery: relatedKnowledge,
     shareText: `Mệnh ${analysis.element} - ${analysis.napAm}: ${coreMeaning}`,
     sources: [
@@ -57,7 +85,7 @@ export function buildFiveElementsResultModel(
         conclusion: `Năm ${analysis.year} được quy về hành ${analysis.element}.`,
         knowledge: "Dữ liệu năm sinh, Nạp Âm và quan hệ Ngũ Hành.",
         reason: `Astrology Engine xác định Nạp Âm ${analysis.napAm}, sau đó lấy profile hành ${analysis.element}.`,
-        rule: "Năm sinh → BirthChart MVP → Element Profile → Result Model.",
+        rule: "Năm sinh → BirthChart → Element Profile → Result Model.",
       },
     ],
   };
@@ -75,11 +103,9 @@ export function buildNumerologyResultModel(
     cautions: analysis.lifePathProfile.weaknesses,
     confidence: analysis.nameBreakdown.isMvpVietnameseName ? 74 : 82,
     keyInsight: `Điều Mệnh Việt nhận thấy: số chủ đạo ${analysis.lifePathNumber} là trục chính, còn số thái độ ${analysis.attitudeNumber} gợi ý cách bạn phản ứng ban đầu với môi trường.`,
-    nextDiscovery: [
-      { href: "/five-elements", label: "Ngũ Hành bản mệnh" },
-      { href: "/love-compatibility", label: "Hợp tuổi hôn nhân" },
-      { href: "/good-day", label: "Ngày đẹp" },
-    ],
+    knowledgeInsight:
+      "Các con số trong thần số học nên được đọc như trục phản tư; họ tên tiếng Việt đã được chuẩn hóa ở mức tham khảo công khai.",
+    nextDiscovery: buildKnowledgeDiscovery("ngũ hành"),
     shareText: `${analysis.fullName}: số chủ đạo ${analysis.lifePathNumber}, số thái độ ${analysis.attitudeNumber}.`,
     sources: [
       {
@@ -119,11 +145,9 @@ export function buildCompatibilityResultModel(
     cautions: result.frictionPoints,
     confidence: 78,
     keyInsight: `Điều Mệnh Việt nhận thấy: tổng điểm ${result.totalScore}/100 nằm ở mức ${result.rating}; trục nổi bật nhất hiện là ${strongestAxis.label}.`,
-    nextDiscovery: [
-      { href: "/numerology", label: "Thần số học hai người" },
-      { href: "/five-elements", label: "Ngũ Hành bản mệnh" },
-      { href: "/good-day", label: "Chọn ngày phù hợp" },
-    ],
+    knowledgeInsight:
+      "Điểm hợp tuổi không chỉ đến từ tổng điểm; từng trục như Cung Phi, Địa Chi, Ngũ Hành và Thiên Can có vai trò riêng trong mô hình hiện tại.",
+    nextDiscovery: buildKnowledgeDiscovery("ngũ hành"),
     shareText: `${result.male.fullName} & ${result.female.fullName}: ${result.totalScore}/100 - ${result.rating}.`,
     sources: [
       { confidence: 82, description: "Đọc nhóm mệnh và hướng tham khảo.", label: "Cung Phi" },
@@ -138,7 +162,7 @@ export function buildCompatibilityResultModel(
       conclusion: `${item.label}: ${item.score}/${item.maxScore}.`,
       knowledge: `Nguồn ${item.label}.`,
       reason: item.explanation,
-      rule: `${item.label} score weight trong mô hình hợp tuổi MVP.`,
+      rule: `${item.label} score weight trong mô hình hợp tuổi tham khảo.`,
     })),
   };
 }
@@ -152,16 +176,14 @@ export function buildGoodDayResultModel(result: GoodDayAnalysis): ResultModel {
     cautions: result.badActivities,
     confidence: 70,
     keyInsight: `Điều Mệnh Việt nhận thấy: ngày này đạt ${result.score}/100 cho mục đích ${result.purpose}, thuộc mức ${result.rating}.`,
-    nextDiscovery: [
-      { href: "/five-elements", label: "Màu hợp trong ngày" },
-      { href: "/love-compatibility", label: "Hợp tuổi" },
-      { href: "/numerology", label: "Thần số học" },
-    ],
+    knowledgeInsight:
+      "Bản xem ngày hiện dùng mô hình rule-based tham khảo, vì vậy cùng ngày và cùng mục đích được tính theo một quy tắc ổn định thay vì thay đổi ngẫu nhiên.",
+    nextDiscovery: buildKnowledgeDiscovery("ngũ hành"),
     shareText: `${result.purpose}: ${result.score}/100 - ${result.rating}.`,
     sources: [
       {
         confidence: 70,
-        description: "Điểm được tính ổn định từ ngày, mục đích và bộ quy tắc MVP.",
+        description: "Điểm được tính ổn định từ ngày, mục đích và bộ quy tắc tham khảo.",
         label: "Good Day Rule-based",
       },
     ],

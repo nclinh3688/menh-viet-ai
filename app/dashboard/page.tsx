@@ -38,10 +38,16 @@ export default async function DashboardPage({
     return <DashboardEmptyState />;
   }
 
-  const profile = await db.profile.findUnique({
-    where: { id: profileId },
-    include: { birthChart: true },
-  });
+  let profile;
+
+  try {
+    profile = await db.profile.findUnique({
+      where: { id: profileId },
+      include: { birthChart: true },
+    });
+  } catch {
+    return <DashboardNotFoundState />;
+  }
 
   if (profile == null) {
     return <DashboardNotFoundState />;
@@ -54,26 +60,32 @@ export default async function DashboardPage({
     gender: profile.gender,
   });
 
-  const birthChart =
-    profile.birthChart ??
-    (await db.birthChart.create({
-      data: {
-        profileId: profile.id,
-        heavenlyStem: generatedChart.heavenlyStem,
-        earthlyBranch: generatedChart.earthlyBranch,
-        zodiacAnimal: generatedChart.zodiacAnimal,
-        element: generatedChart.element,
-        napAm: generatedChart.napAm,
-        cungPhi: generatedChart.cungPhi,
-        lifePalace: generatedChart.lifePalace,
-        luckyColors: JSON.stringify(generatedChart.luckyColors),
-        unluckyColors: JSON.stringify(generatedChart.unluckyColors),
-        luckyNumbers: JSON.stringify(generatedChart.luckyNumbers),
-        goodDirections: JSON.stringify(generatedChart.goodDirections),
-        badDirections: JSON.stringify(generatedChart.badDirections),
-        summary: generatedChart.summary,
-      },
-    }));
+  let birthChart;
+
+  try {
+    birthChart =
+      profile.birthChart ??
+      (await db.birthChart.create({
+        data: {
+          profileId: profile.id,
+          heavenlyStem: generatedChart.heavenlyStem,
+          earthlyBranch: generatedChart.earthlyBranch,
+          zodiacAnimal: generatedChart.zodiacAnimal,
+          element: generatedChart.element,
+          napAm: generatedChart.napAm,
+          cungPhi: generatedChart.cungPhi,
+          lifePalace: generatedChart.lifePalace,
+          luckyColors: JSON.stringify(generatedChart.luckyColors),
+          unluckyColors: JSON.stringify(generatedChart.unluckyColors),
+          luckyNumbers: JSON.stringify(generatedChart.luckyNumbers),
+          goodDirections: JSON.stringify(generatedChart.goodDirections),
+          badDirections: JSON.stringify(generatedChart.badDirections),
+          summary: generatedChart.summary,
+        },
+      }));
+  } catch {
+    return <DashboardNotFoundState />;
+  }
 
   const luckyColors = parseJsonArray<string>(birthChart.luckyColors);
   const unluckyColors = parseJsonArray<string>(birthChart.unluckyColors);
